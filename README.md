@@ -1,93 +1,243 @@
-# Aortem Firebase Dart SDK - Internal
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/aortem/logos/main/Aortem-logo-small.png" />
+    <img align="center" alt="Aortem Logo" src="https://raw.githubusercontent.com/aortem/logos/main/Aortem-logo-small.png" />
+  </picture>
+</p>
+
+<h2 align="center">cognito_dart_auth_sdk</h2>
+
+<!-- x-hide-in-docs-end -->
+<p align="center" class="github-badges">
+  <!-- Release Badge -->
+  <a href="https://github.com/aortem/cognito_dart_auth_sdk/tags">
+    <img alt="Release" src="https://img.shields.io/static/v1?label=release&message=v0.0.1-pre+10&color=blue&style=for-the-badge" />
+  </a>
+  <br/>
+  <!-- Dart-Specific Badges -->
+  <a href="https://pub.dev/packages/cognito_dart_auth_sdk">
+    <img alt="Pub Version" src="https://img.shields.io/pub/v/cognito_dart_auth_sdk.svg?style=for-the-badge" />
+  </a>
+  <a href="https://dart.dev/">
+    <img alt="Built with Dart" src="https://img.shields.io/badge/Built%20with-Dart-blue.svg?style=for-the-badge" />
+  </a>
+ <!-- cognito Badge -->
+   <a href="https://cognito.google.com/docs/reference/admin/node/cognito-admin.auth?_gl=1*1ewipg9*_up*MQ..*_ga*NTUxNzc0Mzk3LjE3MzMxMzk3Mjk.*_ga_CW55HF8NVT*MTczMzEzOTcyOS4xLjAuMTczMzEzOTcyOS4wLjAuMA..">
+    <img alt="API Reference" src="https://img.shields.io/badge/API-reference-blue.svg?style=for-the-badge" />
+  <br/>
+<!-- Pipeline Badge -->
+<a href="https://github.com/aortem/cognito_dart_auth_sdk/actions">
+  <img alt="Pipeline Status" src="https://img.shields.io/github/actions/workflow/status/aortem/cognito_dart_auth_sdk/dart-analysis.yml?branch=main&label=pipeline&style=for-the-badge" />
+</a>
+<!-- Code Coverage Badges -->
+  </a>
+  <a href="https://codecov.io/gh/open-feature/dart-server-sdk">
+    <img alt="Code Coverage" src="https://codecov.io/gh/open-feature/dart-server-sdk/branch/main/graph/badge.svg?token=FZ17BHNSU5" />
+<!-- Open Source Badge -->
+  </a>
+  <a href="https://bestpractices.coreinfrastructure.org/projects/6601">
+    <img alt="CII Best Practices" src="https://bestpractices.coreinfrastructure.org/projects/6601/badge?style=for-the-badge" />
+  </a>
+</p>
+<!-- x-hide-in-docs-start -->
+
+# cognito Dart Admin Auth SDK
+
+cognito Dart Admin Auth SDK is designed to provide select out of the box features of cognito in Dart.  Both low level and high level abstractions are provided.
+
+## Features
+This implementation does not yet support all functionalities of the cognito authentication service. Here is a list of functionalities with the current support status:
+
+# cognito to cognito Dart Auth SDK Migration
+
+This document provides a high-level comparison of cognito Authentication methods and features against cognito (Azure Active Directory) capabilities, tailored for the creation of a similar SDK. The goal is to maintain familiarity for developers transitioning from cognito to cognito while incorporating enterprise-grade security and features of Azure AD.
+
+---
+
+## **Feature Comparison Chart**
+
+### **Core Authentication Methods**
+
+# cognito to cognito Dart Auth SDK Migration
+
+This document provides a high-level comparison of cognito Authentication methods and features against cognito (Azure Active Directory) capabilities, tailored for the creation of a similar SDK. The goal is to maintain familiarity for developers transitioning from cognito to cognito while incorporating enterprise-grade security and features of Azure AD.
+
+---
+
+# cognito to cognito Dart Auth SDK Migration
+
+This document provides a high-level comparison of cognito Authentication methods and features against cognito (Azure Active Directory) capabilities, tailored for the creation of a similar SDK. The goal is to maintain familiarity for developers transitioning from cognito to cognito while incorporating enterprise-grade security and features of Azure AD.
+
+---
+
+## **Feature Comparison Chart**
+
+### **Core Authentication Methods**
+
+| cognito Method                                 | cognito Equivalent                            | Notes                                                                                   | Supported |
+| ----------------------------------------------- | ---------------------------------------------- | --------------------------------------------------------------------------------------- | --------- |
+| `cognitoApp.getAuth()`                         | MSAL: `PublicClientApplication` initialization | Initialize and access the authentication instance.                                      | ✅         |
+| `cognitoApp.initializeAuth()`                  | MSAL: `PublicClientApplication` initialization | SDK initialization. cognito may require additional tenant or directory configurations. | ✅         |
+| `cognitoAuth.signInWithEmailAndPassword()`     | MSAL: `acquireTokenByUsernamePassword()`       | Email/password-based sign-in.                                                           | ✅         |
+| `cognitoAuth.createUserWithEmailAndPassword()` | Microsoft Graph API: `POST /users`             | Register a new user in the directory.                                                   | ✅         |
+| `cognitoAuth.signOut()`                        | MSAL: Clear tokens                             | Logout functionality, including token invalidation.                                     | ✅         |
+| `cognitoAuth.setPersistence()`                 | Not Applicable                                 | Azure AD handles session duration via token expiration and refresh policies.            | ❌         |
+| `cognitoAuth.sendPasswordResetEmail()`         | Microsoft Graph API: `POST /me/sendMail`       | Password reset functionality.                                                           | ✅         |
+| `cognitoAuth.connectAuthEmulator`              | Not Applicable                                 | Azure AD does not support emulated authentication environments.                         | ❌         |
+| `cognitoAuth.beforeAuthStateChanged()`         | Not Applicable                                 | Azure AD does not provide a similar method for pre-auth state changes.                 | ❌         |
+
+---
+
+### **Token Management**
+
+| cognito Method                        | cognito Equivalent                             | Notes                                                                                 | Supported |
+| -------------------------------------- | ----------------------------------------------- | ------------------------------------------------------------------------------------- | --------- |
+| `cognitoAuth.getIdToken()`            | MSAL: `acquireTokenSilent()`                    | Retrieve access tokens. cognito supports multiple token types (ID, access, refresh). | ✅         |
+| `cognitoAuth.onIdTokenChanged()`      | Not Applicable                                  | No direct event listener for token changes; monitor expiration programmatically.      | ❌         |
+| `cognitoAuth.revokeAccessToken()`     | Microsoft Graph API: `POST /oauth2/v2.0/logout` | Token revocation can be managed via Graph API or Azure AD portal.                     | ✅         |
+| `cognitoAuth.signInWithCustomToken()` | Not Applicable                                  | Azure AD does not use custom tokens in the same way as cognito.                      | ❌         |
+| `cognitoAuth.setLanguageCode()`       | Not Applicable                                  | Azure AD does not natively support language code settings.                            | ❌         |
+
+---
+
+### **User Management**
+
+| cognito Method                        | cognito Equivalent                            | Notes                                                         | Supported |
+| -------------------------------------- | ---------------------------------------------- | ------------------------------------------------------------- | --------- |
+| `cognitoUser.updateEmail()`           | Microsoft Graph API: `PATCH /me`               | Updates the user's email address.                             | ✅         |
+| `cognitoUser.updatePassword()`        | Microsoft Graph API: `POST /me/changePassword` | Updates the user's password.                                  | ✅         |
+| `cognitoUser.deleteUser()`            | Microsoft Graph API: `DELETE /users/{id}`      | Deletes the user account.                                     | ✅         |
+| `cognitoUser.updateProfile()`         | Microsoft Graph API: `PATCH /me`               | Updates user profile details like display name.               | ✅         |
+| `cognitoUser.sendEmailVerification()` | Not Applicable                                 | Azure AD does not require email verification in the same way. | ❌         |
+| `cognitoUser.unlink()`                | Not Applicable                                 | Unlinking accounts is not a common Azure AD concept.          | ❌         |
+| `cognitoUser.reload()`                | Microsoft Graph API: `GET /me`                 | Refreshes the user profile information.                       | ✅         |
+| `cognitoAuth.updateCurrentUser()`     | Microsoft Graph API: `PATCH /me`               | Updates the current user's details, such as their profile.    | ✅         |
+
+---
+
+### **Multi-Factor Authentication (MFA)**
+
+| cognito Method                               | cognito Equivalent                                   | Notes                                                                   | Supported |
+| --------------------------------------------- | ----------------------------------------------------- | ----------------------------------------------------------------------- | --------- |
+| `cognitoAuth.getMultiFactorResolver()`       | Microsoft Graph API: `GET /me/authentication/methods` | Retrieve MFA configurations for a user.                                 | ✅         |
+| `cognitoAuth.initializeRecaptchaConfig()`    | Not Applicable                                        | Azure AD uses conditional access policies for MFA instead of Recaptcha. | ❌         |
+| `cognitoUser.multiFactor()`                  | Microsoft Graph API: `GET /me/authentication/methods` | Fetches available multi-factor methods for a user.                      | ✅         |
+| `cognitoUser.reauthenticateWithCredential()` | MSAL: `acquireTokenByUsernamePassword()`              | Reauthenticates the user for sensitive operations.                      | ✅         |
+| `cognitoUser.linkWithCredential()`           | Not Applicable                                        | Azure AD does not support direct credential linking.                    | ❌         |
+| `cognitoUser.reauthenticateWithPhoneNumber()`| Not Applicable                                        | Azure AD does not support phone-based reauthentication directly.        | ❌         |
+
+---
+
+### **Sign-In Methods**
+
+| cognito Method                        | cognito Equivalent                   | Notes                                                                     | Supported |
+| -------------------------------------- | ------------------------------------- | ------------------------------------------------------------------------- | --------- |
+| `cognitoAuth.signInWithPopup()`       | Not Applicable                        | Azure AD does not support popup-based authentication flows.               | ❌         |
+| `cognitoAuth.signInWithRedirect()`    | MSAL: `acquireTokenInteractive()`     | Redirect-based federated login.                                           | ✅         |
+| `cognitoAuth.signInWithPhoneNumber()` | Microsoft Graph API with Azure AD B2C | Phone-based authentication (requires Azure AD B2C for consumer accounts). | ✅         |
+| `cognitoAuth.isSignInWithEmailLink()` | Not Applicable                        | Azure AD uses other mechanisms for email-based login.                     | ❌         |
+| `cognitoAuth.sendSignInLinkToEmail()` | Not Applicable                        | Azure AD does not support sign-in links.                                  | ❌         |
+
+---
+
+### **Action Code Handling**
+
+| cognito Method                          | cognito Equivalent | Notes                                                                                | Supported |
+| ---------------------------------------- | ------------------- | ------------------------------------------------------------------------------------ | --------- |
+| `cognitoAuth.applyActionCode()`         | Not Applicable      | Azure AD does not use action codes in the same manner.                               | ❌         |
+| `cognitoAuth.checkActionCode()`         | Not Applicable      | Azure AD does not use action codes in the same manner.                               | ❌         |
+| `cognitoAuth.verifyPasswordResetCode()` | Not Applicable      | Azure AD does not use password reset codes; resets are handled through secure flows. | ❌         |
+| `cognitoLink.parseActionCodeURL()`      | Not Applicable      | Azure AD does not use URL-based action codes.                                        | ❌         |
+
+---
+
+### **Error Handling**
+
+| cognito Error         | cognito Equivalent | Notes                                    | Supported |
+| ---------------------- | ------------------- | ---------------------------------------- | --------- |
+| `ERROR_WRONG_PASSWORD` | `AADSTS50056`       | Password mismatch or expired password.   | ✅         |
+| `ERROR_USER_DISABLED`  | `AADSTS50057`       | User account disabled.                   | ✅         |
+| `ERROR_INVALID_EMAIL`  | `AADSTS50034`       | Invalid email or account does not exist. | ✅         |
+
+---
+
+### **Enterprise Features Unique to cognito**
+
+| Feature                                     | Description                                      | Supported |
+| ------------------------------------------- | ----------------------------------------------- | --------- |
+| Conditional Access Policies                 | Enforce granular access control based on risk.  | ✅         |
+| Role-Based Access Control (RBAC)            | Assign roles to limit access to resources.      | ✅         |
+| B2B and B2C Support                         | Collaborate with external users and consumers.  | ✅         |
+| Identity Protection                         | Detect and respond to suspicious activities.    | ✅         |
+| Privileged Identity Management (PIM)        | Control access to sensitive resources.          | ✅         |
+| Device Management Integration               | Enforce policies on managed devices.            | ✅         |
+
+---
 
 
+## Available Versions
 
-## Getting started
+cognito Dart Admin Auth SDK is available in two versions to cater to different needs:
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+1. **Main - Stable Version**: Usually one release a month.  This version attempts to keep stability without introducing breaking changes.
+2. **Pre-Release - Edge Version**: Provided as an early indication of a release when breaking changes are expect.  This release is inconsistent. Use only if you are looking to test new features.
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+## Documentation
 
-## Add your files
+For detailed guides, API references, and example projects, visit our [cognito Dart Admin Auth SDK Documentation](https://aortem.gitbook.io/cognito-dart-auth-admin-sdk). Start building with  cognito Dart Admin Auth SDK today and take advantage of its robust features and elegant syntax.
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+## Examples
 
-```
-cd existing_repo
-git remote add origin https://gitlab.com/dartapps/apps/aortem-sdks/aortem-firebase-dart-sdk-internal.git
-git branch -M main
-git push -uf origin main
-```
-
-## Integrate with your tools
-
-- [ ] [Set up project integrations](https://gitlab.com/dartapps/apps/aortem-sdks/aortem-firebase-dart-sdk-internal/-/settings/integrations)
-
-## Collaborate with your team
-
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
-
-## Test and Deploy
-
-Use the built-in continuous integration in GitLab.
-
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
-
-***
-
-# Editing this README
-
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
-
-## Suggestions for a good README
-
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
-
-## Name
-Choose a self-explaining name for your project.
-
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
-
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
-
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
-
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+Explore the `/example` directory in this repository to find sample applications demonstrating  cognito Dart Admin Auth SDK's capabilities in real-world scenarios.
 
 ## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+We welcome contributions of all forms from the community! If you're interested in helping improve  cognito Dart Admin Auth SDK, please fork the repository and submit your pull requests. For more details, check out our [CONTRIBUTING.md](CONTRIBUTING.md) guide.  Our team will review your pull request. Once approved, we will integrate your changes into our primary repository and push the mirrored changes on the main github branch.
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+## Support Tiers
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+cognito Dart Admin Auth SDK offers various support tiers for our open-source products with an Initial Response Service Level Agreement (IRSLA):
 
-## License
-For open source projects, say how it is licensed.
+### Community Support
+- **Cost**: Free
+- **Features**: Access to community forums, basic documentation.
+- **Ideal for**: Individual developers or small startups.
+- **SLA**: NA
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+### Standard Support
+- **Cost**: $10/month - Billed Annually.
+- **Features**: Extended documentation, email support, 10 business days response SLA.
+- **Ideal for**: Growing startups and small businesses.
+- **SLA**: 10 business days (Monday-Friday) IRSLANA
+- [Subscribe-Coming Soon]()
+
+### Enhanced Support
+- **Cost**: $100/month - Billed Annually
+- **Features**: Access to roadmap, 72-hour response SLA, feature request prioritization.
+- **Ideal for**: Medium-sized enterprises requiring frequent support.
+- **SLA**: 5 business days IRSLA
+- [Subscribe-Coming Soon]()
+
+### Enterprise Support
+- **Cost**: 450/month
+- **Features**: 
+  - 48-hour response SLA, 
+  - Access to beta features:
+  - Comprehensive support for all Aortem Open Source products.
+  - Premium access to our exclusive enterprise customer forum.
+  - Early access to cutting-edge features.
+  - Exclusive access to Partner/Reseller/Channel Program..
+- **Ideal for**: Large organizations and enterprises with complex needs.
+- **SLA**: 48-hour IRSLA
+- [Subscribe-Coming Soon]()
+
+*Enterprise Support is designed for businesses, agencies, and partners seeking top-tier support across a wide range of Dart backend and server-side projects.  All Open Source projects that are part of the Aortem Collective are included in the Enterprise subscription, with more projects being added soon.
+
+## Licensing
+
+All  cognito Dart Admin Auth SDK packages are licensed under BSD-3, except for the *services packages*, which uses the ELv2 license, which are licensed from third party software  Inc. In short, this means that you can, without limitation, use any of the client packages in your app as long as you do not offer the SDK's or services as a cloud service to 3rd parties (this is typically only relevant for cloud service providers).  See the [LICENSE](LICENSE.md) file for more details.
+
+
+## Enhance with cognito Dart Admin Auth SDK
+
+We hope the cognito Dart Admin Auth SDK helps you to efficiently build and scale your server-side applications. Join our growing community and start contributing to the ecosystem today!  test
