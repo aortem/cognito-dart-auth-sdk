@@ -41,138 +41,114 @@
 </p>
 <!-- x-hide-in-docs-start -->
 
-# cognito Dart Admin Auth SDK
+## **Feature Comparison Chart**
 
-cognito Dart Admin Auth SDK is designed to provide select out of the box features of cognito in Dart.  Both low level and high level abstractions are provided.
+### **Core Authentication Methods**
 
-## Features
-This implementation does not yet support all functionalities of the cognito authentication service. Here is a list of functionalities with the current support status:
+# Firebase vs Amazon Cognito for Server-Side Dart SDK
 
-# cognito to cognito Dart Auth SDK Migration
+This document provides a high-level comparison of Firebase Authentication and Amazon Cognito features tailored for building a server-side Dart SDK. The goal is to evaluate how a server-side Dart SDK could integrate Amazon Cognito and compare its capabilities to Firebase Authentication.
 
-This document provides a high-level comparison of cognito Authentication methods and features against cognito (Azure Active Directory) capabilities, tailored for the creation of a similar SDK. The goal is to maintain familiarity for developers transitioning from cognito to cognito while incorporating enterprise-grade security and features of Azure AD.
-
----
 
 ## **Feature Comparison Chart**
 
 ### **Core Authentication Methods**
 
-# cognito to cognito Dart Auth SDK Migration
-
-This document provides a high-level comparison of cognito Authentication methods and features against cognito (Azure Active Directory) capabilities, tailored for the creation of a similar SDK. The goal is to maintain familiarity for developers transitioning from cognito to cognito while incorporating enterprise-grade security and features of Azure AD.
-
----
-
-# cognito to cognito Dart Auth SDK Migration
-
-This document provides a high-level comparison of cognito Authentication methods and features against cognito (Azure Active Directory) capabilities, tailored for the creation of a similar SDK. The goal is to maintain familiarity for developers transitioning from cognito to cognito while incorporating enterprise-grade security and features of Azure AD.
-
----
-
-## **Feature Comparison Chart**
-
-### **Core Authentication Methods**
-
-| cognito Method                                 | cognito Equivalent                            | Notes                                                                                   | Supported |
-| ----------------------------------------------- | ---------------------------------------------- | --------------------------------------------------------------------------------------- | --------- |
-| `cognitoApp.getAuth()`                         | MSAL: `PublicClientApplication` initialization | Initialize and access the authentication instance.                                      | ✅         |
-| `cognitoApp.initializeAuth()`                  | MSAL: `PublicClientApplication` initialization | SDK initialization. cognito may require additional tenant or directory configurations. | ✅         |
-| `cognitoAuth.signInWithEmailAndPassword()`     | MSAL: `acquireTokenByUsernamePassword()`       | Email/password-based sign-in.                                                           | ✅         |
-| `cognitoAuth.createUserWithEmailAndPassword()` | Microsoft Graph API: `POST /users`             | Register a new user in the directory.                                                   | ✅         |
-| `cognitoAuth.signOut()`                        | MSAL: Clear tokens                             | Logout functionality, including token invalidation.                                     | ✅         |
-| `cognitoAuth.setPersistence()`                 | Not Applicable                                 | Azure AD handles session duration via token expiration and refresh policies.            | ❌         |
-| `cognitoAuth.sendPasswordResetEmail()`         | Microsoft Graph API: `POST /me/sendMail`       | Password reset functionality.                                                           | ✅         |
-| `cognitoAuth.connectAuthEmulator`              | Not Applicable                                 | Azure AD does not support emulated authentication environments.                         | ❌         |
-| `cognitoAuth.beforeAuthStateChanged()`         | Not Applicable                                 | Azure AD does not provide a similar method for pre-auth state changes.                 | ❌         |
-
----
-
-### **Token Management**
-
-| cognito Method                        | cognito Equivalent                             | Notes                                                                                 | Supported |
-| -------------------------------------- | ----------------------------------------------- | ------------------------------------------------------------------------------------- | --------- |
-| `cognitoAuth.getIdToken()`            | MSAL: `acquireTokenSilent()`                    | Retrieve access tokens. cognito supports multiple token types (ID, access, refresh). | ✅         |
-| `cognitoAuth.onIdTokenChanged()`      | Not Applicable                                  | No direct event listener for token changes; monitor expiration programmatically.      | ❌         |
-| `cognitoAuth.revokeAccessToken()`     | Microsoft Graph API: `POST /oauth2/v2.0/logout` | Token revocation can be managed via Graph API or Azure AD portal.                     | ✅         |
-| `cognitoAuth.signInWithCustomToken()` | Not Applicable                                  | Azure AD does not use custom tokens in the same way as cognito.                      | ❌         |
-| `cognitoAuth.setLanguageCode()`       | Not Applicable                                  | Azure AD does not natively support language code settings.                            | ❌         |
+| Firebase Method                                  | Amazon Cognito Equivalent                       | Notes                                                                                  | Supported |
+|--------------------------------------------------|------------------------------------------------|--------------------------------------------------------------------------------------- |-------------|
+| `FirebaseAuth.signInWithEmailAndPassword()`      | Cognito Admin: `AdminInitiateAuth`             | Authenticate user with email and password. Server-side API supports admin privileges.  | ✅         |
+| `FirebaseAuth.createUserWithEmailAndPassword()`  | Cognito Admin: `AdminCreateUser`               | Server-side method to create a new user in the user pool.                              | ✅         |
+| `FirebaseAuth.signOut()`                         | Not Applicable                                 | Cognito does not provide server-side logout; tokens must be invalidated by the client. | ❌         |
+| `FirebaseAuth.setPersistence()`                  | Not Applicable                                 | Token persistence is a client-side feature.                                            | ❌         |
+| `FirebaseAuth.sendPasswordResetEmail()`          | Cognito Admin: `AdminResetUserPassword`        | Sends a reset password request to the user.                                            | ✅         |
+| `FirebaseAuth.connectAuthEmulator`               | Not Applicable                                 | Cognito does not support emulated authentication environments.                         | ❌         |
 
 ---
 
 ### **User Management**
 
-| cognito Method                        | cognito Equivalent                            | Notes                                                         | Supported |
-| -------------------------------------- | ---------------------------------------------- | ------------------------------------------------------------- | --------- |
-| `cognitoUser.updateEmail()`           | Microsoft Graph API: `PATCH /me`               | Updates the user's email address.                             | ✅         |
-| `cognitoUser.updatePassword()`        | Microsoft Graph API: `POST /me/changePassword` | Updates the user's password.                                  | ✅         |
-| `cognitoUser.deleteUser()`            | Microsoft Graph API: `DELETE /users/{id}`      | Deletes the user account.                                     | ✅         |
-| `cognitoUser.updateProfile()`         | Microsoft Graph API: `PATCH /me`               | Updates user profile details like display name.               | ✅         |
-| `cognitoUser.sendEmailVerification()` | Not Applicable                                 | Azure AD does not require email verification in the same way. | ❌         |
-| `cognitoUser.unlink()`                | Not Applicable                                 | Unlinking accounts is not a common Azure AD concept.          | ❌         |
-| `cognitoUser.reload()`                | Microsoft Graph API: `GET /me`                 | Refreshes the user profile information.                       | ✅         |
-| `cognitoAuth.updateCurrentUser()`     | Microsoft Graph API: `PATCH /me`               | Updates the current user's details, such as their profile.    | ✅         |
+| Firebase Method                                  | Amazon Cognito Equivalent                      | Notes                                                                                   | Supported |
+|--------------------------------------------------|------------------------------------------------|-----------------------------------------------------------------------------------------|-------------|
+| `FirebaseUser.updateEmail()`                     | Cognito Admin: `AdminUpdateUserAttributes`     | Updates the user's email or other attributes.                                           | ✅         |
+| `FirebaseUser.updatePassword()`                  | Cognito Admin: `AdminSetUserPassword`          | Updates the user's password.                                                            | ✅         |
+| `FirebaseUser.deleteUser()`                      | Cognito Admin: `AdminDeleteUser`               | Deletes the user account from the user pool.                                            | ✅         |
+| `FirebaseUser.updateProfile()`                   | Cognito Admin: `AdminUpdateUserAttributes`     | Updates custom attributes in the user's profile.                                        | ✅         |
+| `FirebaseUser.sendEmailVerification()`           | Not Applicable                                 | Cognito uses built-in email verification workflows; server-side triggering is indirect. | ❌         |
+| `FirebaseUser.reload()`                          | Cognito Admin: `AdminGetUser`                  | Refreshes the user profile information.                                                 | ✅         |
+| `FirebaseAuth.updateCurrentUser()`               | Cognito Admin: `AdminUpdateUserAttributes`     | Updates the current user's details, such as profile attributes.                         | ✅         |
+
+---
+
+### **Token Management**
+
+| Firebase Method                                  | Amazon Cognito Equivalent                      | Notes                                                                                 | Supported  |
+|--------------------------------------------------|------------------------------------------------|---------------------------------------------------------------------------------------|------------|
+| `FirebaseAuth.getIdToken()`                      | Cognito: `InitiateAuth`                        | Retrieves tokens for user sessions.                                                   | ✅         |
+| `FirebaseAuth.revokeAccessToken()`               | Cognito: `RevokeToken`                         | Revokes a user's refresh token.                                                       | ✅         |
+| `FirebaseAuth.signInWithCustomToken()`           | Not Applicable                                 | Cognito does not support custom tokens like Firebase.                                 | ❌         |
 
 ---
 
 ### **Multi-Factor Authentication (MFA)**
 
-| cognito Method                               | cognito Equivalent                                   | Notes                                                                   | Supported |
-| --------------------------------------------- | ----------------------------------------------------- | ----------------------------------------------------------------------- | --------- |
-| `cognitoAuth.getMultiFactorResolver()`       | Microsoft Graph API: `GET /me/authentication/methods` | Retrieve MFA configurations for a user.                                 | ✅         |
-| `cognitoAuth.initializeRecaptchaConfig()`    | Not Applicable                                        | Azure AD uses conditional access policies for MFA instead of Recaptcha. | ❌         |
-| `cognitoUser.multiFactor()`                  | Microsoft Graph API: `GET /me/authentication/methods` | Fetches available multi-factor methods for a user.                      | ✅         |
-| `cognitoUser.reauthenticateWithCredential()` | MSAL: `acquireTokenByUsernamePassword()`              | Reauthenticates the user for sensitive operations.                      | ✅         |
-| `cognitoUser.linkWithCredential()`           | Not Applicable                                        | Azure AD does not support direct credential linking.                    | ❌         |
-| `cognitoUser.reauthenticateWithPhoneNumber()`| Not Applicable                                        | Azure AD does not support phone-based reauthentication directly.        | ❌         |
+| Firebase Method                                  | Amazon Cognito Equivalent                      | Notes                                                                                | Supported   |
+|--------------------------------------------------|------------------------------------------------|----------------------------------------------------------------------------------------|-------------|
+| `FirebaseAuth.getMultiFactorResolver()`          | Cognito Admin: `AdminSetUserMFAPreference`     | Retrieve MFA configurations and set user preferences.                                  | ✅         |
+| `FirebaseUser.multiFactor()`                     | Cognito: `AssociateSoftwareToken`              | Registers a user for software-based MFA (e.g., TOTP).                                  | ✅         |
+| `FirebaseUser.reauthenticateWithCredential()`    | Cognito: `InitiateAuth`                        | Reauthenticates the user with credentials.                                             | ✅         |
 
 ---
 
 ### **Sign-In Methods**
 
-| cognito Method                        | cognito Equivalent                   | Notes                                                                     | Supported |
-| -------------------------------------- | ------------------------------------- | ------------------------------------------------------------------------- | --------- |
-| `cognitoAuth.signInWithPopup()`       | Not Applicable                        | Azure AD does not support popup-based authentication flows.               | ❌         |
-| `cognitoAuth.signInWithRedirect()`    | MSAL: `acquireTokenInteractive()`     | Redirect-based federated login.                                           | ✅         |
-| `cognitoAuth.signInWithPhoneNumber()` | Microsoft Graph API with Azure AD B2C | Phone-based authentication (requires Azure AD B2C for consumer accounts). | ✅         |
-| `cognitoAuth.isSignInWithEmailLink()` | Not Applicable                        | Azure AD uses other mechanisms for email-based login.                     | ❌         |
-| `cognitoAuth.sendSignInLinkToEmail()` | Not Applicable                        | Azure AD does not support sign-in links.                                  | ❌         |
+| Firebase Method                                 | Amazon Cognito Equivalent                      | Notes                                                                                  | Supported |
+|-------------------------------------------------|------------------------------------------------|---------------------------------------------------------------------------------------|-----------|
+| `FirebaseAuth.signInWithPopup()`                | Not Applicable                                 | Cognito does not support popup-based authentication flows.                             | ❌         |
+| `FirebaseAuth.signInWithRedirect()`             | Cognito: `HostedUI`                            | Hosted UI provides OAuth-based sign-in with redirect support.                          | ✅         |
+| `FirebaseAuth.signInWithPhoneNumber()`          | Cognito: `InitiateAuth`                        | Phone-based authentication is supported via custom attributes.                        | ✅         |
 
 ---
 
 ### **Action Code Handling**
 
-| cognito Method                          | cognito Equivalent | Notes                                                                                | Supported |
-| ---------------------------------------- | ------------------- | ------------------------------------------------------------------------------------ | --------- |
-| `cognitoAuth.applyActionCode()`         | Not Applicable      | Azure AD does not use action codes in the same manner.                               | ❌         |
-| `cognitoAuth.checkActionCode()`         | Not Applicable      | Azure AD does not use action codes in the same manner.                               | ❌         |
-| `cognitoAuth.verifyPasswordResetCode()` | Not Applicable      | Azure AD does not use password reset codes; resets are handled through secure flows. | ❌         |
-| `cognitoLink.parseActionCodeURL()`      | Not Applicable      | Azure AD does not use URL-based action codes.                                        | ❌         |
+| Firebase Method                                  | Amazon Cognito Equivalent                      | Notes                                                                                  | Supported |
+|--------------------------------------------------|------------------------------------------------|---------------------------------------------------------------------------------------|-----------|
+| `FirebaseAuth.applyActionCode()`                 | Not Applicable                                 | Cognito does not use action codes.                                                    | ❌         |
+| `FirebaseAuth.checkActionCode()`                 | Not Applicable                                 | Cognito does not use action codes.                                                    | ❌         |
+| `FirebaseAuth.verifyPasswordResetCode()`         | Cognito: `AdminResetUserPassword`              | Password reset is handled via workflows, not codes.                                   | ✅         |
 
 ---
 
-### **Error Handling**
+### **Enterprise Features Unique to Amazon Cognito**
 
-| cognito Error         | cognito Equivalent | Notes                                    | Supported |
-| ---------------------- | ------------------- | ---------------------------------------- | --------- |
-| `ERROR_WRONG_PASSWORD` | `AADSTS50056`       | Password mismatch or expired password.   | ✅         |
-| `ERROR_USER_DISABLED`  | `AADSTS50057`       | User account disabled.                   | ✅         |
-| `ERROR_INVALID_EMAIL`  | `AADSTS50034`       | Invalid email or account does not exist. | ✅         |
+| Feature                                          | Description                                                                            | Supported |
+|--------------------------------------------------|----------------------------------------------------------------------------------------|-----------|
+| User Pool Groups                                 | Organize users into groups for role-based access control.                              | ✅       |
+| Lambda Triggers                                  | Extend authentication workflows with serverless functions.                             | ✅       |
+| Hosted UI                                        | Simplify OAuth and federated login flows with pre-built UI.                            | ✅       |
+| Advanced Security Features                       | Detect anomalies and enforce adaptive authentication.                                  | ✅       |
+| Identity Federation                              | Support for third-party identity providers like Google, Facebook, and SAML.            | ✅       |
+
+---
+
+## **Key Differences Between Firebase and Amazon Cognito**
+
+1. **Server-Side Capabilities:** Amazon Cognito provides robust server-side APIs (e.g., Admin APIs), while Firebase is primarily client-focused.
+2. **Enterprise Features:** Cognito supports advanced features like Lambda triggers and adaptive authentication, which are absent in Firebase.
+3. **Custom Token Support:** Firebase enables custom token generation for integration with external systems, while Cognito lacks this feature.
 
 ---
 
-### **Enterprise Features Unique to cognito**
+## **Next Steps**
 
-| Feature                                     | Description                                      | Supported |
-| ------------------------------------------- | ----------------------------------------------- | --------- |
-| Conditional Access Policies                 | Enforce granular access control based on risk.  | ✅         |
-| Role-Based Access Control (RBAC)            | Assign roles to limit access to resources.      | ✅         |
-| B2B and B2C Support                         | Collaborate with external users and consumers.  | ✅         |
-| Identity Protection                         | Detect and respond to suspicious activities.    | ✅         |
-| Privileged Identity Management (PIM)        | Control access to sensitive resources.          | ✅         |
-| Device Management Integration               | Enforce policies on managed devices.            | ✅         |
+1. Design the Dart SDK for server-side integration with Amazon Cognito Admin APIs.
+2. Implement key features such as user management, MFA, and token management.
+3. Provide documentation and examples to facilitate adoption for both mobile and web developers.
 
----
+Let me know if you'd like to explore specific areas further!
+
+
+
 
 
 ## Available Versions
