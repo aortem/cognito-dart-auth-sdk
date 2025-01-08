@@ -1,219 +1,132 @@
-<p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/aortem/logos/main/Aortem-logo-small.png" />
-    <img align="center" alt="Aortem Logo" src="https://raw.githubusercontent.com/aortem/logos/main/Aortem-logo-small.png" />
-  </picture>
-</p>
+# cognito Dart Admin Auth SDK
 
-<h2 align="center">cognito_dart_auth_sdk</h2>
+## Overview
 
-<!-- x-hide-in-docs-end -->
-<p align="center" class="github-badges">
-  <!-- Release Badge -->
-  <a href="https://github.com/aortem/cognito_dart_auth_sdk/tags">
-    <img alt="Release" src="https://img.shields.io/static/v1?label=release&message=v0.0.1-pre+10&color=blue&style=for-the-badge" />
-  </a>
-  <br/>
-  <!-- Dart-Specific Badges -->
-  <a href="https://pub.dev/packages/cognito_dart_auth_sdk">
-    <img alt="Pub Version" src="https://img.shields.io/pub/v/cognito_dart_auth_sdk.svg?style=for-the-badge" />
-  </a>
-  <a href="https://dart.dev/">
-    <img alt="Built with Dart" src="https://img.shields.io/badge/Built%20with-Dart-blue.svg?style=for-the-badge" />
-  </a>
- <!-- cognito Badge -->
-   <a href="https://cognito.google.com/docs/reference/admin/node/cognito-admin.auth?_gl=1*1ewipg9*_up*MQ..*_ga*NTUxNzc0Mzk3LjE3MzMxMzk3Mjk.*_ga_CW55HF8NVT*MTczMzEzOTcyOS4xLjAuMTczMzEzOTcyOS4wLjAuMA..">
-    <img alt="API Reference" src="https://img.shields.io/badge/API-reference-blue.svg?style=for-the-badge" />
-  <br/>
-<!-- Pipeline Badge -->
-<a href="https://github.com/aortem/cognito_dart_auth_sdk/actions">
-  <img alt="Pipeline Status" src="https://img.shields.io/github/actions/workflow/status/aortem/cognito_dart_auth_sdk/dart-analysis.yml?branch=main&label=pipeline&style=for-the-badge" />
-</a>
-<!-- Code Coverage Badges -->
-  </a>
-  <a href="https://codecov.io/gh/open-feature/dart-server-sdk">
-    <img alt="Code Coverage" src="https://codecov.io/gh/open-feature/dart-server-sdk/branch/main/graph/badge.svg?token=FZ17BHNSU5" />
-<!-- Open Source Badge -->
-  </a>
-  <a href="https://bestpractices.coreinfrastructure.org/projects/6601">
-    <img alt="CII Best Practices" src="https://bestpractices.coreinfrastructure.org/projects/6601/badge?style=for-the-badge" />
-  </a>
-</p>
-<!-- x-hide-in-docs-start -->
+The cognito Dart Admin Auth SDK offers a robust and flexible set of tools to perform authentication procedures within Dart or Flutter projects. This is a Dart implementation of cognito Authentication.
 
-## **Feature Comparison Chart**
+## Features:
 
-### **Core Authentication Methods**
+- **User Management:** Manage user accounts seamlessly with a suite of comprehensive user management functionalities.
+- **Custom Token Minting:** Integrate cognito authentication with your backend services by generating custom tokens.
+- **Generating Email Action Links:** Perform authentication by creating and sending email action links to users emails for email verification, password reset, etc.
+- **ID Token verification:** Verify ID tokens securely to ensure that application users are authenticated and authorised to use app.
+- **Managing SAML/OIDC Provider Configuration**: Manage and configure SAML and ODIC providers to support authentication and simple sign-on solutions.
 
-# Firebase vs Amazon Cognito for Server-Side Dart SDK
+## Getting Started
 
-This document provides a high-level comparison of Firebase Authentication and Amazon Cognito features tailored for building a server-side Dart SDK. The goal is to evaluate how a server-side Dart SDK could integrate Amazon Cognito and compare its capabilities to Firebase Authentication.
+If you want to use the cognito Dart Admin Auth SDK for implementing a cognito authentication in your Flutter projects follow the instructions on how to set up the auth SDK.
 
+- Ensure you have a Flutter or Dart (3.4.x) SDK installed in your system.
+- Set up a cognito project and service account.
+- Set up a Flutter project.
 
-## **Feature Comparison Chart**
+## Installation
 
-### **Core Authentication Methods**
+For Flutter use:
 
-| Firebase Method                                  | Amazon Cognito Equivalent                       | Notes                                                                                  | Supported |
-|--------------------------------------------------|------------------------------------------------|--------------------------------------------------------------------------------------- |-------------|
-| `FirebaseAuth.signInWithEmailAndPassword()`      | Cognito Admin: `AdminInitiateAuth`             | Authenticate user with email and password. Server-side API supports admin privileges.  | ✅         |
-| `FirebaseAuth.createUserWithEmailAndPassword()`  | Cognito Admin: `AdminCreateUser`               | Server-side method to create a new user in the user pool.                              | ✅         |
-| `FirebaseAuth.signOut()`                         | Not Applicable                                 | Cognito does not provide server-side logout; tokens must be invalidated by the client. | ❌         |
-| `FirebaseAuth.setPersistence()`                  | Not Applicable                                 | Token persistence is a client-side feature.                                            | ❌         |
-| `FirebaseAuth.sendPasswordResetEmail()`          | Cognito Admin: `AdminResetUserPassword`        | Sends a reset password request to the user.                                            | ✅         |
-| `FirebaseAuth.connectAuthEmulator`               | Not Applicable                                 | Cognito does not support emulated authentication environments.                         | ❌         |
+```javascript
+flutter pub add cognito_dart_auth_sdk
+```
 
----
+You can manually edit your `pubspec.yaml `file this:
 
-### **User Management**
+```yaml
+dependencies:
+  cognito_dart_auth_sdk: ^0.0.1-pre+11
+```
 
-| Firebase Method                                  | Amazon Cognito Equivalent                      | Notes                                                                                   | Supported |
-|--------------------------------------------------|------------------------------------------------|-----------------------------------------------------------------------------------------|-------------|
-| `FirebaseUser.updateEmail()`                     | Cognito Admin: `AdminUpdateUserAttributes`     | Updates the user's email or other attributes.                                           | ✅         |
-| `FirebaseUser.updatePassword()`                  | Cognito Admin: `AdminSetUserPassword`          | Updates the user's password.                                                            | ✅         |
-| `FirebaseUser.deleteUser()`                      | Cognito Admin: `AdminDeleteUser`               | Deletes the user account from the user pool.                                            | ✅         |
-| `FirebaseUser.updateProfile()`                   | Cognito Admin: `AdminUpdateUserAttributes`     | Updates custom attributes in the user's profile.                                        | ✅         |
-| `FirebaseUser.sendEmailVerification()`           | Not Applicable                                 | Cognito uses built-in email verification workflows; server-side triggering is indirect. | ❌         |
-| `FirebaseUser.reload()`                          | Cognito Admin: `AdminGetUser`                  | Refreshes the user profile information.                                                 | ✅         |
-| `FirebaseAuth.updateCurrentUser()`               | Cognito Admin: `AdminUpdateUserAttributes`     | Updates the current user's details, such as profile attributes.                         | ✅         |
+You can run a `flutter pub get` for Flutter respectively to complete installation.
 
----
+**NB:** SDK version might vary.
 
-### **Token Management**
+## Usage
 
-| Firebase Method                                  | Amazon Cognito Equivalent                      | Notes                                                                                 | Supported  |
-|--------------------------------------------------|------------------------------------------------|---------------------------------------------------------------------------------------|------------|
-| `FirebaseAuth.getIdToken()`                      | Cognito: `InitiateAuth`                        | Retrieves tokens for user sessions.                                                   | ✅         |
-| `FirebaseAuth.revokeAccessToken()`               | Cognito: `RevokeToken`                         | Revokes a user's refresh token.                                                       | ✅         |
-| `FirebaseAuth.signInWithCustomToken()`           | Not Applicable                                 | Cognito does not support custom tokens like Firebase.                                 | ❌         |
+**Example:**
 
----
+```
+import 'dart:io';
+import 'package:bot_toast/bot_toast.dart';
+import 'package:cognito/screens/splash_screen/splash_screen.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:cognito_dart_auth_sdk/cognito_dart_auth_sdk.dart';
+import 'package:flutter/services.dart';
 
-### **Multi-Factor Authentication (MFA)**
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
 
-| Firebase Method                                  | Amazon Cognito Equivalent                      | Notes                                                                                | Supported   |
-|--------------------------------------------------|------------------------------------------------|----------------------------------------------------------------------------------------|-------------|
-| `FirebaseAuth.getMultiFactorResolver()`          | Cognito Admin: `AdminSetUserMFAPreference`     | Retrieve MFA configurations and set user preferences.                                  | ✅         |
-| `FirebaseUser.multiFactor()`                     | Cognito: `AssociateSoftwareToken`              | Registers a user for software-based MFA (e.g., TOTP).                                  | ✅         |
-| `FirebaseUser.reauthenticateWithCredential()`    | Cognito: `InitiateAuth`                        | Reauthenticates the user with credentials.                                             | ✅         |
+  try {
+    if (kIsWeb) {
+      // Initialize for web
+      debugPrint('Initializing cognito for Web...');
+      cognitoApp.initializeAppWithEnvironmentVariables(
+        apiKey: 'YOUR-API-KEY',
+        projectId: 'YOUR-PROJECT-ID',
+        bucketName: 'Your Bucket Name',
+      );
+      debugPrint('cognito initialized for Web.');
+    } else {
+      if (Platform.isAndroid || Platform.isIOS) {
+        debugPrint('Initializing cognito for Mobile...');
 
----
+        // Load the service account JSON
+        String serviceAccountContent = await rootBundle.loadString(
+          'assets/service_account.json',
+        );
+        debugPrint('Service account loaded.');
 
-### **Sign-In Methods**
+        // Initialize cognito with the service account content
+        await cognitoApp.initializeAppWithServiceAccount(
+          serviceAccountContent: serviceAccountContent,
+        );
+        debugPrint('cognito initialized for Mobile.');
+      }
+    }
 
-| Firebase Method                                 | Amazon Cognito Equivalent                      | Notes                                                                                  | Supported |
-|-------------------------------------------------|------------------------------------------------|---------------------------------------------------------------------------------------|-----------|
-| `FirebaseAuth.signInWithPopup()`                | Not Applicable                                 | Cognito does not support popup-based authentication flows.                             | ❌         |
-| `FirebaseAuth.signInWithRedirect()`             | Cognito: `HostedUI`                            | Hosted UI provides OAuth-based sign-in with redirect support.                          | ✅         |
-| `FirebaseAuth.signInWithPhoneNumber()`          | Cognito: `InitiateAuth`                        | Phone-based authentication is supported via custom attributes.                        | ✅         |
+    // Access cognito Auth instance
+    final auth = cognitoApp.instance.getAuth();
+    debugPrint('cognito Auth instance obtained.');
 
----
+    runApp(const MyApp());
+  } catch (e, stackTrace) {
+    debugPrint('Error initializing cognito: $e');
+    debugPrint('StackTrace: $stackTrace');
+  }
+}
 
-### **Action Code Handling**
+```
 
-| Firebase Method                                  | Amazon Cognito Equivalent                      | Notes                                                                                  | Supported |
-|--------------------------------------------------|------------------------------------------------|---------------------------------------------------------------------------------------|-----------|
-| `FirebaseAuth.applyActionCode()`                 | Not Applicable                                 | Cognito does not use action codes.                                                    | ❌         |
-| `FirebaseAuth.checkActionCode()`                 | Not Applicable                                 | Cognito does not use action codes.                                                    | ❌         |
-| `FirebaseAuth.verifyPasswordResetCode()`         | Cognito: `AdminResetUserPassword`              | Password reset is handled via workflows, not codes.                                   | ✅         |
+- Import the package into your Dart or Flutter project:
+  ```
+  import 'package:cognito_dart_auth_sdk/cognito_dart_auth_sdk.dart';
+  ```
+  For Flutter web initialize cognito app as follows:
+  ```
+  cognitoApp.initializeAppWithEnvironmentVariables(
+    apiKey: 'YOUR-API-KEY',
+    projectId: 'YOUR-PROJECT-ID',
+    bucketName: 'Your Bucket Name',
+  );
+  ```
 
----
+- For Flutter mobile:
+    - Load the service account JSON
+    ```
+       String serviceAccountContent = await rootBundle.loadString(
+         'assets/service_account.json',
+       );
+    ```
+    - Initialize Flutter mobile with service account content
+    ```
+      await cognitoApp.initializeAppWithServiceAccount(
+        serviceAccountContent: serviceAccountContent,
+      );
+    ```
 
-### **Enterprise Features Unique to Amazon Cognito**
-
-| Feature                                          | Description                                                                            | Supported |
-|--------------------------------------------------|----------------------------------------------------------------------------------------|-----------|
-| User Pool Groups                                 | Organize users into groups for role-based access control.                              | ✅       |
-| Lambda Triggers                                  | Extend authentication workflows with serverless functions.                             | ✅       |
-| Hosted UI                                        | Simplify OAuth and federated login flows with pre-built UI.                            | ✅       |
-| Advanced Security Features                       | Detect anomalies and enforce adaptive authentication.                                  | ✅       |
-| Identity Federation                              | Support for third-party identity providers like Google, Facebook, and SAML.            | ✅       |
-
----
-
-## **Key Differences Between Firebase and Amazon Cognito**
-
-1. **Server-Side Capabilities:** Amazon Cognito provides robust server-side APIs (e.g., Admin APIs), while Firebase is primarily client-focused.
-2. **Enterprise Features:** Cognito supports advanced features like Lambda triggers and adaptive authentication, which are absent in Firebase.
-3. **Custom Token Support:** Firebase enables custom token generation for integration with external systems, while Cognito lacks this feature.
-
----
-
-## **Next Steps**
-
-1. Design the Dart SDK for server-side integration with Amazon Cognito Admin APIs.
-2. Implement key features such as user management, MFA, and token management.
-3. Provide documentation and examples to facilitate adoption for both mobile and web developers.
-
-Let me know if you'd like to explore specific areas further!
-
-
-
-
-
-## Available Versions
-
-cognito Dart Admin Auth SDK is available in two versions to cater to different needs:
-
-1. **Main - Stable Version**: Usually one release a month.  This version attempts to keep stability without introducing breaking changes.
-2. **Pre-Release - Edge Version**: Provided as an early indication of a release when breaking changes are expect.  This release is inconsistent. Use only if you are looking to test new features.
-
+- Access cognito Auth instance.
+  ```
+     final auth = cognitoApp.instance.getAuth();
+  ```
 ## Documentation
 
-For detailed guides, API references, and example projects, visit our [cognito Dart Admin Auth SDK Documentation](https://aortem.gitbook.io/cognito-dart-auth-admin-sdk). Start building with  cognito Dart Admin Auth SDK today and take advantage of its robust features and elegant syntax.
-
-## Examples
-
-Explore the `/example` directory in this repository to find sample applications demonstrating  cognito Dart Admin Auth SDK's capabilities in real-world scenarios.
-
-## Contributing
-
-We welcome contributions of all forms from the community! If you're interested in helping improve  cognito Dart Admin Auth SDK, please fork the repository and submit your pull requests. For more details, check out our [CONTRIBUTING.md](CONTRIBUTING.md) guide.  Our team will review your pull request. Once approved, we will integrate your changes into our primary repository and push the mirrored changes on the main github branch.
-
-## Support Tiers
-
-cognito Dart Admin Auth SDK offers various support tiers for our open-source products with an Initial Response Service Level Agreement (IRSLA):
-
-### Community Support
-- **Cost**: Free
-- **Features**: Access to community forums, basic documentation.
-- **Ideal for**: Individual developers or small startups.
-- **SLA**: NA
-
-### Standard Support
-- **Cost**: $10/month - Billed Annually.
-- **Features**: Extended documentation, email support, 10 business days response SLA.
-- **Ideal for**: Growing startups and small businesses.
-- **SLA**: 10 business days (Monday-Friday) IRSLANA
-- [Subscribe-Coming Soon]()
-
-### Enhanced Support
-- **Cost**: $100/month - Billed Annually
-- **Features**: Access to roadmap, 72-hour response SLA, feature request prioritization.
-- **Ideal for**: Medium-sized enterprises requiring frequent support.
-- **SLA**: 5 business days IRSLA
-- [Subscribe-Coming Soon]()
-
-### Enterprise Support
-- **Cost**: 450/month
-- **Features**: 
-  - 48-hour response SLA, 
-  - Access to beta features:
-  - Comprehensive support for all Aortem Open Source products.
-  - Premium access to our exclusive enterprise customer forum.
-  - Early access to cutting-edge features.
-  - Exclusive access to Partner/Reseller/Channel Program..
-- **Ideal for**: Large organizations and enterprises with complex needs.
-- **SLA**: 48-hour IRSLA
-- [Subscribe-Coming Soon]()
-
-*Enterprise Support is designed for businesses, agencies, and partners seeking top-tier support across a wide range of Dart backend and server-side projects.  All Open Source projects that are part of the Aortem Collective are included in the Enterprise subscription, with more projects being added soon.
-
-## Licensing
-
-All  cognito Dart Admin Auth SDK packages are licensed under BSD-3, except for the *services packages*, which uses the ELv2 license, which are licensed from third party software  Inc. In short, this means that you can, without limitation, use any of the client packages in your app as long as you do not offer the SDK's or services as a cloud service to 3rd parties (this is typically only relevant for cloud service providers).  See the [LICENSE](LICENSE.md) file for more details.
-
-
-## Enhance with cognito Dart Admin Auth SDK
-
-We hope the cognito Dart Admin Auth SDK helps you to efficiently build and scale your server-side applications. Join our growing community and start contributing to the ecosystem today!  test
+For more refer to Gitbook for prelease [documentation here](https://aortem.gitbook.io/cognito-dart-auth-admin-sdk/).
