@@ -1,3 +1,10 @@
-# https://dart.dev/guides/libraries/private-files
-# Created by `dart pub`
-.dart_tool/
+# Global Repo Rules
+
+# Ignore all IDE settings
+**/.idea/
+**/.vscode/
+
+# Ignore Dart clocal build tools
+**/.dart_tool/
+**/pubspec.lock
+**/tmp/pana_*
