@@ -1,6 +1,6 @@
 name: cognito_dart_auth_sdk
 description: A Dart SDK for Cognito Authentication, enabling secure server-side authentication and user management for Dart-based backend applications.
-version: 0.0.1-pre
+version: 0.0.1-pre+1
 repository: https://github.com/aortem/cognito_dart_auth_sdk
 
 environment:
