@@ -9,7 +9,7 @@ analyze_main:
     - when: always
   script:
     - echo "Starting analysis for the main project..."
-    - cd cognito_dart_auth_sdk
+    - cd cognito-dart-auth-sdk
     - pwd
     - echo "Listing contents of the current directory..."
     - ls -la
@@ -69,7 +69,7 @@ analyze_example:
     - when: always
   script:
     - echo "Starting analysis for the example project..."
-    - cd cognito_dart_auth_sdk/example/cognito_dart_auth_sdk-sample-app
+    - cd cognito-dart-auth-sdk/example/cognito_dart_auth_sdk-sample-app
     - pwd
     - echo "Listing contents of the current directory..."
     - ls -la
