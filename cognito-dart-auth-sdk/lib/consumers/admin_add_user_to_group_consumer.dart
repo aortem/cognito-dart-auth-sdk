@@ -33,7 +33,9 @@ class AortemCognitoAdminAddUserToGroupConsumer {
       throw AortemCognitoAdminAddUserToGroupException('Username is required.');
     }
     if (builder.groupName == null || builder.groupName!.isEmpty) {
-      throw AortemCognitoAdminAddUserToGroupException('Group name is required.');
+      throw AortemCognitoAdminAddUserToGroupException(
+        'Group name is required.',
+      );
     }
 
     // Create and send request

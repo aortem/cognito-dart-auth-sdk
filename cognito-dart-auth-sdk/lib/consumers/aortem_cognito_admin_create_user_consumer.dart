@@ -29,7 +29,9 @@ class AortemCognitoAdminCreateUserConsumer {
   ///
   /// Throws [ArgumentError] if required fields are missing.
   /// Throws [Exception] on API or network errors.
-  Future<void> createUser(void Function(AortemCognitoUserBuilder) consumer) async {
+  Future<void> createUser(
+    void Function(AortemCognitoUserBuilder) consumer,
+  ) async {
     final builder = AortemCognitoUserBuilder();
     consumer(builder);
 
@@ -48,7 +50,9 @@ class AortemCognitoAdminCreateUserConsumer {
 
     final userAttributes = <Map<String, String>>[
       {'Name': 'email', 'Value': builder.email!},
-      ...builder.attributes.entries.map((e) => {'Name': e.key, 'Value': e.value}),
+      ...builder.attributes.entries.map(
+        (e) => {'Name': e.key, 'Value': e.value},
+      ),
     ];
 
     final payload = {
@@ -70,7 +74,9 @@ class AortemCognitoAdminCreateUserConsumer {
         _handleError(response);
       }
     } catch (e) {
-      throw Exception('Network error while creating user "${builder.username}": $e');
+      throw Exception(
+        'Network error while creating user "${builder.username}": $e',
+      );
     }
   }
 

@@ -59,9 +59,7 @@ class AortemCognitoAdminConfirmSignUpConsumer {
       final errorMessage = errorData['message'] ?? 'Unknown error occurred';
       throw Exception('API Error (${response.statusCode}): $errorMessage');
     } catch (_) {
-      throw Exception(
-        'API Error (${response.statusCode}): ${response.body}',
-      );
+      throw Exception('API Error (${response.statusCode}): ${response.body}');
     }
   }
 }

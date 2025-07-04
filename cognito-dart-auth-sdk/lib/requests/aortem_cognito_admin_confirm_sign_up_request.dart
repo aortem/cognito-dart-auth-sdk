@@ -29,10 +29,7 @@ class AortemCognitoAdminConfirmSignUpRequest {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.AdminConfirmSignUp',
     };
-    final payload = {
-      'UserPoolId': userPoolId,
-      'Username': username,
-    };
+    final payload = {'UserPoolId': userPoolId, 'Username': username};
 
     try {
       final response = await httpClient.post(
@@ -55,11 +52,9 @@ class AortemCognitoAdminConfirmSignUpRequest {
     try {
       final body = jsonDecode(response.body);
       final message = body['message'] ?? 'Unknown error occurred.';
-      throw Exception(
-          'API Error (${response.statusCode}): $message');
+      throw Exception('API Error (${response.statusCode}): $message');
     } catch (_) {
-      throw Exception(
-          'API Error (${response.statusCode}): ${response.body}');
+      throw Exception('API Error (${response.statusCode}): ${response.body}');
     }
   }
 }

@@ -7,4 +7,3 @@ class AortemCognitoServiceException implements Exception {
   @override
   String toString() => 'CognitoServiceException: $message';
 }
-

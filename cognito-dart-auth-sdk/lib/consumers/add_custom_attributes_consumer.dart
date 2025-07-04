@@ -26,7 +26,7 @@ class AortemCognitoAddCustomAttributesConsumer {
   /// Applies a developer-supplied function to build the attributes list.
   Future<void> consume(
     FutureOr<void> Function(List<AortemCognitoCustomAttribute> builder)
-        attributeBuilder,
+    attributeBuilder,
   ) async {
     try {
       await attributeBuilder(_attributes);

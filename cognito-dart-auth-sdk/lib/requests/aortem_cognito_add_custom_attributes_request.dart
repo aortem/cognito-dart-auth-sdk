@@ -3,8 +3,6 @@ import 'dart:convert';
 
 import 'package:ds_standard_features/ds_standard_features.dart' as http;
 
-
-
 /// Class to send a request to Cognito to add custom attributes.
 class AortemCognitoAddCustomAttributesRequest {
   final String userPoolId;
@@ -22,7 +20,9 @@ class AortemCognitoAddCustomAttributesRequest {
   /// Validates all attributes before sending request.
   void _validateAttributes() {
     if (attributes.isEmpty) {
-      throw AortemCognitoAttributeValidationException('No attributes provided.');
+      throw AortemCognitoAttributeValidationException(
+        'No attributes provided.',
+      );
     }
     for (final attr in attributes) {
       attr.validate();
@@ -33,10 +33,7 @@ class AortemCognitoAddCustomAttributesRequest {
   Future<http.Response> send() async {
     _validateAttributes();
 
-    final uri = Uri.https(
-      'cognito-idp.$region.amazonaws.com',
-      '/',
-    );
+    final uri = Uri.https('cognito-idp.$region.amazonaws.com', '/');
 
     final payload = {
       'UserPoolId': userPoolId,

@@ -19,8 +19,9 @@ void main() {
         body: {'message': 'Success'},
       );
 
-      when(mockcognitoAuth.performRequest(endpoint, body))
-          .thenAnswer((_) async => expectedResponse);
+      when(
+        mockcognitoAuth.performRequest(endpoint, body),
+      ).thenAnswer((_) async => expectedResponse);
 
       // Act
       final result = await mockcognitoAuth.performRequest(endpoint, body);

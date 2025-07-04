@@ -1,6 +1,6 @@
 // admin_create_user_request.dart
 import 'dart:convert';
-import 'package:ds_standard_features/ds_standard_features.dart'as http;
+import 'package:ds_standard_features/ds_standard_features.dart' as http;
 
 /// Admin class to create new users in a Cognito User Pool.
 class AortemCognitoAdminCreateUserRequest {
@@ -40,10 +40,9 @@ class AortemCognitoAdminCreateUserRequest {
     final userAttributes = [
       {'Name': 'email', 'Value': email},
       if (attributes != null)
-        ...attributes.entries.map((entry) => {
-              'Name': entry.key,
-              'Value': entry.value,
-            }),
+        ...attributes.entries.map(
+          (entry) => {'Name': entry.key, 'Value': entry.value},
+        ),
     ];
 
     final payload = {

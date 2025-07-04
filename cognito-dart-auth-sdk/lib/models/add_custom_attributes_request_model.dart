@@ -29,10 +29,7 @@ class AortemCognitoCustomAttribute {
 
   /// Serializes the attribute for the AWS Cognito API.
   Map<String, dynamic> toJson() {
-    final json = {
-      'Name': name,
-      'AttributeDataType': attributeDataType,
-    };
+    final json = {'Name': name, 'AttributeDataType': attributeDataType};
     if (developerOnlyAttribute != null) {
       json['DeveloperOnlyAttribute'] = developerOnlyAttribute;
     }

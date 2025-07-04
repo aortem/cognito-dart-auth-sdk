@@ -6,7 +6,7 @@ analyze_flutter_web:
   image: ghcr.io/cirruslabs/flutter:stable
   script:
     - echo "Analyzing example project..."
-    - cd firebase-dart-admin-auth-sdk/example/firebase-dart-admin-auth-sdk-flutter-web-app
+    - cd cognito-dart-auth-sdk/example/cognito-dart-auth-sdk-flutter-web-app
     - flutter pub get || { echo "Failed to install dependencies. Exiting..."; exit 1; }
     - dart analyze > analysis_report.txt 2> error_log.txt || true
 
@@ -46,7 +46,7 @@ analyze_flutter_web:
 
   artifacts:
     paths:
-      - firebase-dart-admin-auth-sdk/example/firebase-dart-admin-auth-sdk-flutter-web-app/info_issues.txt
-      - firebase-dart-admin-auth-sdk/example/firebase-dart-admin-auth-sdk-flutter-web-app/warning_issues.txt
-      - firebase-dart-admin-auth-sdk/example/firebase-dart-admin-auth-sdk-flutter-web-app/error_issues.txt
+      - cognito-dart-auth-sdk/example/cognito-dart-auth-sdk-flutter-web-app/info_issues.txt
+      - cognito-dart-auth-sdk/example/cognito-dart-auth-sdk-flutter-web-app/warning_issues.txt
+      - cognito-dart-auth-sdk/example/cognito-dart-auth-sdk-flutter-web-app/error_issues.txt
     expire_in: 1h

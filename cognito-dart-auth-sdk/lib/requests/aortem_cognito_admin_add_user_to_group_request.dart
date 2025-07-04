@@ -2,8 +2,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-
-
 /// Class to add a user to a specific group in a Cognito User Pool.
 class AortemCognitoAdminAddUserToGroupRequest {
   final String username;
@@ -42,10 +40,7 @@ class AortemCognitoAdminAddUserToGroupRequest {
 
   /// Sends the AdminAddUserToGroup API request to AWS Cognito.
   Future<http.Response> send() async {
-    final uri = Uri.https(
-      'cognito-idp.$region.amazonaws.com',
-      '/',
-    );
+    final uri = Uri.https('cognito-idp.$region.amazonaws.com', '/');
 
     final payload = {
       'Username': username,
