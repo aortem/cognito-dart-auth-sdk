@@ -31,7 +31,12 @@ release:
         echo "Current working directory: $(pwd)"
         ls -la
 
-        git fetch --prune --unshallow --tags
+        if [ "$(git rev-parse --is-shallow-repository 2>/dev/null)" = "true" ]; then
+          git fetch --prune --unshallow --tags
+        else
+          git fetch --prune --tags
+        fi
+
 
         VERSION=$(grep "^version:" pubspec.yaml | sed "s/version: //" | tr -d '[:space:]')
         echo "Version from pubspec.yaml: $VERSION"
