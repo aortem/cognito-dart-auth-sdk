@@ -1,5 +1,4 @@
 import 'package:ds_tools_testing/ds_tools_testing.dart';
-import 'package:mockito/mockito.dart';
 import '../../mocks/cognito_auth_mock.dart';
 
 void main() {
