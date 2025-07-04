@@ -1,6 +1,6 @@
 // admin_add_user_to_group_request.dart
 import 'dart:convert';
-import 'package:http/http.dart' as http;
+import 'package:ds_standard_features/ds_standard_features.dart' as http;
 
 /// Class to add a user to a specific group in a Cognito User Pool.
 class AortemCognitoAdminAddUserToGroupRequest {
