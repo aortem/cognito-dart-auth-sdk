@@ -1,5 +1,4 @@
 import 'package:ds_tools_testing/ds_tools_testing.dart';
-import 'package:mockito/mockito.dart';
 import '../../mocks/cognito_auth_mock.dart';
 
 void main() {
@@ -19,8 +18,9 @@ void main() {
         body: {'message': 'Success'},
       );
 
-      when(mockcognitoAuth.performRequest(endpoint, body))
-          .thenAnswer((_) async => expectedResponse);
+      when(
+        mockcognitoAuth.performRequest(endpoint, body),
+      ).thenAnswer((_) async => expectedResponse);
 
       // Act
       final result = await mockcognitoAuth.performRequest(endpoint, body);

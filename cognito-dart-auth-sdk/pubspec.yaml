@@ -1,10 +1,10 @@
 name: cognito_dart_auth_sdk
-description: A Dart SDK for cognito Authentication, enabling secure server-side authentication and user management for Dart-based backend applications.
-version: 0.0.1-pre
+description: A Dart SDK for Cognito Authentication, enabling secure server-side authentication and user management for Dart-based backend applications.
+version: 0.0.1-pre+1
 repository: https://github.com/aortem/cognito_dart_auth_sdk
 
 environment:
-  sdk: ^3.6.0
+  sdk: ^3.8.1
 
 # Add regular dependencies here.
 
@@ -12,8 +12,7 @@ dependencies:
 #------------------ STANDARD FEATURES---------------------------------
 ## There are three standard libraries.  Each one can be used with a different xxx 
 
-  ds_standard_features: ^0.0.1-pre+11 #Standard Dart Team Utilities For HTTP //Default
-  build_web_compilers: ^4.0.11
+  ds_standard_features: ^0.0.4 #Standard Dart Team Utilities For HTTP //Default
   jwt_generator: ^0.0.3
 
 
@@ -21,8 +20,6 @@ dependencies:
 
 dev_dependencies:
   ds_tools_testing: ^0.0.1-pre+2 #Standard Dart Team Testing Tools
-  test_reporter: any #required to generate JUnit report 
-  http: any
   git_hooks: any
 
 # Optional Local Hooks for development.

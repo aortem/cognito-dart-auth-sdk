@@ -1,132 +1,170 @@
-# cognito Dart Admin Auth SDK
+````markdown
+# Cognito Dart Auth SDK
 
 ## Overview
 
-The cognito Dart Admin Auth SDK offers a robust and flexible set of tools to perform authentication procedures within Dart or Flutter projects. This is a Dart implementation of cognito Authentication.
+The **Cognito Dart Auth SDK** provides a full-featured Dart implementation of AWS Cognito authentication flows for both server-side and Flutter apps. With this SDK you can:
 
-## Features:
+- Sign users up and confirm their accounts  
+- Sign users in (username/password, OAuth, custom tokens)  
+- Manage user attributes and multi-factor authentication (SMS, TOTP)  
+- Generate and verify ID/access tokens  
+- Admin operations: list users, disable/enable accounts, reset passwords, and more  
 
-- **User Management:** Manage user accounts seamlessly with a suite of comprehensive user management functionalities.
-- **Custom Token Minting:** Integrate cognito authentication with your backend services by generating custom tokens.
-- **Generating Email Action Links:** Perform authentication by creating and sending email action links to users emails for email verification, password reset, etc.
-- **ID Token verification:** Verify ID tokens securely to ensure that application users are authenticated and authorised to use app.
-- **Managing SAML/OIDC Provider Configuration**: Manage and configure SAML and ODIC providers to support authentication and simple sign-on solutions.
+Whether you’re building a backend service in pure Dart or a mobile/web client in Flutter, this SDK makes integrating with AWS Cognito seamless.
+
+## Features
+
+- **User Sign-Up & Sign-In**  
+  Support for email/phone/password sign-up, OAuth/social providers, and custom auth challenges.  
+- **Multi-Factor Authentication**  
+  Configure SMS or TOTP second-factor flows, challenge users, and verify codes.  
+- **Token Management**  
+  Automatically handle access, ID, and refresh tokens; verify signatures; refresh tokens.  
+- **Admin APIs**  
+  Create, list, update, disable, and delete users; manage groups and user attributes.  
+- **Custom Token Minting**  
+  Generate AWS credentials or integrate with your own identity provider.  
+- **Platform-Agnostic**  
+  Works in Dart VM (server), Flutter mobile, and Flutter web.
 
 ## Getting Started
 
-If you want to use the cognito Dart Admin Auth SDK for implementing a cognito authentication in your Flutter projects follow the instructions on how to set up the auth SDK.
+1. **Prerequisites**  
+   - Dart SDK ≥ 3.4.x, or Flutter SDK ≥ 3.0  
+   - An AWS account with a Cognito User Pool (and optionally an Identity Pool)
 
-- Ensure you have a Flutter or Dart (3.4.x) SDK installed in your system.
-- Set up a cognito project and service account.
-- Set up a Flutter project.
+2. **Configure AWS Credentials**  
+   - For **server-side** or CLI use a JSON credentials file (`~/.aws/credentials`) or environment variables (`AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`).  
+   - For **mobile/web** with Cognito User Pools only, you don’t need AWS credentials—just your pool and client IDs.
 
 ## Installation
 
-For Flutter use:
+Add the SDK to your project:
 
-```javascript
+```bash
+# Dart:
+dart pub add cognito_dart_auth_sdk
+
+# Flutter:
 flutter pub add cognito_dart_auth_sdk
-```
+````
 
-You can manually edit your `pubspec.yaml `file this:
+Or add manually to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  cognito_dart_auth_sdk: ^0.0.1-pre+11
+  cognito_dart_auth_sdk: ^0.1.0
 ```
 
-You can run a `flutter pub get` for Flutter respectively to complete installation.
+Then run:
 
-**NB:** SDK version might vary.
+```bash
+dart pub get
+```
 
 ## Usage
 
-**Example:**
+### 1. Initialize the SDK
 
-```
-import 'dart:io';
-import 'package:bot_toast/bot_toast.dart';
-import 'package:cognito/screens/splash_screen/splash_screen.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+```dart
 import 'package:cognito_dart_auth_sdk/cognito_dart_auth_sdk.dart';
-import 'package:flutter/services.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  // For server-side or local CLI
+  final auth = CognitoAuth(
+    region: 'us-east-1',
+    userPoolId: 'us-east-1_ABCDEFG',
+    clientId:  'XXXXXXXXXXXXXXXXXXXX',
+  );
 
-  try {
-    if (kIsWeb) {
-      // Initialize for web
-      debugPrint('Initializing cognito for Web...');
-      cognitoApp.initializeAppWithEnvironmentVariables(
-        apiKey: 'YOUR-API-KEY',
-        projectId: 'YOUR-PROJECT-ID',
-        bucketName: 'Your Bucket Name',
-      );
-      debugPrint('cognito initialized for Web.');
-    } else {
-      if (Platform.isAndroid || Platform.isIOS) {
-        debugPrint('Initializing cognito for Mobile...');
-
-        // Load the service account JSON
-        String serviceAccountContent = await rootBundle.loadString(
-          'assets/service_account.json',
-        );
-        debugPrint('Service account loaded.');
-
-        // Initialize cognito with the service account content
-        await cognitoApp.initializeAppWithServiceAccount(
-          serviceAccountContent: serviceAccountContent,
-        );
-        debugPrint('cognito initialized for Mobile.');
-      }
-    }
-
-    // Access cognito Auth instance
-    final auth = cognitoApp.instance.getAuth();
-    debugPrint('cognito Auth instance obtained.');
-
-    runApp(const MyApp());
-  } catch (e, stackTrace) {
-    debugPrint('Error initializing cognito: $e');
-    debugPrint('StackTrace: $stackTrace');
-  }
+  // For Flutter web / mobile you can omit AWS credentials if using only User Pools
+  // and rely on CORS-enabled endpoints.
 }
-
 ```
 
-- Import the package into your Dart or Flutter project:
-  ```
-  import 'package:cognito_dart_auth_sdk/cognito_dart_auth_sdk.dart';
-  ```
-  For Flutter web initialize cognito app as follows:
-  ```
-  cognitoApp.initializeAppWithEnvironmentVariables(
-    apiKey: 'YOUR-API-KEY',
-    projectId: 'YOUR-PROJECT-ID',
-    bucketName: 'Your Bucket Name',
+### 2. Sign Up & Confirm
+
+```dart
+// Sign up a new user
+final signUpResult = await auth.signUp(
+  username: 'alice@example.com',
+  password: 'SuperSecret123!',
+  userAttributes: {
+    'email': 'alice@example.com',
+    'custom:role': 'admin',
+  },
+);
+
+// Later, confirm their account with a code sent over email/SMS
+await auth.confirmSignUp(
+  username: 'alice@example.com',
+  confirmationCode: '123456',
+);
+```
+
+### 3. Sign In & Token Handling
+
+```dart
+// Sign in
+final session = await auth.signIn(
+  username: 'alice@example.com',
+  password: 'SuperSecret123!',
+);
+
+// Access tokens, ID tokens, and refresh tokens:
+final accessToken  = session.accessToken;
+final idToken      = session.idToken;
+final refreshToken = session.refreshToken;
+
+// Verify an ID token’s signature
+final claims = await auth.verifyIdToken(idToken);
+print('User ID: ${claims.sub}');
+```
+
+### 4. Admin Operations
+
+```dart
+// List users in a group
+final users = await auth.adminListUsers(
+  filter: 'status="CONFIRMED"',
+  limit: 10,
+);
+
+// Disable a user
+await auth.adminDisableUser(username: 'alice@example.com');
+```
+
+## Advanced
+
+* **Multi-Factor (MFA):**
+
+  ```dart
+  await auth.setMfaPreference(
+    username: 'alice@example.com',
+    smsEnabled: true,
+    totpEnabled: false,
   );
   ```
 
-- For Flutter mobile:
-    - Load the service account JSON
-    ```
-       String serviceAccountContent = await rootBundle.loadString(
-         'assets/service_account.json',
-       );
-    ```
-    - Initialize Flutter mobile with service account content
-    ```
-      await cognitoApp.initializeAppWithServiceAccount(
-        serviceAccountContent: serviceAccountContent,
-      );
-    ```
+* **Password Reset:**
 
-- Access cognito Auth instance.
+  ```dart
+  // Initiate
+  await auth.forgotPassword(username: 'alice@example.com');
+  // Confirm
+  await auth.confirmForgotPassword(
+    username: 'alice@example.com',
+    confirmationCode: '654321',
+    newPassword: 'NewSecret123!',
+  );
   ```
-     final auth = cognitoApp.instance.getAuth();
-  ```
+
 ## Documentation
 
-For more refer to Gitbook for prelease [documentation here](https://aortem.gitbook.io/cognito-dart-auth-admin-sdk/).
+For full API reference, examples, and architecture guides, see our GitBook:
+
+👉 [Cognito Dart Auth SDK Docs](https://aortem.gitbook.io/cognito-dart-auth-sdk/)
+
+---
+
