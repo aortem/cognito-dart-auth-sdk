@@ -10,8 +10,8 @@
 <!-- x-hide-in-docs-end -->
 <p align="center" class="github-badges">
   <!-- Release Badge -->
-  <a href="https://github.com/aortem/cognito_dart_auth_sdk/releases/latest">
-  <img alt="Latest Release" src="https://img.shields.io/github/v/release/aortem/cognito_dart_auth_sdk?style=for-the-badge" />
+  <a href="https://github.com/aortem/cognito_dart_auth_sdk/tags">
+  <img alt="Latest Release" src="https://img.shields.io/github/v/tag/aortem/cognito_dart_auth_sdk?style=for-the-badge" />
 </a>
   <br/>
   <!-- Dart-Specific Badges -->
