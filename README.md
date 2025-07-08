@@ -151,6 +151,10 @@ Cognito-Dart-Auth-SDK is available in a single version with sample apps:
 
 2. **Sample Apps - FrontEnd Version**: The sample apps are provided in various frontend languages in order to allow maximum flexibility with your frontend implementation with the Dart backend.  Note that new features are first tested in the sample apps before being released in the mainline branch. Use only as a guide for your frontend/backend implementation of Dart.
 
+- Access cognito Auth instance.
+  ```
+     final auth = cognitoApp.instance.getAuth();
+  ```
 ## Documentation
 
 For detailed guides, API references, and example projects, visit our [Cognito-Dart-Auth-SDK Documentation](https://aortem.gitbook.io/cognito-dart-auth-sdk). Start building with  Cognito-Dart-Auth-SDK today and take advantage of its robust features and elegant syntax.
