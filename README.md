@@ -11,8 +11,8 @@
 <p align="center" class="github-badges">
   <!-- Release Badge -->
   <a href="https://github.com/aortem/cognito_dart_auth_sdk/tags">
-    <img alt="Release" src="https://img.shields.io/static/v1?label=release&message=v0.0.1-pre+10&color=blue&style=for-the-badge" />
-  </a>
+  <img alt="Latest Release" src="https://img.shields.io/github/v/tag/aortem/cognito_dart_auth_sdk?style=for-the-badge" />
+</a>
   <br/>
   <!-- Dart-Specific Badges -->
   <a href="https://pub.dev/packages/cognito_dart_auth_sdk">
@@ -25,6 +25,8 @@
    <a href="https://cognito.google.com/docs/reference/admin/node/cognito-admin.auth?_gl=1*1ewipg9*_up*MQ..*_ga*NTUxNzc0Mzk3LjE3MzMxMzk3Mjk.*_ga_CW55HF8NVT*MTczMzEzOTcyOS4xLjAuMTczMzEzOTcyOS4wLjAuMA..">
     <img alt="API Reference" src="https://img.shields.io/badge/API-reference-blue.svg?style=for-the-badge" />
   <br/>
+<<<<<<< HEAD
+=======
 <!-- Pipeline Badge -->
 <a href="https://github.com/aortem/cognito_dart_auth_sdk/actions">
   <img alt="Pipeline Status" src="https://img.shields.io/github/actions/workflow/status/aortem/cognito_dart_auth_sdk/dart-analysis.yml?branch=main&label=pipeline&style=for-the-badge" />
@@ -38,6 +40,7 @@
   <a href="https://bestpractices.coreinfrastructure.org/projects/6601">
     <img alt="CII Best Practices" src="https://bestpractices.coreinfrastructure.org/projects/6601/badge?style=for-the-badge" />
   </a>
+>>>>>>> main
 </p>
 <!-- x-hide-in-docs-start -->
 
