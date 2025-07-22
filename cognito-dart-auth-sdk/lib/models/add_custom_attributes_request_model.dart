@@ -1,3 +1,5 @@
+import '../exception/aortem_cognito_add_custom_attributes_validation_exception.dart';
+
 /// Model representing a custom attribute to be added.
 class AortemCognitoCustomAttribute {
   final String name;
@@ -31,10 +33,10 @@ class AortemCognitoCustomAttribute {
   Map<String, dynamic> toJson() {
     final json = {'Name': name, 'AttributeDataType': attributeDataType};
     if (developerOnlyAttribute != null) {
-      json['DeveloperOnlyAttribute'] = developerOnlyAttribute;
+      json['DeveloperOnlyAttribute'] = developerOnlyAttribute as String;
     }
     if (mutable != null) {
-      json['Mutable'] = mutable;
+      json['Mutable'] = mutable as String;
     }
     return json;
   }

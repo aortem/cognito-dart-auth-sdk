@@ -3,6 +3,10 @@ import 'dart:convert';
 
 import 'package:ds_standard_features/ds_standard_features.dart' as http;
 
+import '../exception/aortem_cognito_add_custom_attributes_validation_exception.dart';
+import '../exception/aortem_cognito_service_exception.dart';
+import '../models/add_custom_attributes_request_model.dart';
+
 /// Class to send a request to Cognito to add custom attributes.
 class AortemCognitoAddCustomAttributesRequest {
   final String userPoolId;
