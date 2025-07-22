@@ -66,12 +66,7 @@ void main() async {
     debugPrint('cognito Auth instance obtained.');
 
     // Wrap the app with Provider
-    runApp(
-      Provider<cognitoAuth>.value(
-        value: auth,
-        child: const MyApp(),
-      ),
-    );
+    runApp(Provider<cognitoAuth>.value(value: auth, child: const MyApp()));
   } catch (e, stackTrace) {
     debugPrint('Error initializing cognito: $e');
     debugPrint('StackTrace: $stackTrace');
@@ -92,9 +87,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       // Wrap SplashScreen with Builder to ensure proper context
-      home: Builder(
-        builder: (context) => const SplashScreen(),
-      ),
+      home: Builder(builder: (context) => const SplashScreen()),
     );
   }
 }
