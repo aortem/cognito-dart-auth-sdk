@@ -1,55 +1,52 @@
-// admin_delete_user_consumer.dart
 import 'dart:convert';
 import 'package:ds_standard_features/ds_standard_features.dart' as http;
 
-/// Consumer-based class to delete a user from Cognito User Pool.
-class AortemCognitoAdminDeleteUserConsumer {
-  final String userPoolId;
+class AortemCognitoConfirmSignUpConsumer {
   final String region;
-  final http.Client httpClient;
+  final String clientId;
 
-  AortemCognitoAdminDeleteUserConsumer({
-    required this.userPoolId,
+  AortemCognitoConfirmSignUpConsumer({
     required this.region,
-    http.Client? httpClient,
-  }) : httpClient = httpClient ?? http.Client();
+    required this.clientId,
+  });
 
-  Future<void> deleteUser(
+  Future<void> confirmSignUp(
     void Function(Map<String, String> userDetails) consumer,
   ) async {
     final userDetails = <String, String>{};
     consumer(userDetails);
 
     if (!userDetails.containsKey('Username') ||
-        userDetails['Username']!.isEmpty) {
-      throw ArgumentError('Username must be provided.');
+        !userDetails.containsKey('ConfirmationCode')) {
+      throw ArgumentError('Username and ConfirmationCode must be provided.');
     }
 
     final payload = {
-      'UserPoolId': userPoolId,
+      'ClientId': clientId,
       'Username': userDetails['Username'],
+      'ConfirmationCode': userDetails['ConfirmationCode'],
     };
 
     final uri = Uri.parse('https://cognito-idp.$region.amazonaws.com/');
     final headers = {
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'AWSCognitoIdentityProviderService.AdminDeleteUser',
+      'Content-Type': 'application/json',
+      'X-Amz-Target': 'AWSCognitoIdentityProviderService.ConfirmSignUp',
     };
 
     try {
-      final response = await httpClient.post(
+      final response = await http.post(
         uri,
         headers: headers,
         body: jsonEncode(payload),
       );
 
       if (response.statusCode == 200) {
-        print('✅ User deleted: ${userDetails['Username']}');
+        print('User confirmed successfully: ${userDetails['Username']}');
       } else {
         _handleError(response);
       }
     } catch (e) {
-      throw Exception('❌ Network error while deleting user: $e');
+      throw Exception('Network error while confirming sign-up: $e');
     }
   }
 

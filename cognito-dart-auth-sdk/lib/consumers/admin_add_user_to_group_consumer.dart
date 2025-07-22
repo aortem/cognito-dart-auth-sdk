@@ -1,5 +1,8 @@
 // admin_add_user_to_group_consumer.dart
-import 'aortem-cognito-admin-add-user-to-group-request.dart';
+import '../exception/aortem_cognito_add_user_to_group_exception.dart';
+import '../requests/aortem_cognito_admin_add_user_to_group_request.dart';
+
+import 'package:ds_standard_features/ds_standard_features.dart' as http;
 
 /// Builder class to configure the request via consumer.
 class AortemCognitoAdminAddUserToGroupBuilder {

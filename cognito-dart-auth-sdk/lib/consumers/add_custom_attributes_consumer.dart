@@ -1,5 +1,8 @@
 // add_custom_attributes_consumer.dart
-import 'aortem-cognito-add-custom-attributes-request.dart';
+import 'dart:async';
+import 'package:ds_standard_features/ds_standard_features.dart' as http;
+import '../models/add_custom_attributes_request_model.dart';
+import '../requests/aortem_cognito_add_custom_attributes_request.dart';
 
 /// Exception thrown when the consumer fails to define valid attributes.
 class AortemCognitoConsumerException implements Exception {

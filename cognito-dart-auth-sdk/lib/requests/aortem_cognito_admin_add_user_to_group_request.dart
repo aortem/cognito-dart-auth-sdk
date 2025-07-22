@@ -2,6 +2,8 @@
 import 'dart:convert';
 import 'package:ds_standard_features/ds_standard_features.dart' as http;
 
+import '../exception/aortem_cognito_add_user_to_group_exception.dart';
+
 /// Class to add a user to a specific group in a Cognito User Pool.
 class AortemCognitoAdminAddUserToGroupRequest {
   final String username;
