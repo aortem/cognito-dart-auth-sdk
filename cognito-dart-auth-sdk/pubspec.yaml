@@ -14,12 +14,12 @@ dependencies:
 
   ds_standard_features: ^0.0.4 #Standard Dart Team Utilities For HTTP //Default
   jwt_generator: ^0.0.3
+  ds_tools_testing: ^0.0.6
 
 
 #------------------ TESTING FEATURES---------------------------------
 
 dev_dependencies:
-  ds_tools_testing: ^0.0.4 #Standard Dart Team Testing Tools
   git_hooks: any
 
 # Optional Local Hooks for development.
