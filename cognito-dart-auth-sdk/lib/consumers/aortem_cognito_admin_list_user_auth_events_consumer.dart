@@ -1,14 +1,14 @@
 // admin_list_user_auth_events_consumer.dart
-// aortem_cognito_admin_list_user_auth_events_consumer.dart
+// cognito_admin_list_user_auth_events_consumer.dart
 //
 // Consumer (builder) for AdminListUserAuthEvents.
 //
 // Provides a fluent interface for listing authentication events for a specific user
 // in Amazon Cognito, with support for both batch retrieval and paginated streaming.
 
-import 'package:cognito_dart_auth_sdk/requests/aortem_cognito_admin_list_user_auth_events_request.dart';
-import 'package:cognito_dart_auth_sdk/requests/aortem_cognito_http_client.dart';
-import 'package:cognito_dart_auth_sdk/exceptions/aortem_cognito_validate_exception.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_admin_list_user_auth_events_request.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
+import 'package:cognito_dart_auth_sdk/exceptions/cognito_validate_exception.dart';
 
 /// Function type for configuring the authentication events builder.
 ///

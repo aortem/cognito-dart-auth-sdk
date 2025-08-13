@@ -1,4 +1,4 @@
-// aortem_cognito_admin_link_provider_for_user_request.dart
+// cognito_admin_link_provider_for_user_request.dart
 //
 // AdminLinkProviderForUser — Links an external identity provider (IdP) identity (SourceUser)
 // to an existing local/federated user (DestinationUser) in a Cognito user pool.
@@ -9,9 +9,9 @@
 // - AortemCognitoValidationException
 // - AortemCognitoServiceException
 
-import 'package:cognito_dart_auth_sdk/requests/aortem_cognito_http_client.dart';
-import 'package:cognito_dart_auth_sdk/exceptions/aortem_cognito_validate_exception.dart';
-import 'package:cognito_dart_auth_sdk/exceptions/aortem_cognito_service_exception.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
+import 'package:cognito_dart_auth_sdk/exceptions/cognito_validate_exception.dart';
+import 'package:cognito_dart_auth_sdk/exceptions/cognito_service_exception.dart';
 
 /// Represents a user identifier for provider linking operations.
 ///

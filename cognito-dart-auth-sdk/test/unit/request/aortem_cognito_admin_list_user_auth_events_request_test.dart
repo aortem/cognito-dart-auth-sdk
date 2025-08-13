@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:test/test.dart';
 
-import 'package:cognito_dart_auth_sdk/requests/aortem_cognito_admin_list_user_auth_events_request.dart';
-import 'package:cognito_dart_auth_sdk/requests/aortem_cognito_http_client.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_admin_list_user_auth_events_request.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
 
 class _FakeHttp implements AortemCognitoHttpClient {
   int calls = 0;

@@ -2,11 +2,11 @@
 ///
 /// Provides a fluent interface for building AdminConfirmSignUp requests
 /// with runtime input validation and normalization.
-library aortem_cognito_admin_confirm_sign_up_consumer;
+library cognito_admin_confirm_sign_up_consumer;
 
-import 'package:cognito_dart_auth_sdk/exceptions/aortem_cognito_validate_exception.dart';
-import 'package:cognito_dart_auth_sdk/requests/aortem_cognito_admin_confirm_sign_up_request.dart';
-import 'package:cognito_dart_auth_sdk/requests/aortem_cognito_http_client.dart';
+import 'package:cognito_dart_auth_sdk/exceptions/cognito_validate_exception.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_admin_confirm_sign_up_request.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
 
 /// Function type for builder configuration callbacks
 typedef AortemCognitoConfirmSignUpConsumerFn =

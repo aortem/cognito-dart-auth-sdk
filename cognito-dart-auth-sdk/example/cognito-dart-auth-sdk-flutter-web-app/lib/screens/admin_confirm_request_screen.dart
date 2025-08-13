@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:cognito_dart_auth_sdk/requests/aortem_cognito_admin_confirm_sign_up_request.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_admin_confirm_sign_up_request.dart';
 
 class AdminConfirmRequestScreen extends StatefulWidget {
   const AdminConfirmRequestScreen({super.key});

@@ -1,4 +1,4 @@
-import '../exception/aortem_cognito_add_custom_attributes_validation_exception.dart';
+import '../exception/cognito_add_custom_attributes_validation_exception.dart';
 
 /// Model representing a custom attribute to be added.
 class AortemCognitoCustomAttribute {

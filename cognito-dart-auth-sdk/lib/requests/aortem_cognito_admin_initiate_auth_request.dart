@@ -1,5 +1,5 @@
 // admin_initiate_auth_request.dart
-// File: aortem_cognito_admin_initiate_auth_request.dart
+// File: cognito_admin_initiate_auth_request.dart
 //
 // Implements the AdminInitiateAuth operation for AWS Cognito
 // This starts server-side authentication flows for admin users
@@ -11,9 +11,9 @@
 // - AortemCognitoServiceException for API/service errors
 
 // Import required dependencies
-import 'package:cognito_dart_auth_sdk/requests/aortem_cognito_http_client.dart';
-import 'package:cognito_dart_auth_sdk/exceptions/aortem_cognito_validate_exception.dart';
-import 'package:cognito_dart_auth_sdk/exceptions/aortem_cognito_service_exception.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
+import 'package:cognito_dart_auth_sdk/exceptions/cognito_validate_exception.dart';
+import 'package:cognito_dart_auth_sdk/exceptions/cognito_service_exception.dart';
 
 /// Represents the successful authentication result from Cognito
 /// Contains all tokens and device metadata returned upon successful authentication

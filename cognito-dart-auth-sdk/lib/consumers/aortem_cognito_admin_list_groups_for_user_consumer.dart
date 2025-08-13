@@ -1,13 +1,13 @@
 // admin_list_groups_for_user_consumer.dart
-// aortem_cognito_admin_list_groups_for_user_consumer.dart
+// cognito_admin_list_groups_for_user_consumer.dart
 //
 // Consumer-style facade for AdminListGroupsForUser operation.
 // Provides a fluent builder interface for listing groups a user belongs to
 // in a Cognito user pool using admin privileges.
 
-import 'package:cognito_dart_auth_sdk/requests/aortem_cognito_admin_list_groups_for_user_request.dart';
-import 'package:cognito_dart_auth_sdk/requests/aortem_cognito_http_client.dart';
-import 'package:cognito_dart_auth_sdk/exceptions/aortem_cognito_validate_exception.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_admin_list_groups_for_user_request.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
+import 'package:cognito_dart_auth_sdk/exceptions/cognito_validate_exception.dart';
 
 /// Functional interface for configuring AdminListGroupsForUser requests via builder.
 ///

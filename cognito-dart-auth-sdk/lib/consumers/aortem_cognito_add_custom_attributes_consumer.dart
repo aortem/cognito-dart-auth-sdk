@@ -1,15 +1,15 @@
-// aortem_cognito_add_custom_attributes_consumer.dart
+// cognito_add_custom_attributes_consumer.dart
 //
 // "Consumer"/builder-style API for AddCustomAttributes.
 // Lets developers compose attributes at runtime using a fluent builder,
 // then reuses the ticket #1 request class to call Cognito.
 //
-// Depends on types from: aortem_cognito_add_custom_attributes_request.dart
+// Depends on types from: cognito_add_custom_attributes_request.dart
 
-import 'package:cognito_dart_auth_sdk/enums/aortem_cognito_attribute_datatype.dart';
-import 'package:cognito_dart_auth_sdk/exceptions/aortem_cognito_validate_exception.dart';
-import 'package:cognito_dart_auth_sdk/requests/aortem_cognito_add_custom_attributes_request.dart';
-import 'package:cognito_dart_auth_sdk/requests/aortem_cognito_http_client.dart';
+import 'package:cognito_dart_auth_sdk/enums/cognito_attribute_datatype.dart';
+import 'package:cognito_dart_auth_sdk/exceptions/cognito_validate_exception.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_add_custom_attributes_request.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
 
 /// A functional interface that allows callers to define Cognito attributes
 /// using a fluent builder pattern at runtime.

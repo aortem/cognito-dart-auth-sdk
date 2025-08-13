@@ -1,13 +1,13 @@
 // admin_link_provider_for_user_consumer.dart
-// aortem_cognito_admin_link_provider_for_user_consumer.dart
+// cognito_admin_link_provider_for_user_consumer.dart
 //
 // Consumer/builder-style facade for AdminLinkProviderForUser operation.
 // Provides a fluent interface for linking external identity provider (IdP) identities
 // to existing Cognito users using admin privileges.
 
-import 'package:cognito_dart_auth_sdk/exceptions/aortem_cognito_validate_exception.dart';
-import 'package:cognito_dart_auth_sdk/requests/aortem_cognito_admin_link_provider_for_user_request.dart';
-import 'package:cognito_dart_auth_sdk/requests/aortem_cognito_http_client.dart';
+import 'package:cognito_dart_auth_sdk/exceptions/cognito_validate_exception.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_admin_link_provider_for_user_request.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
 
 /// Functional interface for configuring AdminLinkProviderForUser requests via builder.
 ///

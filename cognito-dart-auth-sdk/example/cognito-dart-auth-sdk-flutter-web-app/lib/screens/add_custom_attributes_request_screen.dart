@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:cognito_dart_auth_sdk/requests/aortem_cognito_add_custom_attributes_request.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_add_custom_attributes_request.dart';
 import 'package:cognito_dart_auth_sdk/models/add_custom_attributes_request_model.dart';
 
 class AddCustomAttributesScreen extends StatefulWidget {

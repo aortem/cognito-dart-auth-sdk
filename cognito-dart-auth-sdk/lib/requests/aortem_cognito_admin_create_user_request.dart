@@ -4,13 +4,13 @@
 ///
 /// AWS API Reference:
 /// https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminCreateUser.html
-library aortem_cognito_admin_create_user_request;
+library cognito_admin_create_user_request;
 
 import 'dart:convert';
 
-import 'package:cognito_dart_auth_sdk/requests/aortem_cognito_http_client.dart';
-import 'package:cognito_dart_auth_sdk/exceptions/aortem_cognito_validate_exception.dart';
-import 'package:cognito_dart_auth_sdk/exceptions/aortem_cognito_service_exception.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
+import 'package:cognito_dart_auth_sdk/exceptions/cognito_validate_exception.dart';
+import 'package:cognito_dart_auth_sdk/exceptions/cognito_service_exception.dart';
 
 /// Represents a name/value pair for user attributes.
 ///

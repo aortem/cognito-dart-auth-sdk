@@ -1,12 +1,12 @@
-// aortem_cognito_admin_create_user_consumer.dart
+// cognito_admin_create_user_consumer.dart
 //
 // Consumer/builder-style facade for AdminCreateUser.
 // Lets callers fluently compose payload (username, attributes, delivery mediums,
 // metadata, temporary password, etc.) and then executes Ticket #7 request.
 
-import 'package:cognito_dart_auth_sdk/exceptions/aortem_cognito_validate_exception.dart';
-import 'package:cognito_dart_auth_sdk/requests/aortem_cognito_admin_create_user_request.dart';
-import 'package:cognito_dart_auth_sdk/requests/aortem_cognito_http_client.dart';
+import 'package:cognito_dart_auth_sdk/exceptions/cognito_validate_exception.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_admin_create_user_request.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
 
 /// A function type that configures an [AortemCognitoAdminCreateUserBuilder].
 typedef AortemCognitoCreateUserConsumerFn =

@@ -1,4 +1,4 @@
-import 'package:cognito_dart_auth_sdk/consumers/aortem_cognito_admin_confirm_sign_up_consumer.dart';
+import 'package:cognito_dart_auth_sdk/consumers/cognito_admin_confirm_sign_up_consumer.dart';
 import 'package:flutter/material.dart';
 
 class AdminConfirmSignUpScreen extends StatefulWidget {

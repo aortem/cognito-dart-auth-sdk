@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:cognito_dart_auth_sdk/requests/aortem_cognito_admin_create_user_request.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_admin_create_user_request.dart';
 
 class AdminCreateUserScreen extends StatefulWidget {
   const AdminCreateUserScreen({super.key});

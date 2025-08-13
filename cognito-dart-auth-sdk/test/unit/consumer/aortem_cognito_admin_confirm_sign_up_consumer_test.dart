@@ -1,7 +1,7 @@
-import 'package:cognito_dart_auth_sdk/consumers/aortem_cognito_admin_confirm_sign_up_consumer.dart';
+import 'package:cognito_dart_auth_sdk/consumers/cognito_admin_confirm_sign_up_consumer.dart';
 import 'package:test/test.dart';
 
-import 'package:cognito_dart_auth_sdk/requests/aortem_cognito_http_client.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
 
 class _FakeHttp implements AortemCognitoHttpClient {
   Map<String, dynamic>? lastPayload;

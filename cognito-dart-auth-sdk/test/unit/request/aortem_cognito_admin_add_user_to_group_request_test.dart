@@ -1,10 +1,10 @@
 import 'package:test/test.dart';
 
 // SDK imports (adjust the package path if your pubspec uses a different name)
-import 'package:cognito_dart_auth_sdk/requests/aortem_cognito_admin_add_user_to_group_request.dart';
-import 'package:cognito_dart_auth_sdk/requests/aortem_cognito_http_client.dart';
-import 'package:cognito_dart_auth_sdk/exceptions/aortem_cognito_validate_exception.dart';
-import 'package:cognito_dart_auth_sdk/exceptions/aortem_cognito_service_exception.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_admin_add_user_to_group_request.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
+import 'package:cognito_dart_auth_sdk/exceptions/cognito_validate_exception.dart';
+import 'package:cognito_dart_auth_sdk/exceptions/cognito_service_exception.dart';
 
 /// Minimal fake HTTP client that records the last payload and returns a canned response.
 class _FakeHttpClient implements AortemCognitoHttpClient {

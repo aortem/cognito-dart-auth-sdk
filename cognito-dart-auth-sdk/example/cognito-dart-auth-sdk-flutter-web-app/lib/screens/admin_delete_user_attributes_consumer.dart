@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:cognito_dart_auth_sdk/consumers/aortem_cognito_admin_delete_user_attributes_consumer.dart';
+import 'package:cognito_dart_auth_sdk/consumers/cognito_admin_delete_user_attributes_consumer.dart';
 
 class DeleteUserAttributesScreen extends StatefulWidget {
   const DeleteUserAttributesScreen({super.key});

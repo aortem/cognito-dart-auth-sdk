@@ -1,5 +1,5 @@
 // admin_list_groups_for_user_request.dart
-// aortem_cognito_admin_list_groups_for_user_request.dart
+// cognito_admin_list_groups_for_user_request.dart
 //
 // AdminListGroupsForUser — Lists the groups that a user belongs to in a Cognito user pool.
 // AWS Target: AWSCognitoIdentityProviderService.AdminListGroupsForUser
@@ -9,9 +9,9 @@
 // - AortemCognitoValidationException
 // - AortemCognitoServiceException
 
-import 'package:cognito_dart_auth_sdk/requests/aortem_cognito_http_client.dart';
-import 'package:cognito_dart_auth_sdk/exceptions/aortem_cognito_validate_exception.dart';
-import 'package:cognito_dart_auth_sdk/exceptions/aortem_cognito_service_exception.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
+import 'package:cognito_dart_auth_sdk/exceptions/cognito_validate_exception.dart';
+import 'package:cognito_dart_auth_sdk/exceptions/cognito_service_exception.dart';
 
 /// Represents the result of a successful AdminListGroupsForUser request.
 ///

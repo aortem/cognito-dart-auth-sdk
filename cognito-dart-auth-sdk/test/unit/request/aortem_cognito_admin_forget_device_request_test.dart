@@ -1,10 +1,10 @@
 import 'package:test/test.dart';
 
 // Adjust imports to your package name / paths.
-import 'package:cognito_dart_auth_sdk/requests/aortem_cognito_admin_forget_device_request.dart';
-import 'package:cognito_dart_auth_sdk/requests/aortem_cognito_http_client.dart';
-import 'package:cognito_dart_auth_sdk/exceptions/aortem_cognito_validate_exception.dart';
-import 'package:cognito_dart_auth_sdk/exceptions/aortem_cognito_service_exception.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_admin_forget_device_request.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
+import 'package:cognito_dart_auth_sdk/exceptions/cognito_validate_exception.dart';
+import 'package:cognito_dart_auth_sdk/exceptions/cognito_service_exception.dart';
 
 class _FakeHttp implements AortemCognitoHttpClient {
   Map<String, dynamic>? lastPayload;

@@ -1,4 +1,4 @@
-// aortem_cognito_admin_delete_user_request.dart
+// cognito_admin_delete_user_request.dart
 //
 // AdminDeleteUser — Deletes a user from the specified Cognito user pool.
 // Target: AWSCognitoIdentityProviderService.AdminDeleteUser
@@ -8,9 +8,9 @@
 // - AortemCognitoValidationException
 // - AortemCognitoServiceException
 
-import 'package:cognito_dart_auth_sdk/requests/aortem_cognito_http_client.dart';
-import 'package:cognito_dart_auth_sdk/exceptions/aortem_cognito_validate_exception.dart';
-import 'package:cognito_dart_auth_sdk/exceptions/aortem_cognito_service_exception.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
+import 'package:cognito_dart_auth_sdk/exceptions/cognito_validate_exception.dart';
+import 'package:cognito_dart_auth_sdk/exceptions/cognito_service_exception.dart';
 
 /// The result of a successful AdminDeleteUser operation.
 ///

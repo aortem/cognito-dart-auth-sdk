@@ -1,12 +1,12 @@
-// aortem_cognito_admin_delete_user_attributes_consumer.dart
+// cognito_admin_delete_user_attributes_consumer.dart
 //
 // Consumer/builder-style facade for AdminDeleteUserAttributes.
 // Provides a fluent interface for building requests to delete user attributes
 // using admin privileges in AWS Cognito User Pools.
 
-import 'package:cognito_dart_auth_sdk/exceptions/aortem_cognito_validate_exception.dart';
-import 'package:cognito_dart_auth_sdk/requests/aortem_cognito_admin_delete_user_attributes_request.dart';
-import 'package:cognito_dart_auth_sdk/requests/aortem_cognito_http_client.dart';
+import 'package:cognito_dart_auth_sdk/exceptions/cognito_validate_exception.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_admin_delete_user_attributes_request.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
 
 /// Functional interface for defining attribute deletion requests via builder.
 ///

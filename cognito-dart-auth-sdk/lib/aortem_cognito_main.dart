@@ -1,43 +1,43 @@
 /// Main entry point for Aortem Cognito SDK in Dart.
 /// Provides high-level wrapper methods for Cognito operations.
-library aortem_cognito_main;
+library cognito_main;
 
-import 'package:cognito_dart_auth_sdk/consumers/aortem_cognito_add_custom_attributes_consumer.dart';
-import 'package:cognito_dart_auth_sdk/consumers/aortem_cognito_admin_add_user_to_group_consumer.dart';
-import 'package:cognito_dart_auth_sdk/consumers/aortem_cognito_admin_confirm_sign_up_consumer.dart';
-import 'package:cognito_dart_auth_sdk/consumers/aortem_cognito_admin_create_user_consumer.dart';
-import 'package:cognito_dart_auth_sdk/consumers/aortem_cognito_admin_delete_user_attributes_consumer.dart';
-import 'package:cognito_dart_auth_sdk/consumers/aortem_cognito_admin_delete_user_consumer.dart';
-import 'package:cognito_dart_auth_sdk/consumers/aortem_cognito_admin_disable_provider_for_user_consumer.dart';
-import 'package:cognito_dart_auth_sdk/consumers/aortem_cognito_admin_disable_user_consumer.dart';
-import 'package:cognito_dart_auth_sdk/consumers/aortem_cognito_admin_enable_user_consumer.dart';
-import 'package:cognito_dart_auth_sdk/consumers/aortem_cognito_admin_forget_device_consumer.dart';
-import 'package:cognito_dart_auth_sdk/consumers/aortem_cognito_admin_get_device_consumer.dart';
-import 'package:cognito_dart_auth_sdk/consumers/aortem_cognito_admin_get_user_consumer.dart';
-import 'package:cognito_dart_auth_sdk/consumers/aortem_cognito_admin_initiate_auth_consumer.dart';
-import 'package:cognito_dart_auth_sdk/consumers/aortem_cognito_admin_link_provider_for_user_consumer.dart';
-import 'package:cognito_dart_auth_sdk/consumers/aortem_cognito_admin_list_devices_consumer.dart';
-import 'package:cognito_dart_auth_sdk/consumers/aortem_cognito_admin_list_groups_for_user_consumer.dart';
-import 'package:cognito_dart_auth_sdk/consumers/aortem_cognito_admin_list_groups_for_user_paginator_consumer.dart';
-import 'package:cognito_dart_auth_sdk/requests/aortem_cognito_add_custom_attributes_request.dart';
-import 'package:cognito_dart_auth_sdk/requests/aortem_cognito_admin_add_user_to_group_request.dart';
-import 'package:cognito_dart_auth_sdk/requests/aortem_cognito_admin_confirm_sign_up_request.dart';
-import 'package:cognito_dart_auth_sdk/requests/aortem_cognito_admin_create_user_request.dart';
-import 'package:cognito_dart_auth_sdk/requests/aortem_cognito_admin_delete_user_attributes_request.dart';
-import 'package:cognito_dart_auth_sdk/requests/aortem_cognito_admin_delete_user_request.dart';
-import 'package:cognito_dart_auth_sdk/requests/aortem_cognito_admin_disable_user_request.dart';
-import 'package:cognito_dart_auth_sdk/requests/aortem_cognito_admin_enable_user_request.dart';
-import 'package:cognito_dart_auth_sdk/requests/aortem_cognito_admin_forget_device_request.dart';
-import 'package:cognito_dart_auth_sdk/requests/aortem_cognito_admin_get_device_request.dart';
-import 'package:cognito_dart_auth_sdk/requests/aortem_cognito_admin_get_user_request.dart';
-import 'package:cognito_dart_auth_sdk/requests/aortem_cognito_admin_initiate_auth_request.dart';
-import 'package:cognito_dart_auth_sdk/requests/aortem_cognito_admin_link_provider_for_user_request.dart';
-import 'package:cognito_dart_auth_sdk/requests/aortem_cognito_admin_list_devices_request.dart';
-import 'package:cognito_dart_auth_sdk/requests/aortem_cognito_admin_list_groups_for_user_paginator_request.dart';
-import 'package:cognito_dart_auth_sdk/requests/aortem_cognito_admin_list_groups_for_user_request.dart';
-import 'package:cognito_dart_auth_sdk/requests/aortem_cognito_http_client.dart';
+import 'package:cognito_dart_auth_sdk/consumers/cognito_add_custom_attributes_consumer.dart';
+import 'package:cognito_dart_auth_sdk/consumers/cognito_admin_add_user_to_group_consumer.dart';
+import 'package:cognito_dart_auth_sdk/consumers/cognito_admin_confirm_sign_up_consumer.dart';
+import 'package:cognito_dart_auth_sdk/consumers/cognito_admin_create_user_consumer.dart';
+import 'package:cognito_dart_auth_sdk/consumers/cognito_admin_delete_user_attributes_consumer.dart';
+import 'package:cognito_dart_auth_sdk/consumers/cognito_admin_delete_user_consumer.dart';
+import 'package:cognito_dart_auth_sdk/consumers/cognito_admin_disable_provider_for_user_consumer.dart';
+import 'package:cognito_dart_auth_sdk/consumers/cognito_admin_disable_user_consumer.dart';
+import 'package:cognito_dart_auth_sdk/consumers/cognito_admin_enable_user_consumer.dart';
+import 'package:cognito_dart_auth_sdk/consumers/cognito_admin_forget_device_consumer.dart';
+import 'package:cognito_dart_auth_sdk/consumers/cognito_admin_get_device_consumer.dart';
+import 'package:cognito_dart_auth_sdk/consumers/cognito_admin_get_user_consumer.dart';
+import 'package:cognito_dart_auth_sdk/consumers/cognito_admin_initiate_auth_consumer.dart';
+import 'package:cognito_dart_auth_sdk/consumers/cognito_admin_link_provider_for_user_consumer.dart';
+import 'package:cognito_dart_auth_sdk/consumers/cognito_admin_list_devices_consumer.dart';
+import 'package:cognito_dart_auth_sdk/consumers/cognito_admin_list_groups_for_user_consumer.dart';
+import 'package:cognito_dart_auth_sdk/consumers/cognito_admin_list_groups_for_user_paginator_consumer.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_add_custom_attributes_request.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_admin_add_user_to_group_request.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_admin_confirm_sign_up_request.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_admin_create_user_request.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_admin_delete_user_attributes_request.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_admin_delete_user_request.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_admin_disable_user_request.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_admin_enable_user_request.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_admin_forget_device_request.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_admin_get_device_request.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_admin_get_user_request.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_admin_initiate_auth_request.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_admin_link_provider_for_user_request.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_admin_list_devices_request.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_admin_list_groups_for_user_paginator_request.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_admin_list_groups_for_user_request.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
 
-import 'requests/aortem_cognito_admin_disable_provider_for_user_request.dart';
+import 'requests/cognito_admin_disable_provider_for_user_request.dart';
 
 /// High-level Aortem Cognito client.
 ///

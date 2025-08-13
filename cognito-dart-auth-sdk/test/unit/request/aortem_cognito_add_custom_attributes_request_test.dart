@@ -1,5 +1,5 @@
-import 'package:cognito_dart_auth_sdk/consumers/aortem_cognito_add_custom_attributes_consumer.dart';
-import 'package:cognito_dart_auth_sdk/exceptions/aortem_cognito_validate_exception.dart';
+import 'package:cognito_dart_auth_sdk/consumers/cognito_add_custom_attributes_consumer.dart';
+import 'package:cognito_dart_auth_sdk/exceptions/cognito_validate_exception.dart';
 import 'package:ds_tools_testing/ds_tools_testing.dart';
 
 void main() {

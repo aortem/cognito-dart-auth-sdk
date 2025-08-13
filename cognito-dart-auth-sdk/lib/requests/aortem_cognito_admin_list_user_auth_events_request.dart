@@ -1,5 +1,5 @@
 // admin_list_user_auth_events_request.dart
-// aortem_cognito_admin_list_user_auth_events_request.dart
+// cognito_admin_list_user_auth_events_request.dart
 //
 // AdminListUserAuthEvents — Returns a history of user auth events and risks.
 // Target: AWSCognitoIdentityProviderService.AdminListUserAuthEvents
@@ -7,9 +7,9 @@
 // Provides functionality to retrieve authentication events for a specific user
 // from Amazon Cognito, with support for pagination and automatic retries.
 
-import 'package:cognito_dart_auth_sdk/requests/aortem_cognito_http_client.dart';
-import 'package:cognito_dart_auth_sdk/exceptions/aortem_cognito_validate_exception.dart';
-import 'package:cognito_dart_auth_sdk/exceptions/aortem_cognito_service_exception.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
+import 'package:cognito_dart_auth_sdk/exceptions/cognito_validate_exception.dart';
+import 'package:cognito_dart_auth_sdk/exceptions/cognito_service_exception.dart';
 
 /// Represents a single page of authentication events from Cognito.
 ///

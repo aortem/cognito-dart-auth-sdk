@@ -1,4 +1,4 @@
-// aortem_cognito_admin_add_user_to_group_request.dart
+// cognito_admin_add_user_to_group_request.dart
 //
 // AdminAddUserToGroup — Adds an existing user to a specific group in a Cognito user pool.
 // AWS Target: AWSCognitoIdentityProviderService.AdminAddUserToGroup
@@ -9,9 +9,9 @@
 // - AortemCognitoValidationException
 // - AortemCognitoServiceException
 
-import 'package:cognito_dart_auth_sdk/exceptions/aortem_cognito_service_exception.dart';
-import 'package:cognito_dart_auth_sdk/requests/aortem_cognito_http_client.dart';
-import 'package:cognito_dart_auth_sdk/exceptions/aortem_cognito_validate_exception.dart';
+import 'package:cognito_dart_auth_sdk/exceptions/cognito_service_exception.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
+import 'package:cognito_dart_auth_sdk/exceptions/cognito_validate_exception.dart';
 
 /// Represents a successful response from the AdminAddUserToGroup API.
 ///

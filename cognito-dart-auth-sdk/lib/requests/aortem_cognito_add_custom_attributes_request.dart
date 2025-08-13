@@ -1,7 +1,7 @@
-// aortem_cognito_add_custom_attributes_request.dart
+// cognito_add_custom_attributes_request.dart
 // SDK: Aortem Cognito (Dart)
 // Ticket: AortemCognitoAddCustomAttributesRequest — Add Custom Attributes to Cognito User Pool
-// Naming: aortem_cognito_<filename>.dart (per convention)
+// Naming: cognito_<filename>.dart (per convention)
 //
 // This file implements the AddCustomAttributes API operation for Amazon Cognito,
 // allowing administrators to add custom attributes to a user pool schema.
@@ -9,10 +9,10 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:cognito_dart_auth_sdk/enums/aortem_cognito_attribute_datatype.dart';
-import 'package:cognito_dart_auth_sdk/exceptions/aortem_cognito_service_exception.dart';
-import 'package:cognito_dart_auth_sdk/exceptions/aortem_cognito_validate_exception.dart';
-import 'package:cognito_dart_auth_sdk/requests/aortem_cognito_http_client.dart';
+import 'package:cognito_dart_auth_sdk/enums/cognito_attribute_datatype.dart';
+import 'package:cognito_dart_auth_sdk/exceptions/cognito_service_exception.dart';
+import 'package:cognito_dart_auth_sdk/exceptions/cognito_validate_exception.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
 
 // -----------------------------
 // Constraints Models

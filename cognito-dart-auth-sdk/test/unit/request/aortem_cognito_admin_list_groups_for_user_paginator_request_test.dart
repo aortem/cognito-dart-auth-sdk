@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:test/test.dart';
 
-import 'package:cognito_dart_auth_sdk/requests/aortem_cognito_admin_list_groups_for_user_paginator_request.dart';
-import 'package:cognito_dart_auth_sdk/requests/aortem_cognito_http_client.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_admin_list_groups_for_user_paginator_request.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
 
 class _FakeHttp implements AortemCognitoHttpClient {
   int callCount = 0;
@@ -24,7 +24,7 @@ class _FakeHttp implements AortemCognitoHttpClient {
         headers: const {},
         bodyString: jsonEncode({
           'Groups': [
-            {'GroupName': 'G1'}
+            {'GroupName': 'G1'},
           ],
           'NextToken': 'NEXT',
         }),
@@ -36,7 +36,7 @@ class _FakeHttp implements AortemCognitoHttpClient {
       headers: const {},
       bodyString: jsonEncode({
         'Groups': [
-          {'GroupName': 'G2'}
+          {'GroupName': 'G2'},
         ],
       }),
     );

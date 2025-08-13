@@ -1,10 +1,10 @@
 import 'package:test/test.dart';
 
 // Adjust imports to your package name / paths.
-import 'package:cognito_dart_auth_sdk/requests/aortem_cognito_admin_get_device_request.dart';
-import 'package:cognito_dart_auth_sdk/requests/aortem_cognito_http_client.dart';
-import 'package:cognito_dart_auth_sdk/exceptions/aortem_cognito_validate_exception.dart';
-import 'package:cognito_dart_auth_sdk/exceptions/aortem_cognito_service_exception.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_admin_get_device_request.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
+import 'package:cognito_dart_auth_sdk/exceptions/cognito_validate_exception.dart';
+import 'package:cognito_dart_auth_sdk/exceptions/cognito_service_exception.dart';
 
 class _FakeHttp implements AortemCognitoHttpClient {
   Map<String, dynamic>? lastPayload;
@@ -86,7 +86,10 @@ void main() {
       expect(res, isA<AortemCognitoAdminGetDeviceResult>());
 
       final p = http.lastPayload!;
-      expect(http.lastTarget, 'AWSCognitoIdentityProviderService.AdminGetDevice');
+      expect(
+        http.lastTarget,
+        'AWSCognitoIdentityProviderService.AdminGetDevice',
+      );
       expect(http.lastRegion, 'us-west-2');
       expect(http.lastHeaders?['Content-Type'], 'application/x-amz-json-1.1');
 
@@ -157,7 +160,10 @@ void main() {
         maxRetries: 0,
       );
 
-      expect(() => req.execute(), throwsA(isA<AortemCognitoServiceException>()));
+      expect(
+        () => req.execute(),
+        throwsA(isA<AortemCognitoServiceException>()),
+      );
     });
   });
 }

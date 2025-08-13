@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:cognito_dart_auth_sdk/requests/aortem_cognito_sign_up_request.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_sign_up_request.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
