@@ -1,75 +1,208 @@
-// admin_delete_user_attributes_request.dart
-import 'dart:convert';
-import 'package:ds_standard_features/ds_standard_features.dart' as http;
+// aortem_cognito_admin_delete_user_attributes_request.dart
+//
+// AdminDeleteUserAttributes — Deletes selected attributes from a user.
+// Target: AWSCognitoIdentityProviderService.AdminDeleteUserAttributes
+//
+// Depends on shared types:
+// - AortemCognitoHttpClient (send(...) and/or post(...))
+// - AortemCognitoValidationException
+// - AortemCognitoServiceException
 
-/// SDK to delete user attributes from AWS Cognito User Pool.
+import 'package:cognito_dart_auth_sdk/requests/aortem_cognito_http_client.dart';
+import 'package:cognito_dart_auth_sdk/exceptions/aortem_cognito_validate_exception.dart';
+import 'package:cognito_dart_auth_sdk/exceptions/aortem_cognito_service_exception.dart';
+
+/// The result of a successful AdminDeleteUserAttributes operation.
+///
+/// This is essentially a marker class since AdminDeleteUserAttributes doesn't return
+/// any data on success (204 No Content response from AWS).
+class AortemCognitoAdminDeleteUserAttributesResult {
+  /// Creates a new result instance.
+  const AortemCognitoAdminDeleteUserAttributesResult();
+}
+
+/// A request to delete specific attributes from a Cognito user using admin privileges.
+///
+/// This implements the [AdminDeleteUserAttributes API](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminDeleteUserAttributes.html)
+/// with automatic retries for transient failures and proper error handling.
+///
+/// Allows administrators to remove specific attributes from a user's profile.
 class AortemCognitoAdminDeleteUserAttributesRequest {
+  /// The ID of the user pool containing the user
   final String userPoolId;
-  final String region;
-  final http.Client httpClient;
 
+  /// The username of the user whose attributes will be deleted
+  final String username;
+
+  /// List of attribute names to delete (standard or custom attributes)
+  final List<String> userAttributeNames;
+
+  /// The AWS region where the user pool is located
+  final String region;
+
+  /// The HTTP client used to make the request
+  final AortemCognitoHttpClient httpClient;
+
+  /// Maximum number of retry attempts for transient failures
+  final int maxRetries;
+
+  /// Timeout duration for each request attempt
+  final Duration requestTimeout;
+
+  /// Creates a new AdminDeleteUserAttributes request.
+  ///
+  /// Validates parameters immediately and throws [AortemCognitoValidationException]
+  /// if they are invalid.
+  ///
+  /// Parameters:
+  /// - [userPoolId]: Required user pool ID (must match pattern [\w-]+_[0-9a-zA-Z]+)
+  /// - [username]: Required username (1-128 characters)
+  /// - [userAttributeNames]: Required list of attribute names to delete (1-32 items)
+  /// - [region]: Required AWS region identifier
+  /// - [httpClient]: Required HTTP client implementation
+  /// - [maxRetries]: Maximum retry attempts (default: 2)
+  /// - [requestTimeout]: Request timeout duration (default: 20 seconds)
   AortemCognitoAdminDeleteUserAttributesRequest({
     required this.userPoolId,
+    required this.username,
+    required this.userAttributeNames,
     required this.region,
-    http.Client? httpClient,
-  }) : httpClient = httpClient ?? http.Client();
+    required this.httpClient,
+    this.maxRetries = 2,
+    this.requestTimeout = const Duration(seconds: 20),
+  }) {
+    _validate();
+  }
 
-  /// Deletes specific user attributes from Cognito.
+  /// Validates the request parameters.
   ///
-  /// [username] - the Cognito username.
-  /// [attributeNames] - list of attribute names (e.g., 'custom:example').
-  ///
-  /// Throws:
-  /// - [ArgumentError] if username or attributes are missing.
-  /// - [Exception] for network/API errors.
-  Future<void> deleteUserAttributes({
-    required String username,
-    required List<String> attributeNames,
-  }) async {
-    if (username.isEmpty) {
-      throw ArgumentError('Username cannot be empty.');
-    }
-    if (attributeNames.isEmpty) {
-      throw ArgumentError('Attribute names cannot be empty.');
-    }
-
-    final payload = {
-      'UserPoolId': userPoolId,
-      'Username': username,
-      'UserAttributeNames': attributeNames,
-    };
-
-    final uri = Uri.parse('https://cognito-idp.$region.amazonaws.com/');
-    final headers = {
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target':
-          'AWSCognitoIdentityProviderService.AdminDeleteUserAttributes',
-    };
-
-    try {
-      final response = await httpClient.post(
-        uri,
-        headers: headers,
-        body: jsonEncode(payload),
+  /// Throws [AortemCognitoValidationException] if:
+  /// - userPoolId is empty or doesn't match the expected pattern
+  /// - username is empty or exceeds 128 characters
+  /// - userAttributeNames is empty or has more than 32 items
+  /// - any attribute name is empty
+  void _validate() {
+    // Pool ID pattern: [\w-]+_[0-9a-zA-Z]+
+    final poolRe = RegExp(r'^[\w-]+_[0-9A-Za-z]+$');
+    if (userPoolId.trim().isEmpty || !poolRe.hasMatch(userPoolId)) {
+      throw AortemCognitoValidationException(
+        'userPoolId is required and must match [\\w-]+_[0-9a-zA-Z]+.',
       );
+    }
 
-      if (response.statusCode == 200) {
-        print('[SUCCESS] Deleted attributes for user: $username');
-      } else {
-        _handleError(response);
+    if (username.trim().isEmpty) {
+      throw AortemCognitoValidationException('username is required.');
+    }
+    if (username.length > 128) {
+      throw AortemCognitoValidationException(
+        'username must be <= 128 characters.',
+      );
+    }
+
+    if (userAttributeNames.isEmpty) {
+      throw AortemCognitoValidationException(
+        'At least one attribute name must be provided.',
+      );
+    }
+    if (userAttributeNames.length > 32) {
+      throw AortemCognitoValidationException(
+        'No more than 32 attribute names may be provided.',
+      );
+    }
+    for (final name in userAttributeNames) {
+      final trimmed = name.trim();
+      if (trimmed.isEmpty) {
+        throw AortemCognitoValidationException(
+          'Attribute names must be non-empty strings.',
+        );
       }
-    } catch (e) {
-      throw Exception('Network error while deleting user attributes: $e');
+      // Note: For custom attributes, ensure they include the 'custom:' prefix
+      // AWS requires this prefix for custom attributes
     }
   }
 
-  void _handleError(http.Response response) {
-    try {
-      final errorData = jsonDecode(response.body);
-      final message = errorData['message'] ?? 'Unknown error occurred';
-      throw Exception('API Error (${response.statusCode}): $message');
-    } catch (_) {
-      throw Exception('API Error (${response.statusCode}): ${response.body}');
+  /// Creates the payload for the AWS API request.
+  Map<String, dynamic> _payload() => <String, dynamic>{
+    'UserPoolId': userPoolId,
+    'Username': username,
+    'UserAttributeNames': userAttributeNames,
+  };
+
+  /// Executes the AdminDeleteUserAttributes request.
+  ///
+  /// Returns a [Future] that completes with [AortemCognitoAdminDeleteUserAttributesResult]
+  /// on success.
+  ///
+  /// Throws:
+  /// - [AortemCognitoValidationException] if parameters are invalid
+  /// - [AortemCognitoServiceException] if the request fails (including after retries)
+  /// - Other platform/network exceptions if unrecoverable errors occur
+  Future<AortemCognitoAdminDeleteUserAttributesResult> execute() async {
+    final payload = _payload();
+
+    int attempt = 0;
+    Object? lastError;
+
+    while (attempt <= maxRetries) {
+      try {
+        final res = await httpClient.send(
+          service: 'cognito-idp',
+          target: 'AWSCognitoIdentityProviderService.AdminDeleteUserAttributes',
+          region: region,
+          payload: payload,
+          timeout: requestTimeout,
+          headers: const {'Content-Type': 'application/x-amz-json-1.1'},
+        );
+
+        if (res.statusCode == 200) {
+          return const AortemCognitoAdminDeleteUserAttributesResult();
+        }
+
+        if (res.statusCode >= 400 && res.statusCode < 500) {
+          throw AortemCognitoServiceException(
+            'AdminDeleteUserAttributes failed. Body: ${res.bodyString}',
+            statusCode: res.statusCode,
+          );
+        }
+
+        if (res.statusCode >= 500) {
+          throw AortemCognitoServiceException(
+            'AdminDeleteUserAttributes temporary failure.',
+            statusCode: res.statusCode,
+          );
+        }
+
+        throw AortemCognitoServiceException(
+          'AdminDeleteUserAttributes unexpected status.',
+          statusCode: res.statusCode,
+        );
+      } catch (e) {
+        lastError = e;
+        final transient = _isTransient(e);
+        if (!transient || attempt == maxRetries) break;
+        await Future<void>.delayed(Duration(milliseconds: 200 * (attempt + 1)));
+      } finally {
+        attempt++;
+      }
     }
+
+    throw AortemCognitoServiceException(
+      'AdminDeleteUserAttributes failed after retries. Last error: $lastError',
+    );
+  }
+
+  /// Determines if an error is likely transient and worth retrying.
+  ///
+  /// Checks for common transient failure patterns in the error string:
+  /// - 'temporary' indicator
+  /// - Network-related exceptions
+  /// - 5xx server errors
+  bool _isTransient(Object e) {
+    final s = e.toString();
+    return s.contains('temporary') ||
+        s.contains('SocketException') ||
+        s.contains('TimeoutException') ||
+        s.contains('503') ||
+        s.contains('500');
   }
 }

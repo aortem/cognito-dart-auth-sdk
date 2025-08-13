@@ -1,61 +1,148 @@
-// admin_delete_user_consumer.dart
-import 'dart:convert';
-import 'package:ds_standard_features/ds_standard_features.dart' as http;
+// aortem_cognito_admin_delete_user_consumer.dart
+//
+// Consumer/builder-style facade for AdminDeleteUser.
+// Lets callers supply pool + username at runtime, then executes Ticket #9 request.
 
-/// Consumer-based class to delete a user from Cognito User Pool.
-class AortemCognitoAdminDeleteUserConsumer {
-  final String userPoolId;
-  final String region;
-  final http.Client httpClient;
+import 'package:cognito_dart_auth_sdk/exceptions/aortem_cognito_validate_exception.dart';
+import 'package:cognito_dart_auth_sdk/requests/aortem_cognito_admin_delete_user_request.dart';
+import 'package:cognito_dart_auth_sdk/requests/aortem_cognito_http_client.dart';
 
-  AortemCognitoAdminDeleteUserConsumer({
-    required this.userPoolId,
-    required this.region,
-    http.Client? httpClient,
-  }) : httpClient = httpClient ?? http.Client();
+/// A function type that configures an [AortemCognitoAdminDeleteUserBuilder].
+///
+/// Used to provide a fluent interface for building AdminDeleteUser requests.
+typedef AortemCognitoDeleteUserConsumerFn =
+    void Function(AortemCognitoAdminDeleteUserBuilder b);
 
-  Future<void> deleteUser(
-    void Function(Map<String, String> userDetails) consumer,
-  ) async {
-    final userDetails = <String, String>{};
-    consumer(userDetails);
+/// A builder class for constructing AdminDeleteUser requests to Amazon Cognito.
+///
+/// Provides a fluent interface for configuring the request parameters before
+/// building the actual request object. Validates required parameters when building.
+///
+/// Example:
+/// ```dart
+/// final result = await AortemCognitoAdminDeleteUserConsumer(...).run((b) {
+///   b.userPoolId('us-east-1_abc123')
+///    .username('johndoe');
+/// });
+/// ```
+class AortemCognitoAdminDeleteUserBuilder {
+  String? _userPoolId;
+  String? _username;
 
-    if (!userDetails.containsKey('Username') ||
-        userDetails['Username']!.isEmpty) {
-      throw ArgumentError('Username must be provided.');
-    }
-
-    final payload = {
-      'UserPoolId': userPoolId,
-      'Username': userDetails['Username'],
-    };
-
-    final uri = Uri.parse('https://cognito-idp.$region.amazonaws.com/');
-    final headers = {
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'AWSCognitoIdentityProviderService.AdminDeleteUser',
-    };
-
-    try {
-      final response = await httpClient.post(
-        uri,
-        headers: headers,
-        body: jsonEncode(payload),
-      );
-
-      if (response.statusCode == 200) {
-        print('✅ User deleted: ${userDetails['Username']}');
-      } else {
-        _handleError(response);
-      }
-    } catch (e) {
-      throw Exception('❌ Network error while deleting user: $e');
-    }
+  /// Sets the user pool ID where the user will be deleted.
+  ///
+  /// The value must match the pattern `[\w-]+_[0-9a-zA-Z]+`.
+  /// The value will be trimmed of whitespace.
+  AortemCognitoAdminDeleteUserBuilder userPoolId(String value) {
+    _userPoolId = value.trim();
+    return this;
   }
 
-  void _handleError(http.Response response) {
-    final errorData = jsonDecode(response.body);
-    final errorMessage = errorData['message'] ?? 'Unknown error occurred';
-    throw Exception('API Error (${response.statusCode}): $errorMessage');
+  /// Sets the username (or alias/sub) of the user to be deleted.
+  ///
+  /// The value will be trimmed of whitespace. Length must be between 1 and 128
+  /// characters (enforced when building the request).
+  AortemCognitoAdminDeleteUserBuilder username(String value) {
+    _username = value.trim();
+    return this;
+  }
+
+  /// Builds the underlying [AortemCognitoAdminDeleteUserRequest].
+  ///
+  /// Validates that required parameters (userPoolId and username) are set.
+  /// Throws [AortemCognitoValidationException] if validation fails.
+  ///
+  /// Parameters:
+  /// - [region]: The AWS region where the user pool is located
+  /// - [httpClient]: The HTTP client to use for making requests
+  /// - [maxRetries]: Maximum number of retries for transient failures (default: 2)
+  /// - [requestTimeout]: Timeout duration for the request (default: 20 seconds)
+  AortemCognitoAdminDeleteUserRequest build({
+    required String region,
+    required AortemCognitoHttpClient httpClient,
+    int maxRetries = 2,
+    Duration requestTimeout = const Duration(seconds: 20),
+  }) {
+    final up = _userPoolId?.trim() ?? '';
+    final un = _username?.trim() ?? '';
+
+    if (up.isEmpty) {
+      throw AortemCognitoValidationException('userPoolId is required.');
+    }
+    if (un.isEmpty) {
+      throw AortemCognitoValidationException('username is required.');
+    }
+
+    return AortemCognitoAdminDeleteUserRequest(
+      userPoolId: up,
+      username: un,
+      region: region,
+      httpClient: httpClient,
+      maxRetries: maxRetries,
+      requestTimeout: requestTimeout,
+    );
+  }
+}
+
+/// A high-level consumer for executing AdminDeleteUser operations.
+///
+/// Provides a convenient way to execute Cognito AdminDeleteUser operations
+/// using a builder pattern for request configuration.
+///
+/// Handles request building, validation, execution, and retries automatically.
+class AortemCognitoAdminDeleteUserConsumer {
+  /// The AWS region where the user pool is located.
+  final String region;
+
+  /// The HTTP client to use for making requests.
+  final AortemCognitoHttpClient httpClient;
+
+  /// The maximum number of retries for failed requests.
+  final int maxRetries;
+
+  /// The timeout duration for the request.
+  final Duration requestTimeout;
+
+  /// Creates a new consumer with the given configuration.
+  ///
+  /// Parameters:
+  /// - [region]: Required AWS region identifier
+  /// - [httpClient]: Required HTTP client implementation
+  /// - [maxRetries]: Maximum retry attempts (default: 2)
+  /// - [requestTimeout]: Request timeout duration (default: 20 seconds)
+  AortemCognitoAdminDeleteUserConsumer({
+    required this.region,
+    required this.httpClient,
+    this.maxRetries = 2,
+    this.requestTimeout = const Duration(seconds: 20),
+  });
+
+  /// Executes the AdminDeleteUser operation with the given configuration.
+  ///
+  /// The flow is:
+  /// 1. Caller populates builder via the [consumer] function
+  /// 2. Builds the request (with validation)
+  /// 3. Executes the request (with retries if configured)
+  ///
+  /// Returns a [Future] that completes with [AortemCognitoAdminDeleteUserResult]
+  /// on success.
+  ///
+  /// Throws:
+  /// - [AortemCognitoValidationException] if parameters are invalid
+  /// - [AortemCognitoServiceException] if the request fails
+  Future<AortemCognitoAdminDeleteUserResult> run(
+    AortemCognitoDeleteUserConsumerFn consumer,
+  ) async {
+    final b = AortemCognitoAdminDeleteUserBuilder();
+    consumer(b);
+
+    final req = b.build(
+      region: region,
+      httpClient: httpClient,
+      maxRetries: maxRetries,
+      requestTimeout: requestTimeout,
+    );
+
+    return await req.execute();
   }
 }
