@@ -1,4 +1,6 @@
+
 //    cognito_admin_remove_user_from_group_request.dart
+
 //
 // AdminRemoveUserFromGroup — Removes a user from a specific group in a Cognito user pool.
 // AWS Target: AWSCognitoIdentityProviderService.AdminRemoveUserFromGroup
@@ -149,6 +151,11 @@ class CognitoAdminRemoveUserFromGroupRequest {
 
         if (res.statusCode >= 400 && res.statusCode < 500) {
           throw CognitoServiceException(
+          return const AortemCognitoAdminRemoveUserFromGroupResult();
+        }
+
+        if (res.statusCode >= 400 && res.statusCode < 500) {
+          throw AortemCognitoServiceException(
             'AdminRemoveUserFromGroup failed. Body: ${res.bodyString}',
             statusCode: res.statusCode,
           );
