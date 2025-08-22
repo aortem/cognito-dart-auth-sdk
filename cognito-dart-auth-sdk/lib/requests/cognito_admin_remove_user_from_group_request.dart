@@ -1,4 +1,3 @@
-
 //    cognito_admin_remove_user_from_group_request.dart
 
 //
@@ -144,30 +143,28 @@ class CognitoAdminRemoveUserFromGroupRequest {
           timeout: requestTimeout,
           headers: const {'Content-Type': 'application/x-amz-json-1.1'},
         );
-if (res.statusCode == 200) {
-  return const CognitoAdminRemoveUserFromGroupResult();
-}
+        if (res.statusCode == 200) {
+          return const CognitoAdminRemoveUserFromGroupResult();
+        }
 
-if (res.statusCode >= 400 && res.statusCode < 500) {
-  throw CognitoServiceException(
-    'AdminRemoveUserFromGroup failed. Body: ${res.bodyString}',
-    statusCode: res.statusCode,
-  );
-}
+        if (res.statusCode >= 400 && res.statusCode < 500) {
+          throw CognitoServiceException(
+            'AdminRemoveUserFromGroup failed. Body: ${res.bodyString}',
+            statusCode: res.statusCode,
+          );
+        }
 
-if (res.statusCode >= 500) {
-  throw CognitoServiceException(
-    'AdminRemoveUserFromGroup temporary failure.',
-    statusCode: res.statusCode,
-  );
-}
+        if (res.statusCode >= 500) {
+          throw CognitoServiceException(
+            'AdminRemoveUserFromGroup temporary failure.',
+            statusCode: res.statusCode,
+          );
+        }
 
-throw CognitoServiceException(
-  'AdminRemoveUserFromGroup unexpected status.',
-  statusCode: res.statusCode,
-);
-
-       
+        throw CognitoServiceException(
+          'AdminRemoveUserFromGroup unexpected status.',
+          statusCode: res.statusCode,
+        );
       } catch (e) {
         lastError = e;
         if (!_isTransient(e) || attempt == maxRetries) break;

@@ -22,6 +22,9 @@ dependencies:
 dev_dependencies:
   git_hooks: any
 
+  lints: ^3.0.0 # or latest version
+
+
 # Optional Local Hooks for development.
 git_hooks:
   hooks:
