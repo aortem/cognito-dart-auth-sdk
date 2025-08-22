@@ -1,20 +1,21 @@
 // admin_list_groups_for_user_consumer.dart
-// cognito_admin_list_groups_for_user_consumer.dart
+//    cognito_admin_list_groups_for_user_consumer.dart
 //
 // Consumer-style facade for AdminListGroupsForUser operation.
 // Provides a fluent builder interface for listing groups a user belongs to
 // in a Cognito user pool using admin privileges.
 
+import 'package:cognito_dart_auth_sdk/exceptions/cognito_validate_exception.dart';
+
 import 'package:cognito_dart_auth_sdk/requests/cognito_admin_list_groups_for_user_request.dart';
 import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
-import 'package:cognito_dart_auth_sdk/exceptions/cognito_validate_exception.dart';
 
 /// Functional interface for configuring AdminListGroupsForUser requests via builder.
 ///
-/// Used with [AortemCognitoAdminListGroupsForUserConsumer.run] to dynamically
+/// Used with [   CognitoAdminListGroupsForUserConsumer.run] to dynamically
 /// build group listing requests before sending them to Cognito.
-typedef AortemCognitoAdminListGroupsForUserConsumerFn =
-    void Function(AortemCognitoAdminListGroupsForUserBuilder b);
+typedef CognitoAdminListGroupsForUserConsumerFn =
+    void Function(CognitoAdminListGroupsForUserBuilder b);
 
 /// Fluent builder for constructing AdminListGroupsForUser requests.
 ///
@@ -25,12 +26,12 @@ typedef AortemCognitoAdminListGroupsForUserConsumerFn =
 ///
 /// Example:
 /// ```dart
-/// final builder = AortemCognitoAdminListGroupsForUserBuilder()
+/// final builder =    CognitoAdminListGroupsForUserBuilder()
 ///   ..userPoolId('us-west-2_EXAMPLE')
 ///   ..username('testuser')
 ///   ..limit(10);
 /// ```
-class AortemCognitoAdminListGroupsForUserBuilder {
+class CognitoAdminListGroupsForUserBuilder {
   String? _userPoolId;
   String? _username;
   int? _limit;
@@ -42,7 +43,7 @@ class AortemCognitoAdminListGroupsForUserBuilder {
   /// - [value]: The Cognito User Pool ID (format: region_id)
   ///
   /// Returns the builder for method chaining.
-  AortemCognitoAdminListGroupsForUserBuilder userPoolId(String value) {
+  CognitoAdminListGroupsForUserBuilder userPoolId(String value) {
     _userPoolId = value.trim();
     return this;
   }
@@ -53,7 +54,7 @@ class AortemCognitoAdminListGroupsForUserBuilder {
   /// - [value]: The username to query groups for
   ///
   /// Returns the builder for method chaining.
-  AortemCognitoAdminListGroupsForUserBuilder username(String value) {
+  CognitoAdminListGroupsForUserBuilder username(String value) {
     _username = value.trim();
     return this;
   }
@@ -64,7 +65,7 @@ class AortemCognitoAdminListGroupsForUserBuilder {
   /// - [value]: The maximum number of results (AWS max is 60)
   ///
   /// Returns the builder for method chaining.
-  AortemCognitoAdminListGroupsForUserBuilder limit(int value) {
+  CognitoAdminListGroupsForUserBuilder limit(int value) {
     _limit = value;
     return this;
   }
@@ -75,7 +76,7 @@ class AortemCognitoAdminListGroupsForUserBuilder {
   /// - [value]: Opaque token from a previous response
   ///
   /// Returns the builder for method chaining.
-  AortemCognitoAdminListGroupsForUserBuilder nextToken(String value) {
+  CognitoAdminListGroupsForUserBuilder nextToken(String value) {
     _nextToken = value;
     return this;
   }
@@ -89,26 +90,26 @@ class AortemCognitoAdminListGroupsForUserBuilder {
   /// - [requestTimeout]: Timeout per request (default 20 seconds)
   ///
   /// Returns:
-  /// - Configured [AortemCognitoAdminListGroupsForUserRequest]
+  /// - Configured [   CognitoAdminListGroupsForUserRequest]
   ///
   /// Throws:
-  /// - [AortemCognitoValidationException] if required fields are missing
-  AortemCognitoAdminListGroupsForUserRequest build({
+  /// - [CognitoValidationException] if required fields are missing
+  CognitoAdminListGroupsForUserRequest build({
     required String region,
-    required AortemCognitoHttpClient httpClient,
+    required CognitoHttpClient httpClient,
     int maxRetries = 2,
     Duration requestTimeout = const Duration(seconds: 20),
   }) {
     final up = _userPoolId?.trim() ?? '';
     final un = _username?.trim() ?? '';
     if (up.isEmpty) {
-      throw AortemCognitoValidationException('userPoolId is required.');
+      throw CognitoValidationException('userPoolId is required.');
     }
     if (un.isEmpty) {
-      throw AortemCognitoValidationException('username is required.');
+      throw CognitoValidationException('username is required.');
     }
 
-    return AortemCognitoAdminListGroupsForUserRequest(
+    return CognitoAdminListGroupsForUserRequest(
       userPoolId: up,
       username: un,
       region: region,
@@ -128,7 +129,7 @@ class AortemCognitoAdminListGroupsForUserBuilder {
 ///
 /// Example Usage:
 /// ```dart
-/// final consumer = AortemCognitoAdminListGroupsForUserConsumer(
+/// final consumer =    CognitoAdminListGroupsForUserConsumer(
 ///   region: 'us-west-2',
 ///   httpClient: client,
 /// );
@@ -147,12 +148,12 @@ class AortemCognitoAdminListGroupsForUserBuilder {
 ///   print('Error listing groups: $e');
 /// }
 /// ```
-class AortemCognitoAdminListGroupsForUserConsumer {
+class CognitoAdminListGroupsForUserConsumer {
   /// The AWS region for Cognito requests
   final String region;
 
   /// The HTTP client for making requests
-  final AortemCognitoHttpClient httpClient;
+  final CognitoHttpClient httpClient;
 
   /// Maximum number of retry attempts (default: 2)
   final int maxRetries;
@@ -167,7 +168,7 @@ class AortemCognitoAdminListGroupsForUserConsumer {
   /// - [httpClient]: Required HTTP client implementation
   /// - [maxRetries]: Optional retry count (default 2)
   /// - [requestTimeout]: Optional timeout (default 20 seconds)
-  AortemCognitoAdminListGroupsForUserConsumer({
+  CognitoAdminListGroupsForUserConsumer({
     required this.region,
     required this.httpClient,
     this.maxRetries = 2,
@@ -185,15 +186,15 @@ class AortemCognitoAdminListGroupsForUserConsumer {
   /// - [fn]: Callback that defines the request using the builder
   ///
   /// Returns:
-  /// - [AortemCognitoAdminListGroupsForUserResult] containing groups and pagination token
+  /// - [   CognitoAdminListGroupsForUserResult] containing groups and pagination token
   ///
   /// Throws:
-  /// - [AortemCognitoValidationException] for invalid parameters
-  /// - [AortemCognitoServiceException] for API failures
-  Future<AortemCognitoAdminListGroupsForUserResult> run(
-    AortemCognitoAdminListGroupsForUserConsumerFn fn,
+  /// - [CognitoValidationException] for invalid parameters
+  /// - [   CognitoServiceException] for API failures
+  Future<CognitoAdminListGroupsForUserResult> run(
+    CognitoAdminListGroupsForUserConsumerFn fn,
   ) async {
-    final b = AortemCognitoAdminListGroupsForUserBuilder();
+    final b = CognitoAdminListGroupsForUserBuilder();
     fn(b);
 
     final req = b.build(
@@ -220,10 +221,10 @@ class AortemCognitoAdminListGroupsForUserConsumer {
   /// @param nextToken Optional: An opaque pagination token for fetching the next page.
   /// @param maxRetries Maximum retry attempts (default: 2).
   /// @param requestTimeout Duration before request times out (default: 20s).
-  /// @return Future resolving to [AortemCognitoAdminListGroupsForUserResult] containing group list and pagination token.
-  /// @throws AortemCognitoValidationException for invalid parameters.
-  /// @throws AortemCognitoServiceException for API failures.
-  Future<AortemCognitoAdminListGroupsForUserResult> adminListGroupsForUser({
+  /// @return Future resolving to [   CognitoAdminListGroupsForUserResult] containing group list and pagination token.
+  /// @throws    CognitoValidationException for invalid parameters.
+  /// @throws    CognitoServiceException for API failures.
+  Future<CognitoAdminListGroupsForUserResult> adminListGroupsForUser({
     required String userPoolId,
     required String username,
     int? limit,
@@ -231,7 +232,7 @@ class AortemCognitoAdminListGroupsForUserConsumer {
     int maxRetries = 2,
     Duration requestTimeout = const Duration(seconds: 20),
   }) async {
-    final req = AortemCognitoAdminListGroupsForUserRequest(
+    final req = CognitoAdminListGroupsForUserRequest(
       userPoolId: userPoolId,
       username: username,
       limit: limit,
@@ -253,9 +254,9 @@ class AortemCognitoAdminListGroupsForUserConsumer {
   /// @param consumer Builder function that configures the operation.
   /// @param maxRetries Maximum retry attempts (default: 2).
   /// @param requestTimeout Duration before request times out (default: 20s).
-  /// @return Future resolving to [AortemCognitoAdminListGroupsForUserResult] containing group list and pagination token.
-  /// @throws AortemCognitoValidationException for invalid parameters.
-  /// @throws AortemCognitoServiceException for API failures.
+  /// @return Future resolving to [   CognitoAdminListGroupsForUserResult] containing group list and pagination token.
+  /// @throws    CognitoValidationException for invalid parameters.
+  /// @throws    CognitoServiceException for API failures.
   ///
   /// Example:
   /// ```dart
@@ -266,12 +267,12 @@ class AortemCognitoAdminListGroupsForUserConsumer {
   ///      .limit(5),
   /// );
   /// ```
-  Future<AortemCognitoAdminListGroupsForUserResult> adminListGroupsForUserWith({
-    required AortemCognitoAdminListGroupsForUserConsumerFn consumer,
+  Future<CognitoAdminListGroupsForUserResult> adminListGroupsForUserWith({
+    required CognitoAdminListGroupsForUserConsumerFn consumer,
     int maxRetries = 2,
     Duration requestTimeout = const Duration(seconds: 20),
   }) async {
-    final c = AortemCognitoAdminListGroupsForUserConsumer(
+    final c = CognitoAdminListGroupsForUserConsumer(
       region: region,
       httpClient: httpClient,
       maxRetries: maxRetries,

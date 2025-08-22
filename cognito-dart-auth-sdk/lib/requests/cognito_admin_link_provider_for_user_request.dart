@@ -1,23 +1,23 @@
-// cognito_admin_link_provider_for_user_request.dart
+//    cognito_admin_link_provider_for_user_request.dart
 //
 // AdminLinkProviderForUser — Links an external identity provider (IdP) identity (SourceUser)
 // to an existing local/federated user (DestinationUser) in a Cognito user pool.
 // AWS Target: AWSCognitoIdentityProviderService.AdminLinkProviderForUser
 //
 // Depends on shared types:
-// - AortemCognitoHttpClient
-// - AortemCognitoValidationException
-// - AortemCognitoServiceException
+// -    CognitoHttpClient
+// -    CognitoValidationException
+// -    CognitoServiceException
 
-import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
-import 'package:cognito_dart_auth_sdk/exceptions/cognito_validate_exception.dart';
 import 'package:cognito_dart_auth_sdk/exceptions/cognito_service_exception.dart';
+import 'package:cognito_dart_auth_sdk/exceptions/cognito_validate_exception.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
 
 /// Represents a user identifier for provider linking operations.
 ///
 /// This model encapsulates the necessary information to identify a user
 /// either in Cognito or an external identity provider.
-class AortemCognitoProviderUserLinkingIdentifier {
+class CognitoProviderUserLinkingIdentifier {
   /// The name of the identity provider.
   ///
   /// For Cognito users, this must be "Cognito".
@@ -38,7 +38,7 @@ class AortemCognitoProviderUserLinkingIdentifier {
   final String? providerAttributeName;
 
   /// Creates a new provider user identifier.
-  const AortemCognitoProviderUserLinkingIdentifier({
+  const CognitoProviderUserLinkingIdentifier({
     required this.providerName,
     required this.providerAttributeValue,
     this.providerAttributeName,
@@ -50,28 +50,26 @@ class AortemCognitoProviderUserLinkingIdentifier {
   /// - [isSourceUser]: Whether this identifier is for the source (external) user
   ///
   /// Throws:
-  /// - [AortemCognitoValidationException] if required fields are invalid
+  /// - [CognitoValidationException] if required fields are invalid
   void validate({required bool isSourceUser}) {
     if (providerName.trim().isEmpty) {
-      throw AortemCognitoValidationException('providerName is required.');
+      throw CognitoValidationException('providerName is required.');
     }
     if (providerAttributeValue.trim().isEmpty) {
-      throw AortemCognitoValidationException(
-        'providerAttributeValue is required.',
-      );
+      throw CognitoValidationException('providerAttributeValue is required.');
     }
 
     if (isSourceUser) {
       // For social IdPs, providerAttributeName must be Cognito_Subject.
       if (providerAttributeName != null && providerAttributeName!.isEmpty) {
-        throw AortemCognitoValidationException(
+        throw CognitoValidationException(
           'providerAttributeName, if provided, must be non-empty.',
         );
       }
     } else {
       // Destination: providerAttributeName is ignored by service
       if (providerAttributeName != null && providerAttributeName!.isEmpty) {
-        throw AortemCognitoValidationException(
+        throw CognitoValidationException(
           'providerAttributeName, if provided, must be non-empty.',
         );
       }
@@ -91,9 +89,9 @@ class AortemCognitoProviderUserLinkingIdentifier {
 ///
 /// Note: The API returns an empty response on success (HTTP 200).
 /// This class exists for type safety and consistency.
-class AortemCognitoAdminLinkProviderForUserResult {
+class CognitoAdminLinkProviderForUserResult {
   /// Creates a success result instance.
-  const AortemCognitoAdminLinkProviderForUserResult();
+  const CognitoAdminLinkProviderForUserResult();
 }
 
 /// Request wrapper for AdminLinkProviderForUser API operation.
@@ -109,13 +107,13 @@ class AortemCognitoAdminLinkProviderForUserResult {
 ///
 /// Example Usage:
 /// ```dart
-/// final request = AortemCognitoAdminLinkProviderForUserRequest(
+/// final request =    CognitoAdminLinkProviderForUserRequest(
 ///   userPoolId: 'us-east-1_abc123',
-///   destinationUser: AortemCognitoProviderUserIdentifier(
+///   destinationUser:    CognitoProviderUserIdentifier(
 ///     providerName: 'Cognito',
 ///     providerAttributeValue: 'local_username',
 ///   ),
-///   sourceUser: AortemCognitoProviderUserIdentifier(
+///   sourceUser:    CognitoProviderUserIdentifier(
 ///     providerName: 'Google',
 ///     providerAttributeName: 'Cognito_Subject',
 ///     providerAttributeValue: 'google_user_id',
@@ -127,27 +125,27 @@ class AortemCognitoAdminLinkProviderForUserResult {
 /// try {
 ///   await request.execute();
 ///   print('Users linked successfully');
-/// } on AortemCognitoValidationException catch (e) {
+/// } on    CognitoValidationException catch (e) {
 ///   print('Validation error: ${e.message}');
-/// } on AortemCognitoServiceException catch (e) {
+/// } on    CognitoServiceException catch (e) {
 ///   print('Service error (${e.statusCode}): ${e.message}');
 /// }
 /// ```
-class AortemCognitoAdminLinkProviderForUserRequest {
+class CognitoAdminLinkProviderForUserRequest {
   /// The ID of the user pool containing the users
   final String userPoolId;
 
   /// The destination user (must be a Cognito user)
-  final AortemCognitoProviderUserLinkingIdentifier destinationUser;
+  final CognitoProviderUserLinkingIdentifier destinationUser;
 
   /// The source user (must be from an external identity provider)
-  final AortemCognitoProviderUserLinkingIdentifier sourceUser;
+  final CognitoProviderUserLinkingIdentifier sourceUser;
 
   /// The AWS region where the user pool is located
   final String region;
 
   /// The HTTP client for making authenticated requests
-  final AortemCognitoHttpClient httpClient;
+  final CognitoHttpClient httpClient;
 
   /// Maximum number of retry attempts for transient failures (default: 2)
   final int maxRetries;
@@ -165,7 +163,7 @@ class AortemCognitoAdminLinkProviderForUserRequest {
   /// - [httpClient]: Required HTTP client implementation
   /// - [maxRetries]: Optional retry count (default 2)
   /// - [requestTimeout]: Optional timeout per request (default 20 seconds)
-  AortemCognitoAdminLinkProviderForUserRequest({
+  CognitoAdminLinkProviderForUserRequest({
     required this.userPoolId,
     required this.destinationUser,
     required this.sourceUser,
@@ -180,11 +178,11 @@ class AortemCognitoAdminLinkProviderForUserRequest {
   /// Validates all request parameters.
   ///
   /// Throws:
-  /// - [AortemCognitoValidationException] if any parameters are invalid
+  /// - [CognitoValidationException] if any parameters are invalid
   void _validate() {
     final poolRe = RegExp(r'^[\w-]+_[0-9A-Za-z]+$');
     if (userPoolId.trim().isEmpty || !poolRe.hasMatch(userPoolId)) {
-      throw AortemCognitoValidationException(
+      throw CognitoValidationException(
         'userPoolId is required and must match [\\w-]+_[0-9a-zA-Z]+.',
       );
     }
@@ -206,12 +204,12 @@ class AortemCognitoAdminLinkProviderForUserRequest {
   /// - Error response conversion
   ///
   /// Returns:
-  /// - [AortemCognitoAdminLinkProviderForUserResult] on success
+  /// - [   CognitoAdminLinkProviderForUserResult] on success
   ///
   /// Throws:
-  /// - [AortemCognitoValidationException] for invalid parameters
-  /// - [AortemCognitoServiceException] for API failures
-  Future<AortemCognitoAdminLinkProviderForUserResult> execute() async {
+  /// - [CognitoValidationException] for invalid parameters
+  /// - [CognitoServiceException] for API failures
+  Future<CognitoAdminLinkProviderForUserResult> execute() async {
     final payload = _payload();
 
     int attempt = 0;
@@ -229,24 +227,24 @@ class AortemCognitoAdminLinkProviderForUserRequest {
         );
 
         if (res.statusCode == 200) {
-          return const AortemCognitoAdminLinkProviderForUserResult();
+          return const CognitoAdminLinkProviderForUserResult();
         }
 
         if (res.statusCode >= 400 && res.statusCode < 500) {
-          throw AortemCognitoServiceException(
+          throw CognitoServiceException(
             'AdminLinkProviderForUser failed. Body: ${res.bodyString}',
             statusCode: res.statusCode,
           );
         }
 
         if (res.statusCode >= 500) {
-          throw AortemCognitoServiceException(
+          throw CognitoServiceException(
             'AdminLinkProviderForUser temporary failure.',
             statusCode: res.statusCode,
           );
         }
 
-        throw AortemCognitoServiceException(
+        throw CognitoServiceException(
           'AdminLinkProviderForUser unexpected status.',
           statusCode: res.statusCode,
         );
@@ -260,7 +258,7 @@ class AortemCognitoAdminLinkProviderForUserRequest {
       }
     }
 
-    throw AortemCognitoServiceException(
+    throw CognitoServiceException(
       'AdminLinkProviderForUser failed after retries. Last error: $lastError',
     );
   }

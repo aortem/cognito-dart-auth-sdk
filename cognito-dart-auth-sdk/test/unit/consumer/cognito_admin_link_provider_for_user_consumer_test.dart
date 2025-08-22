@@ -1,10 +1,10 @@
 import 'package:cognito_dart_auth_sdk/consumers/cognito_admin_link_provider_for_user_consumer.dart';
-import 'package:test/test.dart';
+import 'package:ds_tools_testing/ds_tools_testing.dart';
 
 import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
 import 'package:cognito_dart_auth_sdk/exceptions/cognito_validate_exception.dart';
 
-class _FakeHttp implements AortemCognitoHttpClient {
+class _FakeHttp implements CognitoHttpClient {
   Map<String, dynamic>? lastPayload;
   String? lastTarget;
   String? lastRegion;
@@ -14,7 +14,7 @@ class _FakeHttp implements AortemCognitoHttpClient {
   String bodyString = '{}';
 
   @override
-  Future<AortemCognitoHttpResponse> send({
+  Future<CognitoHttpResponse> send({
     required String service,
     required String target,
     required String region,
@@ -27,7 +27,7 @@ class _FakeHttp implements AortemCognitoHttpClient {
     lastHeaders = headers;
     lastPayload = payload;
 
-    return AortemCognitoHttpResponse(
+    return CognitoHttpResponse(
       statusCode: statusCode,
       headers: const {},
       bodyString: bodyString,
@@ -35,7 +35,7 @@ class _FakeHttp implements AortemCognitoHttpClient {
   }
 
   @override
-  Future<AortemCognitoHttpResponse> post({
+  Future<CognitoHttpResponse> post({
     required String region,
     required String xAmzTarget,
     required Map<String, dynamic> payload,
@@ -58,7 +58,7 @@ void main() {
     test('happy path: builds and sends payload', () async {
       final http = _FakeHttp();
 
-      final consumer = AortemCognitoAdminLinkProviderForUserConsumer(
+      final consumer = CognitoAdminLinkProviderForUserConsumer(
         region: 'us-west-2',
         httpClient: http,
       );
@@ -97,7 +97,7 @@ void main() {
 
     test('missing requireds throw before HTTP', () async {
       final http = _FakeHttp();
-      final consumer = AortemCognitoAdminLinkProviderForUserConsumer(
+      final consumer = CognitoAdminLinkProviderForUserConsumer(
         region: 'us-west-2',
         httpClient: http,
       );
@@ -116,7 +116,7 @@ void main() {
               providerAttributeValue: 'id',
             ),
         ),
-        throwsA(isA<AortemCognitoValidationException>()),
+        throwsA(isA<CognitoValidationException>()),
       );
 
       // missing destination
@@ -130,7 +130,7 @@ void main() {
               providerAttributeValue: 'id',
             ),
         ),
-        throwsA(isA<AortemCognitoValidationException>()),
+        throwsA(isA<CognitoValidationException>()),
       );
 
       // missing source
@@ -143,7 +143,7 @@ void main() {
               providerAttributeValue: 'u',
             ),
         ),
-        throwsA(isA<AortemCognitoValidationException>()),
+        throwsA(isA<CognitoValidationException>()),
       );
     });
   });

@@ -1,5 +1,5 @@
 // admin_link_provider_for_user_consumer.dart
-// cognito_admin_link_provider_for_user_consumer.dart
+//    cognito_admin_link_provider_for_user_consumer.dart
 //
 // Consumer/builder-style facade for AdminLinkProviderForUser operation.
 // Provides a fluent interface for linking external identity provider (IdP) identities
@@ -11,10 +11,10 @@ import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
 
 /// Functional interface for configuring AdminLinkProviderForUser requests via builder.
 ///
-/// Used with [AortemCognitoAdminLinkProviderForUserConsumer.run] to dynamically
+/// Used with [   CognitoAdminLinkProviderForUserConsumer.run] to dynamically
 /// build identity linking requests before sending them to Cognito.
-typedef AortemCognitoAdminLinkProviderForUserConsumerFn =
-    void Function(AortemCognitoAdminLinkProviderForUserBuilder b);
+typedef CognitoAdminLinkProviderForUserConsumerFn =
+    void Function(CognitoAdminLinkProviderForUserBuilder b);
 
 /// Fluent builder for constructing AdminLinkProviderForUser requests.
 ///
@@ -25,7 +25,7 @@ typedef AortemCognitoAdminLinkProviderForUserConsumerFn =
 ///
 /// Example:
 /// ```dart
-/// final builder = AortemCognitoAdminLinkProviderForUserBuilder()
+/// final builder =    CognitoAdminLinkProviderForUserBuilder()
 ///   ..userPoolId('us-west-2_EXAMPLE')
 ///   ..destinationUser(
 ///     providerName: 'Cognito',
@@ -37,10 +37,10 @@ typedef AortemCognitoAdminLinkProviderForUserConsumerFn =
 ///     providerAttributeValue: 'google_user_id'
 ///   );
 /// ```
-class AortemCognitoAdminLinkProviderForUserBuilder {
+class CognitoAdminLinkProviderForUserBuilder {
   String? _userPoolId;
-  AortemCognitoProviderUserLinkingIdentifier? _destinationUser;
-  AortemCognitoProviderUserLinkingIdentifier? _sourceUser;
+  CognitoProviderUserLinkingIdentifier? _destinationUser;
+  CognitoProviderUserLinkingIdentifier? _sourceUser;
 
   /// Sets the User Pool ID for the linking operation.
   ///
@@ -48,7 +48,7 @@ class AortemCognitoAdminLinkProviderForUserBuilder {
   /// - [value]: The Cognito User Pool ID (format: region_id)
   ///
   /// Returns the builder for method chaining.
-  AortemCognitoAdminLinkProviderForUserBuilder userPoolId(String value) {
+  CognitoAdminLinkProviderForUserBuilder userPoolId(String value) {
     _userPoolId = value.trim();
     return this;
   }
@@ -61,12 +61,12 @@ class AortemCognitoAdminLinkProviderForUserBuilder {
   /// - [providerAttributeName]: Optional (ignored by service for destination users)
   ///
   /// Returns the builder for method chaining.
-  AortemCognitoAdminLinkProviderForUserBuilder destinationUser({
+  CognitoAdminLinkProviderForUserBuilder destinationUser({
     required String providerName,
     required String providerAttributeValue,
     String? providerAttributeName,
   }) {
-    _destinationUser = AortemCognitoProviderUserLinkingIdentifier(
+    _destinationUser = CognitoProviderUserLinkingIdentifier(
       providerName: providerName,
       providerAttributeValue: providerAttributeValue,
       providerAttributeName: providerAttributeName,
@@ -82,12 +82,12 @@ class AortemCognitoAdminLinkProviderForUserBuilder {
   /// - [providerAttributeName]: Typically "Cognito_Subject" for social IdPs
   ///
   /// Returns the builder for method chaining.
-  AortemCognitoAdminLinkProviderForUserBuilder sourceUser({
+  CognitoAdminLinkProviderForUserBuilder sourceUser({
     required String providerName,
     required String providerAttributeValue,
     String? providerAttributeName,
   }) {
-    _sourceUser = AortemCognitoProviderUserLinkingIdentifier(
+    _sourceUser = CognitoProviderUserLinkingIdentifier(
       providerName: providerName,
       providerAttributeValue: providerAttributeValue,
       providerAttributeName: providerAttributeName,
@@ -104,28 +104,28 @@ class AortemCognitoAdminLinkProviderForUserBuilder {
   /// - [requestTimeout]: Timeout per request (default 20 seconds)
   ///
   /// Returns:
-  /// - Configured [AortemCognitoAdminLinkProviderForUserRequest]
+  /// - Configured [   CognitoAdminLinkProviderForUserRequest]
   ///
   /// Throws:
-  /// - [AortemCognitoValidationException] if required fields are missing
-  AortemCognitoAdminLinkProviderForUserRequest build({
+  /// - [CognitoValidationException] if required fields are missing
+  CognitoAdminLinkProviderForUserRequest build({
     required String region,
-    required AortemCognitoHttpClient httpClient,
+    required CognitoHttpClient httpClient,
     int maxRetries = 2,
     Duration requestTimeout = const Duration(seconds: 20),
   }) {
     final up = _userPoolId?.trim() ?? '';
     if (up.isEmpty) {
-      throw AortemCognitoValidationException('userPoolId is required.');
+      throw CognitoValidationException('userPoolId is required.');
     }
     if (_destinationUser == null) {
-      throw AortemCognitoValidationException('destinationUser is required.');
+      throw CognitoValidationException('destinationUser is required.');
     }
     if (_sourceUser == null) {
-      throw AortemCognitoValidationException('sourceUser is required.');
+      throw CognitoValidationException('sourceUser is required.');
     }
 
-    return AortemCognitoAdminLinkProviderForUserRequest(
+    return CognitoAdminLinkProviderForUserRequest(
       userPoolId: up,
       destinationUser: _destinationUser!,
       sourceUser: _sourceUser!,
@@ -141,12 +141,12 @@ class AortemCognitoAdminLinkProviderForUserBuilder {
 ///
 /// Provides a higher-level interface for building and executing identity
 /// linking requests using the builder pattern.
-class AortemCognitoAdminLinkProviderForUserConsumer {
+class CognitoAdminLinkProviderForUserConsumer {
   /// The AWS region for Cognito requests
   final String region;
 
   /// The HTTP client for making requests
-  final AortemCognitoHttpClient httpClient;
+  final CognitoHttpClient httpClient;
 
   /// Maximum number of retry attempts (default: 2)
   final int maxRetries;
@@ -161,7 +161,7 @@ class AortemCognitoAdminLinkProviderForUserConsumer {
   /// - [httpClient]: Required HTTP client implementation
   /// - [maxRetries]: Optional retry count (default 2)
   /// - [requestTimeout]: Optional timeout (default 20 seconds)
-  AortemCognitoAdminLinkProviderForUserConsumer({
+  CognitoAdminLinkProviderForUserConsumer({
     required this.region,
     required this.httpClient,
     this.maxRetries = 2,
@@ -179,15 +179,15 @@ class AortemCognitoAdminLinkProviderForUserConsumer {
   /// - [fn]: Callback that defines the request using the builder
   ///
   /// Returns:
-  /// - [AortemCognitoAdminLinkProviderForUserResult] on success
+  /// - [   CognitoAdminLinkProviderForUserResult] on success
   ///
   /// Throws:
-  /// - [AortemCognitoValidationException] for invalid parameters
-  /// - [AortemCognitoServiceException] for API failures
-  Future<AortemCognitoAdminLinkProviderForUserResult> run(
-    AortemCognitoAdminLinkProviderForUserConsumerFn fn,
+  /// - [CognitoValidationException] for invalid parameters
+  /// - [   CognitoServiceException] for API failures
+  Future<CognitoAdminLinkProviderForUserResult> run(
+    CognitoAdminLinkProviderForUserConsumerFn fn,
   ) async {
-    final b = AortemCognitoAdminLinkProviderForUserBuilder();
+    final b = CognitoAdminLinkProviderForUserBuilder();
     fn(b);
 
     final req = b.build(

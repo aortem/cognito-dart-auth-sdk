@@ -1,12 +1,12 @@
 import 'dart:convert';
-import 'package:test/test.dart';
 
 import 'package:cognito_dart_auth_sdk/requests/cognito_admin_list_groups_for_user_request.dart';
 import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
 import 'package:cognito_dart_auth_sdk/exceptions/cognito_validate_exception.dart';
 import 'package:cognito_dart_auth_sdk/exceptions/cognito_service_exception.dart';
+import 'package:ds_tools_testing/ds_tools_testing.dart';
 
-class _FakeHttp implements AortemCognitoHttpClient {
+class _FakeHttp implements CognitoHttpClient {
   Map<String, dynamic>? lastPayload;
   String? lastTarget;
   String? lastRegion;
@@ -17,7 +17,7 @@ class _FakeHttp implements AortemCognitoHttpClient {
   String bodyString = '{}';
 
   @override
-  Future<AortemCognitoHttpResponse> send({
+  Future<CognitoHttpResponse> send({
     required String service,
     required String target,
     required String region,
@@ -30,7 +30,7 @@ class _FakeHttp implements AortemCognitoHttpClient {
     lastHeaders = headers;
     lastPayload = payload;
 
-    return AortemCognitoHttpResponse(
+    return CognitoHttpResponse(
       statusCode: statusCode,
       headers: this.headers,
       bodyString: bodyString,
@@ -38,7 +38,7 @@ class _FakeHttp implements AortemCognitoHttpClient {
   }
 
   @override
-  Future<AortemCognitoHttpResponse> post({
+  Future<CognitoHttpResponse> post({
     required String region,
     required String xAmzTarget,
     required Map<String, dynamic> payload,
@@ -72,7 +72,7 @@ void main() {
           'NextToken': 'NEXT123',
         });
 
-      final req = AortemCognitoAdminListGroupsForUserRequest(
+      final req = CognitoAdminListGroupsForUserRequest(
         userPoolId: 'us-west-2_EXAMPLE',
         username: 'testuser',
         region: 'us-west-2',
@@ -104,37 +104,37 @@ void main() {
 
       // bad pool id
       expect(
-        () => AortemCognitoAdminListGroupsForUserRequest(
+        () => CognitoAdminListGroupsForUserRequest(
           userPoolId: 'bad',
           username: 'u',
           region: 'r',
           httpClient: http,
         ),
-        throwsA(isA<AortemCognitoValidationException>()),
+        throwsA(isA<CognitoValidationException>()),
       );
 
       // limit > 60
       expect(
-        () => AortemCognitoAdminListGroupsForUserRequest(
+        () => CognitoAdminListGroupsForUserRequest(
           userPoolId: 'us-west-2_EXAMPLE',
           username: 'u',
           region: 'us-west-2',
           httpClient: http,
           limit: 61,
         ),
-        throwsA(isA<AortemCognitoValidationException>()),
+        throwsA(isA<CognitoValidationException>()),
       );
 
       // whitespace token
       expect(
-        () => AortemCognitoAdminListGroupsForUserRequest(
+        () => CognitoAdminListGroupsForUserRequest(
           userPoolId: 'us-west-2_EXAMPLE',
           username: 'u',
           region: 'us-west-2',
           httpClient: http,
           nextToken: '   ',
         ),
-        throwsA(isA<AortemCognitoValidationException>()),
+        throwsA(isA<CognitoValidationException>()),
       );
     });
 
@@ -143,7 +143,7 @@ void main() {
         ..statusCode = 400
         ..bodyString = '{"message":"InvalidParameterException"}';
 
-      final req = AortemCognitoAdminListGroupsForUserRequest(
+      final req = CognitoAdminListGroupsForUserRequest(
         userPoolId: 'us-west-2_EXAMPLE',
         username: 'testuser',
         region: 'us-west-2',
@@ -151,10 +151,7 @@ void main() {
         maxRetries: 0,
       );
 
-      expect(
-        () => req.execute(),
-        throwsA(isA<AortemCognitoServiceException>()),
-      );
+      expect(() => req.execute(), throwsA(isA<CognitoServiceException>()));
     });
   });
 }

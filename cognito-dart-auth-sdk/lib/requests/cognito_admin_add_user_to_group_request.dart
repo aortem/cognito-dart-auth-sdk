@@ -4,22 +4,22 @@
 // AWS Target: AWSCognitoIdentityProviderService.AdminAddUserToGroup
 //
 // Depends on shared types:
-// - AortemCognitoHttpClient
-// - AortemCognitoHttpResponse
-// - AortemCognitoValidationException
-// - AortemCognitoServiceException
+// -  CognitoHttpClient
+// -  CognitoHttpResponse
+// -  CognitoValidationException
+// -  CognitoServiceException
 
 import 'package:cognito_dart_auth_sdk/exceptions/cognito_service_exception.dart';
-import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
 import 'package:cognito_dart_auth_sdk/exceptions/cognito_validate_exception.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
 
 /// Represents a successful response from the AdminAddUserToGroup API.
 ///
 /// Note: The AWS Cognito API returns an empty response on success (HTTP 200 with empty body).
 /// This class exists for type safety and consistency in the SDK.
-class AortemCognitoAdminAddUserToGroupResult {
+class CognitoAdminAddUserToGroupResult {
   /// Creates a success result instance.
-  const AortemCognitoAdminAddUserToGroupResult();
+  const CognitoAdminAddUserToGroupResult();
 }
 
 /// A request to add an existing user to a Cognito User Pool group using admin privileges.
@@ -32,7 +32,7 @@ class AortemCognitoAdminAddUserToGroupResult {
 ///
 /// Example Usage:
 /// ```dart
-/// final request = AortemCognitoAdminAddUserToGroupRequest(
+/// final request =  CognitoAdminAddUserToGroupRequest(
 ///   userPoolId: 'us-east-1_abc123',
 ///   username: 'testuser',
 ///   groupName: 'Admins',
@@ -43,13 +43,13 @@ class AortemCognitoAdminAddUserToGroupResult {
 /// try {
 ///   await request.execute();
 ///   print('User added to group successfully');
-/// } on AortemCognitoValidationException catch (e) {
+/// } on  CognitoValidationException catch (e) {
 ///   print('Validation error: ${e.message}');
-/// } on AortemCognitoServiceException catch (e) {
+/// } on  CognitoServiceException catch (e) {
 ///   print('Service error (${e.statusCode}): ${e.message}');
 /// }
 /// ```
-class AortemCognitoAdminAddUserToGroupRequest {
+class CognitoAdminAddUserToGroupRequest {
   /// The ID of the User Pool containing the user and group
   final String userPoolId;
 
@@ -63,7 +63,7 @@ class AortemCognitoAdminAddUserToGroupRequest {
   final String region;
 
   /// The HTTP client for making authenticated requests
-  final AortemCognitoHttpClient httpClient;
+  final CognitoHttpClient httpClient;
 
   /// Maximum number of retry attempts for transient errors (default: 2)
   ///
@@ -83,7 +83,7 @@ class AortemCognitoAdminAddUserToGroupRequest {
   /// - [httpClient]: Required HTTP client implementation
   /// - [maxRetries]: Optional retry count (default 2)
   /// - [requestTimeout]: Optional timeout per request (default 20 seconds)
-  AortemCognitoAdminAddUserToGroupRequest({
+  CognitoAdminAddUserToGroupRequest({
     required this.userPoolId,
     required this.username,
     required this.groupName,
@@ -97,30 +97,30 @@ class AortemCognitoAdminAddUserToGroupRequest {
 
   /// Validates all request parameters before execution
   ///
-  /// Throws [AortemCognitoValidationException] if:
+  /// Throws [CognitoValidationException] if:
   /// - userPoolId is empty or invalid format
   /// - username is empty
   /// - groupName is empty or exceeds 128 characters
   void _validate() {
     if (userPoolId.trim().isEmpty) {
-      throw AortemCognitoValidationException('userPoolId is required.');
+      throw CognitoValidationException('userPoolId is required.');
     }
     // Cognito pool id pattern: [\w-]+_[0-9a-zA-Z]+
     final poolRe = RegExp(r'^[\w-]+_[0-9A-Za-z]+$');
     if (!poolRe.hasMatch(userPoolId)) {
-      throw AortemCognitoValidationException(
+      throw CognitoValidationException(
         'userPoolId is invalid. Expected pattern: [\\w-]+_[0-9a-zA-Z]+',
       );
     }
 
     if (username.trim().isEmpty) {
-      throw AortemCognitoValidationException('username is required.');
+      throw CognitoValidationException('username is required.');
     }
     if (groupName.trim().isEmpty) {
-      throw AortemCognitoValidationException('groupName is required.');
+      throw CognitoValidationException('groupName is required.');
     }
     if (groupName.length > 128) {
-      throw AortemCognitoValidationException('groupName must be <= 128 chars.');
+      throw CognitoValidationException('groupName must be <= 128 chars.');
     }
   }
 
@@ -139,12 +139,12 @@ class AortemCognitoAdminAddUserToGroupRequest {
   /// - Conversion of various error responses to appropriate exceptions
   ///
   /// Returns:
-  /// - [AortemCognitoAdminAddUserToGroupResult] on success
+  /// - [CognitoAdminAddUserToGroupResult] on success
   ///
   /// Throws:
-  /// - [AortemCognitoValidationException] for invalid parameters
-  /// - [AortemCognitoServiceException] for API failures
-  Future<AortemCognitoAdminAddUserToGroupResult> execute() async {
+  /// - [CognitoValidationException] for invalid parameters
+  /// - [CognitoServiceException] for API failures
+  Future<CognitoAdminAddUserToGroupResult> execute() async {
     final payload = _payload();
 
     int attempt = 0;
@@ -163,12 +163,12 @@ class AortemCognitoAdminAddUserToGroupRequest {
 
         // Success per docs: HTTP 200 with empty body {}
         if (res.statusCode == 200) {
-          return const AortemCognitoAdminAddUserToGroupResult();
+          return const CognitoAdminAddUserToGroupResult();
         }
 
         // 4xx -> non-retryable service error
         if (res.statusCode >= 400 && res.statusCode < 500) {
-          throw AortemCognitoServiceException(
+          throw CognitoServiceException(
             'AdminAddUserToGroup failed. Body: ${res.bodyString}',
             statusCode: res.statusCode,
           );
@@ -176,14 +176,14 @@ class AortemCognitoAdminAddUserToGroupRequest {
 
         // 5xx -> transient
         if (res.statusCode >= 500) {
-          throw AortemCognitoServiceException(
+          throw CognitoServiceException(
             'AdminAddUserToGroup temporary failure.',
             statusCode: res.statusCode,
           );
         }
 
         // Anything else unexpected
-        throw AortemCognitoServiceException(
+        throw CognitoServiceException(
           'AdminAddUserToGroup unexpected status.',
           statusCode: res.statusCode,
         );
@@ -201,7 +201,7 @@ class AortemCognitoAdminAddUserToGroupRequest {
       }
     }
 
-    throw AortemCognitoServiceException(
+    throw CognitoServiceException(
       'AdminAddUserToGroup failed after retries. Last error: $lastError',
     );
   }

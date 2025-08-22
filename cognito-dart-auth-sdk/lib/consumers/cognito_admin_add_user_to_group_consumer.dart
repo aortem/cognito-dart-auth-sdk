@@ -1,4 +1,4 @@
-// cognito_admin_add_user_to_group_consumer.dart
+//  cognito_admin_add_user_to_group_consumer.dart
 //
 // Consumer/builder-style facade for AdminAddUserToGroup.
 // Lets callers define/normalize inputs at runtime, then executes Ticket #3 request.
@@ -11,7 +11,7 @@ import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
 /// You can enrich here later (e.g., alias normalization, username canonicalization).
 /// Consumer/builder-style facade for AdminAddUserToGroup.
 /// Provides a fluent interface for adding users to Cognito groups with runtime input normalization.
-class AortemCognitoAdminAddUserToGroupBuilder {
+class CognitoAdminAddUserToGroupBuilder {
   /// Stores the Cognito User Pool ID
   /// Format should be: [\\w-]+_[0-9a-zA-Z]+
   String? _userPoolId;
@@ -27,8 +27,8 @@ class AortemCognitoAdminAddUserToGroupBuilder {
   /// Sets the User Pool ID with validation
   /// @param value The Cognito User Pool ID to set
   /// @return The builder instance for method chaining
-  /// @throws AortemCognitoValidationException if value is empty after trimming
-  AortemCognitoAdminAddUserToGroupBuilder userPoolId(String value) {
+  /// @throws  CognitoValidationException if value is empty after trimming
+  CognitoAdminAddUserToGroupBuilder userPoolId(String value) {
     _userPoolId = value.trim();
     return this;
   }
@@ -36,8 +36,8 @@ class AortemCognitoAdminAddUserToGroupBuilder {
   /// Sets the username with normalization
   /// @param value The username to set (can be alias or subject)
   /// @return The builder instance for method chaining
-  /// @throws AortemCognitoValidationException if value is empty after normalization
-  AortemCognitoAdminAddUserToGroupBuilder username(String value) {
+  /// @throws  CognitoValidationException if value is empty after normalization
+  CognitoAdminAddUserToGroupBuilder username(String value) {
     _username = _normalizeUsername(value);
     return this;
   }
@@ -45,8 +45,8 @@ class AortemCognitoAdminAddUserToGroupBuilder {
   /// Sets the group name with normalization
   /// @param value The group name to set
   /// @return The builder instance for method chaining
-  /// @throws AortemCognitoValidationException if value is empty after normalization
-  AortemCognitoAdminAddUserToGroupBuilder groupName(String value) {
+  /// @throws  CognitoValidationException if value is empty after normalization
+  CognitoAdminAddUserToGroupBuilder groupName(String value) {
     _groupName = _normalizeGroup(value);
     return this;
   }
@@ -56,11 +56,11 @@ class AortemCognitoAdminAddUserToGroupBuilder {
   /// @param httpClient Configured HTTP client for AWS requests
   /// @param maxRetries Maximum retry attempts for failed requests (default: 2)
   /// @param requestTimeout Timeout duration for the request (default: 20 seconds)
-  /// @return Configured AortemCognitoAdminAddUserToGroupRequest instance
-  /// @throws AortemCognitoValidationException if any required field is missing
-  AortemCognitoAdminAddUserToGroupRequest build({
+  /// @return Configured  CognitoAdminAddUserToGroupRequest instance
+  /// @throws  CognitoValidationException if any required field is missing
+  CognitoAdminAddUserToGroupRequest build({
     required String region,
-    required AortemCognitoHttpClient httpClient,
+    required CognitoHttpClient httpClient,
     int maxRetries = 2,
     Duration requestTimeout = const Duration(seconds: 20),
   }) {
@@ -69,16 +69,16 @@ class AortemCognitoAdminAddUserToGroupBuilder {
     final gn = _groupName?.trim() ?? '';
 
     if (up.isEmpty) {
-      throw AortemCognitoValidationException('userPoolId is required.');
+      throw CognitoValidationException('userPoolId is required.');
     }
     if (un.isEmpty) {
-      throw AortemCognitoValidationException('username is required.');
+      throw CognitoValidationException('username is required.');
     }
     if (gn.isEmpty) {
-      throw AortemCognitoValidationException('groupName is required.');
+      throw CognitoValidationException('groupName is required.');
     }
 
-    return AortemCognitoAdminAddUserToGroupRequest(
+    return CognitoAdminAddUserToGroupRequest(
       userPoolId: up,
       username: un,
       groupName: gn,
@@ -105,12 +105,12 @@ class AortemCognitoAdminAddUserToGroupBuilder {
 
 /// High-level consumer facade for adding users to Cognito groups.
 /// Provides a one-line execution pattern using builder configuration.
-class AortemCognitoAdminAddUserToGroupConsumer {
+class CognitoAdminAddUserToGroupConsumer {
   /// AWS region for Cognito endpoint (e.g., 'us-east-1')
   final String region;
 
   /// Configured HTTP client for AWS requests
-  final AortemCognitoHttpClient httpClient;
+  final CognitoHttpClient httpClient;
 
   /// Maximum retry attempts for failed requests (default: 2)
   final int maxRetries;
@@ -123,7 +123,7 @@ class AortemCognitoAdminAddUserToGroupConsumer {
   /// @param httpClient Configured HTTP client
   /// @param maxRetries Maximum retry attempts (default: 2)
   /// @param requestTimeout Request timeout duration (default: 20 seconds)
-  AortemCognitoAdminAddUserToGroupConsumer({
+  CognitoAdminAddUserToGroupConsumer({
     required this.region,
     required this.httpClient,
     this.maxRetries = 2,
@@ -133,12 +133,12 @@ class AortemCognitoAdminAddUserToGroupConsumer {
   /// Executes the group addition flow
   /// @param consumer Builder configuration callback
   /// @return Future resolving to the operation result
-  /// @throws AortemCognitoValidationException for invalid inputs
-  /// @throws AortemCognitoServiceException for AWS service errors
-  Future<AortemCognitoAdminAddUserToGroupResult> run(
-    void Function(AortemCognitoAdminAddUserToGroupBuilder b) consumer,
+  /// @throws  CognitoValidationException for invalid inputs
+  /// @throws  CognitoServiceException for AWS service errors
+  Future<CognitoAdminAddUserToGroupResult> run(
+    void Function(CognitoAdminAddUserToGroupBuilder b) consumer,
   ) async {
-    final b = AortemCognitoAdminAddUserToGroupBuilder();
+    final b = CognitoAdminAddUserToGroupBuilder();
     consumer(b);
 
     final req = b.build(

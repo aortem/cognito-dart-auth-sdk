@@ -1,12 +1,12 @@
 import 'dart:convert';
 import 'package:ds_standard_features/ds_standard_features.dart' as http;
 
-class AortemCognitoSignUpConsumer {
+class CognitoSignUpConsumer {
   final String userPoolId;
   final String clientId;
   final String region;
 
-  AortemCognitoSignUpConsumer({
+  CognitoSignUpConsumer({
     required this.userPoolId,
     required this.clientId,
     required this.region,

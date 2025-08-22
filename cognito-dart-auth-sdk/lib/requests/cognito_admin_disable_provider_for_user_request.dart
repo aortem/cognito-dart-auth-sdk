@@ -5,26 +5,26 @@
 ///
 /// AWS API Reference:
 /// https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminDisableProviderForUser.html
-library cognito_admin_disable_provider_for_user_request;
+library _cognito_admin_disable_provider_for_user_request;
 
-import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
-import 'package:cognito_dart_auth_sdk/exceptions/cognito_validate_exception.dart';
 import 'package:cognito_dart_auth_sdk/exceptions/cognito_service_exception.dart';
+import 'package:cognito_dart_auth_sdk/exceptions/cognito_validate_exception.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
 
 /// Result container for successful AdminDisableProviderForUser operations.
 ///
 /// The AWS API returns an empty response on success, so this serves
 /// as a type-safe marker for completion.
-class AortemCognitoAdminDisableProviderForUserResult {
+class CognitoAdminDisableProviderForUserResult {
   /// Creates a new successful result instance
-  const AortemCognitoAdminDisableProviderForUserResult();
+  const CognitoAdminDisableProviderForUserResult();
 }
 
 /// Identifies a user with a specific identity provider.
 ///
 /// This contains the necessary information to locate a user's
 /// identity provider linkage in Cognito.
-class AortemCognitoProviderUserIdentifier {
+class CognitoProviderUserIdentifier {
   /// The name of the identity provider as configured in Cognito
   /// (e.g., 'Google', 'Facebook', 'Cognito', 'MySamlIdP')
   final String providerName;
@@ -37,7 +37,7 @@ class AortemCognitoProviderUserIdentifier {
   final String providerAttributeValue;
 
   /// Creates a new provider user identifier
-  const AortemCognitoProviderUserIdentifier({
+  const CognitoProviderUserIdentifier({
     required this.providerName,
     required this.providerAttributeName,
     required this.providerAttributeValue,
@@ -45,20 +45,16 @@ class AortemCognitoProviderUserIdentifier {
 
   /// Validates the identifier fields
   ///
-  /// @throws AortemCognitoValidationException if any fields are invalid
+  /// @throws    CognitoValidationException if any fields are invalid
   void validate() {
     if (providerName.trim().isEmpty) {
-      throw AortemCognitoValidationException('providerName is required.');
+      throw CognitoValidationException('providerName is required.');
     }
     if (providerAttributeName.trim().isEmpty) {
-      throw AortemCognitoValidationException(
-        'providerAttributeName is required.',
-      );
+      throw CognitoValidationException('providerAttributeName is required.');
     }
     if (providerAttributeValue.trim().isEmpty) {
-      throw AortemCognitoValidationException(
-        'providerAttributeValue is required.',
-      );
+      throw CognitoValidationException('providerAttributeValue is required.');
     }
   }
 
@@ -74,18 +70,18 @@ class AortemCognitoProviderUserIdentifier {
 ///
 /// This prevents a user from signing in with a specific identity provider
 /// while allowing other authentication methods to remain active.
-class AortemCognitoAdminDisableProviderForUserRequest {
+class CognitoAdminDisableProviderForUserRequest {
   /// The user pool ID where the user is registered
   final String userPoolId;
 
   /// The provider user identifier to disable
-  final AortemCognitoProviderUserIdentifier user;
+  final CognitoProviderUserIdentifier user;
 
   /// The AWS region for the user pool
   final String region;
 
   /// Configured HTTP client for AWS requests
-  final AortemCognitoHttpClient httpClient;
+  final CognitoHttpClient httpClient;
 
   /// Maximum retry attempts for failed requests
   final int maxRetries;
@@ -101,7 +97,7 @@ class AortemCognitoAdminDisableProviderForUserRequest {
   /// @param httpClient Configured HTTP client
   /// @param maxRetries Maximum retry attempts (default: 2)
   /// @param requestTimeout Request timeout duration (default: 20s)
-  AortemCognitoAdminDisableProviderForUserRequest({
+  CognitoAdminDisableProviderForUserRequest({
     required this.userPoolId,
     required this.user,
     required this.region,
@@ -114,12 +110,12 @@ class AortemCognitoAdminDisableProviderForUserRequest {
 
   /// Validates all request parameters
   ///
-  /// @throws AortemCognitoValidationException if any parameters are invalid
+  /// @throws    CognitoValidationException if any parameters are invalid
   void _validate() {
     // Pattern: [\w-]+_[0-9a-zA-Z]+
     final poolRe = RegExp(r'^[\w-]+_[0-9A-Za-z]+$');
     if (userPoolId.trim().isEmpty || !poolRe.hasMatch(userPoolId)) {
-      throw AortemCognitoValidationException(
+      throw CognitoValidationException(
         'userPoolId is required and must match [\\w-]+_[0-9a-zA-Z]+.',
       );
     }
@@ -135,9 +131,9 @@ class AortemCognitoAdminDisableProviderForUserRequest {
   /// Executes the AdminDisableProviderForUser request
   ///
   /// @return Future resolving to AdminDisableProviderForUserResult on success
-  /// @throws AortemCognitoValidationException for invalid parameters
-  /// @throws AortemCognitoServiceException for API failures
-  Future<AortemCognitoAdminDisableProviderForUserResult> execute() async {
+  /// @throws    CognitoValidationException for invalid parameters
+  /// @throws    CognitoServiceException for API failures
+  Future<CognitoAdminDisableProviderForUserResult> execute() async {
     final payload = _payload();
 
     int attempt = 0;
@@ -156,24 +152,24 @@ class AortemCognitoAdminDisableProviderForUserRequest {
         );
 
         if (res.statusCode == 200) {
-          return const AortemCognitoAdminDisableProviderForUserResult();
+          return const CognitoAdminDisableProviderForUserResult();
         }
 
         if (res.statusCode >= 400 && res.statusCode < 500) {
-          throw AortemCognitoServiceException(
+          throw CognitoServiceException(
             'AdminDisableProviderForUser failed. Body: ${res.bodyString}',
             statusCode: res.statusCode,
           );
         }
 
         if (res.statusCode >= 500) {
-          throw AortemCognitoServiceException(
+          throw CognitoServiceException(
             'AdminDisableProviderForUser temporary failure.',
             statusCode: res.statusCode,
           );
         }
 
-        throw AortemCognitoServiceException(
+        throw CognitoServiceException(
           'AdminDisableProviderForUser unexpected status.',
           statusCode: res.statusCode,
         );
@@ -187,7 +183,7 @@ class AortemCognitoAdminDisableProviderForUserRequest {
       }
     }
 
-    throw AortemCognitoServiceException(
+    throw CognitoServiceException(
       'AdminDisableProviderForUser failed after retries. Last error: $lastError',
     );
   }

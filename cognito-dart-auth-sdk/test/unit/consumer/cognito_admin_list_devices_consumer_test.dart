@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'package:cognito_dart_auth_sdk/consumers/cognito_admin_list_devices_consumer.dart';
-import 'package:test/test.dart';
+import 'package:ds_tools_testing/ds_tools_testing.dart';
 
 import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
 import 'package:cognito_dart_auth_sdk/exceptions/cognito_validate_exception.dart';
 
-class _FakeHttp implements AortemCognitoHttpClient {
+class _FakeHttp implements CognitoHttpClient {
   Map<String, dynamic>? lastPayload;
   String? lastTarget;
   String? lastRegion;
@@ -16,7 +16,7 @@ class _FakeHttp implements AortemCognitoHttpClient {
   String bodyString = jsonEncode({'Devices': []});
 
   @override
-  Future<AortemCognitoHttpResponse> send({
+  Future<CognitoHttpResponse> send({
     required String service,
     required String target,
     required String region,
@@ -29,7 +29,7 @@ class _FakeHttp implements AortemCognitoHttpClient {
     lastHeaders = headers;
     lastPayload = payload;
 
-    return AortemCognitoHttpResponse(
+    return CognitoHttpResponse(
       statusCode: statusCode,
       headers: this.headers,
       bodyString: bodyString,
@@ -37,7 +37,7 @@ class _FakeHttp implements AortemCognitoHttpClient {
   }
 
   @override
-  Future<AortemCognitoHttpResponse> post({
+  Future<CognitoHttpResponse> post({
     required String region,
     required String xAmzTarget,
     required Map<String, dynamic> payload,
@@ -59,7 +59,7 @@ void main() {
   group('AdminListDevicesConsumer (Ticket #30)', () {
     test('happy path: builds and sends payload', () async {
       final http = _FakeHttp();
-      final consumer = AortemCognitoAdminListDevicesConsumer(
+      final consumer = CognitoAdminListDevicesConsumer(
         region: 'us-west-2',
         httpClient: http,
       );
@@ -87,7 +87,7 @@ void main() {
 
     test('missing requireds throw before HTTP', () async {
       final http = _FakeHttp();
-      final consumer = AortemCognitoAdminListDevicesConsumer(
+      final consumer = CognitoAdminListDevicesConsumer(
         region: 'us-west-2',
         httpClient: http,
       );
@@ -95,13 +95,13 @@ void main() {
       // missing pool id
       expect(
         () => consumer.run((b) => b..username('u')),
-        throwsA(isA<AortemCognitoValidationException>()),
+        throwsA(isA<CognitoValidationException>()),
       );
 
       // missing username
       expect(
         () => consumer.run((b) => b..userPoolId('us-west-2_EXAMPLE')),
-        throwsA(isA<AortemCognitoValidationException>()),
+        throwsA(isA<CognitoValidationException>()),
       );
     });
   });

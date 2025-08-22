@@ -4,11 +4,11 @@ import 'package:test/test.dart';
 import 'package:cognito_dart_auth_sdk/requests/cognito_admin_list_user_auth_events_request.dart';
 import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
 
-class _FakeHttp implements AortemCognitoHttpClient {
+class _FakeHttp implements CognitoHttpClient {
   int calls = 0;
 
   @override
-  Future<AortemCognitoHttpResponse> send({
+  Future<CognitoHttpResponse> send({
     required String service,
     required String target,
     required String region,
@@ -19,7 +19,7 @@ class _FakeHttp implements AortemCognitoHttpClient {
     calls++;
     if (calls == 1) {
       // Page 1 with NextToken
-      return AortemCognitoHttpResponse(
+      return CognitoHttpResponse(
         statusCode: 200,
         headers: const {},
         bodyString: jsonEncode({
@@ -31,7 +31,7 @@ class _FakeHttp implements AortemCognitoHttpClient {
       );
     }
     // Page 2 no NextToken
-    return AortemCognitoHttpResponse(
+    return CognitoHttpResponse(
       statusCode: 200,
       headers: const {},
       bodyString: jsonEncode({
@@ -43,7 +43,7 @@ class _FakeHttp implements AortemCognitoHttpClient {
   }
 
   @override
-  Future<AortemCognitoHttpResponse> post({
+  Future<CognitoHttpResponse> post({
     required String region,
     required String xAmzTarget,
     required Map<String, dynamic> payload,
@@ -64,7 +64,7 @@ class _FakeHttp implements AortemCognitoHttpClient {
 void main() {
   test('listAll aggregates events across pages', () async {
     final http = _FakeHttp();
-    final req = AortemCognitoAdminListUserAuthEventsRequest(
+    final req = CognitoAdminListUserAuthEventsRequest(
       userPoolId: 'us-west-2_EXAMPLE',
       username: 'testuser',
       region: 'us-west-2',
@@ -81,7 +81,7 @@ void main() {
 
   test('paginate yields two pages', () async {
     final http = _FakeHttp();
-    final req = AortemCognitoAdminListUserAuthEventsRequest(
+    final req = CognitoAdminListUserAuthEventsRequest(
       userPoolId: 'us-west-2_EXAMPLE',
       username: 'testuser',
       region: 'us-west-2',
@@ -89,7 +89,7 @@ void main() {
       maxResults: 1,
     );
 
-    final pages = <AortemCognitoAdminListUserAuthEventsPage>[];
+    final pages = <CognitoAdminListUserAuthEventsPage>[];
     await for (final p in req.paginate()) {
       pages.add(p);
     }

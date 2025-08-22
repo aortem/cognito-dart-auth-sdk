@@ -1,5 +1,5 @@
 // admin_initiate_auth_consumer.dart
-// cognito_admin_initiate_auth_consumer.dart
+//    cognito_admin_initiate_auth_consumer.dart
 //
 // Consumer/builder-style facade for AdminInitiateAuth operation.
 // Provides a fluent interface for initiating admin authentication flows
@@ -11,10 +11,10 @@ import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
 
 /// Functional interface for configuring AdminInitiateAuth requests via builder.
 ///
-/// Used with [AortemCognitoAdminInitiateAuthConsumer.run] to dynamically
+/// Used with [   CognitoAdminInitiateAuthConsumer.run] to dynamically
 /// build authentication requests before sending them to Cognito.
-typedef AortemCognitoAdminInitiateAuthConsumerFn =
-    void Function(AortemCognitoAdminInitiateAuthBuilder b);
+typedef CognitoAdminInitiateAuthConsumerFn =
+    void Function(CognitoAdminInitiateAuthBuilder b);
 
 /// Fluent builder for constructing AdminInitiateAuth requests.
 ///
@@ -25,7 +25,7 @@ typedef AortemCognitoAdminInitiateAuthConsumerFn =
 ///
 /// Example:
 /// ```dart
-/// final builder = AortemCognitoAdminInitiateAuthBuilder()
+/// final builder =    CognitoAdminInitiateAuthBuilder()
 ///   ..userPoolId('us-west-2_EXAMPLE')
 ///   ..clientId('1example23456789')
 ///   ..authFlow('ADMIN_USER_PASSWORD_AUTH')
@@ -34,7 +34,7 @@ typedef AortemCognitoAdminInitiateAuthConsumerFn =
 ///     'PASSWORD': 'Password!123'
 ///   });
 /// ```
-class AortemCognitoAdminInitiateAuthBuilder {
+class CognitoAdminInitiateAuthBuilder {
   String? _userPoolId;
   String? _clientId;
   String? _authFlow;
@@ -50,7 +50,7 @@ class AortemCognitoAdminInitiateAuthBuilder {
   /// - [value]: The Cognito User Pool ID (format: region_id)
   ///
   /// Returns the builder for method chaining.
-  AortemCognitoAdminInitiateAuthBuilder userPoolId(String value) {
+  CognitoAdminInitiateAuthBuilder userPoolId(String value) {
     _userPoolId = value.trim();
     return this;
   }
@@ -61,7 +61,7 @@ class AortemCognitoAdminInitiateAuthBuilder {
   /// - [value]: The app client ID configured in Cognito
   ///
   /// Returns the builder for method chaining.
-  AortemCognitoAdminInitiateAuthBuilder clientId(String value) {
+  CognitoAdminInitiateAuthBuilder clientId(String value) {
     _clientId = value.trim();
     return this;
   }
@@ -72,7 +72,7 @@ class AortemCognitoAdminInitiateAuthBuilder {
   /// - [value]: The auth flow type (e.g., 'ADMIN_USER_PASSWORD_AUTH')
   ///
   /// Returns the builder for method chaining.
-  AortemCognitoAdminInitiateAuthBuilder authFlow(String value) {
+  CognitoAdminInitiateAuthBuilder authFlow(String value) {
     _authFlow = value.trim();
     return this;
   }
@@ -83,9 +83,7 @@ class AortemCognitoAdminInitiateAuthBuilder {
   /// - [params]: Map of auth parameters (e.g., USERNAME/PASSWORD)
   ///
   /// Returns the builder for method chaining.
-  AortemCognitoAdminInitiateAuthBuilder authParameters(
-    Map<String, String> params,
-  ) {
+  CognitoAdminInitiateAuthBuilder authParameters(Map<String, String> params) {
     _authParameters = Map<String, String>.from(params);
     return this;
   }
@@ -96,9 +94,7 @@ class AortemCognitoAdminInitiateAuthBuilder {
   /// - [meta]: Key-value pairs of client metadata
   ///
   /// Returns the builder for method chaining.
-  AortemCognitoAdminInitiateAuthBuilder clientMetadata(
-    Map<String, String> meta,
-  ) {
+  CognitoAdminInitiateAuthBuilder clientMetadata(Map<String, String> meta) {
     _clientMetadata = Map<String, String>.from(meta);
     return this;
   }
@@ -109,7 +105,7 @@ class AortemCognitoAdminInitiateAuthBuilder {
   /// - [ctx]: Context data map
   ///
   /// Returns the builder for method chaining.
-  AortemCognitoAdminInitiateAuthBuilder contextData(Map<String, dynamic> ctx) {
+  CognitoAdminInitiateAuthBuilder contextData(Map<String, dynamic> ctx) {
     _contextData = Map<String, dynamic>.from(ctx);
     return this;
   }
@@ -120,9 +116,7 @@ class AortemCognitoAdminInitiateAuthBuilder {
   /// - [am]: Analytics metadata map
   ///
   /// Returns the builder for method chaining.
-  AortemCognitoAdminInitiateAuthBuilder analyticsMetadata(
-    Map<String, dynamic> am,
-  ) {
+  CognitoAdminInitiateAuthBuilder analyticsMetadata(Map<String, dynamic> am) {
     _analyticsMetadata = Map<String, dynamic>.from(am);
     return this;
   }
@@ -133,7 +127,7 @@ class AortemCognitoAdminInitiateAuthBuilder {
   /// - [s]: Session token string
   ///
   /// Returns the builder for method chaining.
-  AortemCognitoAdminInitiateAuthBuilder session(String s) {
+  CognitoAdminInitiateAuthBuilder session(String s) {
     _session = s;
     return this;
   }
@@ -147,13 +141,13 @@ class AortemCognitoAdminInitiateAuthBuilder {
   /// - [requestTimeout]: Timeout per request (default 20 seconds)
   ///
   /// Returns:
-  /// - Configured [AortemCognitoAdminInitiateAuthRequest]
+  /// - Configured [   CognitoAdminInitiateAuthRequest]
   ///
   /// Throws:
-  /// - [AortemCognitoValidationException] if required fields are missing
-  AortemCognitoAdminInitiateAuthRequest build({
+  /// - [CognitoValidationException] if required fields are missing
+  CognitoAdminInitiateAuthRequest build({
     required String region,
-    required AortemCognitoHttpClient httpClient,
+    required CognitoHttpClient httpClient,
     int maxRetries = 2,
     Duration requestTimeout = const Duration(seconds: 20),
   }) {
@@ -162,16 +156,16 @@ class AortemCognitoAdminInitiateAuthBuilder {
     final af = _authFlow?.trim() ?? '';
 
     if (up.isEmpty) {
-      throw AortemCognitoValidationException('userPoolId is required.');
+      throw CognitoValidationException('userPoolId is required.');
     }
     if (ci.isEmpty) {
-      throw AortemCognitoValidationException('clientId is required.');
+      throw CognitoValidationException('clientId is required.');
     }
     if (af.isEmpty) {
-      throw AortemCognitoValidationException('authFlow is required.');
+      throw CognitoValidationException('authFlow is required.');
     }
 
-    return AortemCognitoAdminInitiateAuthRequest(
+    return CognitoAdminInitiateAuthRequest(
       userPoolId: up,
       clientId: ci,
       authFlow: af,
@@ -192,12 +186,12 @@ class AortemCognitoAdminInitiateAuthBuilder {
 ///
 /// Provides a higher-level interface for building and executing authentication
 /// requests using the builder pattern.
-class AortemCognitoAdminInitiateAuthConsumer {
+class CognitoAdminInitiateAuthConsumer {
   /// The AWS region for Cognito requests
   final String region;
 
   /// The HTTP client for making requests
-  final AortemCognitoHttpClient httpClient;
+  final CognitoHttpClient httpClient;
 
   /// Maximum number of retry attempts (default: 2)
   final int maxRetries;
@@ -212,7 +206,7 @@ class AortemCognitoAdminInitiateAuthConsumer {
   /// - [httpClient]: Required HTTP client implementation
   /// - [maxRetries]: Optional retry count (default 2)
   /// - [requestTimeout]: Optional timeout (default 20 seconds)
-  AortemCognitoAdminInitiateAuthConsumer({
+  CognitoAdminInitiateAuthConsumer({
     required this.region,
     required this.httpClient,
     this.maxRetries = 2,
@@ -230,15 +224,15 @@ class AortemCognitoAdminInitiateAuthConsumer {
   /// - [fn]: Callback that defines the request using the builder
   ///
   /// Returns:
-  /// - [AortemCognitoAdminInitiateAuthResult] with authentication response
+  /// - [   CognitoAdminInitiateAuthResult] with authentication response
   ///
   /// Throws:
-  /// - [AortemCognitoValidationException] for invalid parameters
-  /// - [AortemCognitoServiceException] for API failures
-  Future<AortemCognitoAdminInitiateAuthResult> run(
-    AortemCognitoAdminInitiateAuthConsumerFn fn,
+  /// - [CognitoValidationException] for invalid parameters
+  /// - [   CognitoServiceException] for API failures
+  Future<CognitoAdminInitiateAuthResult> run(
+    CognitoAdminInitiateAuthConsumerFn fn,
   ) async {
-    final b = AortemCognitoAdminInitiateAuthBuilder();
+    final b = CognitoAdminInitiateAuthBuilder();
     fn(b);
 
     final req = b.build(

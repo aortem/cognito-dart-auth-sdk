@@ -1,14 +1,11 @@
 import 'dart:convert';
 import 'package:ds_standard_features/ds_standard_features.dart' as http;
 
-class AortemCognitoConfirmSignUpConsumer {
+class CognitoConfirmSignUpConsumer {
   final String region;
   final String clientId;
 
-  AortemCognitoConfirmSignUpConsumer({
-    required this.region,
-    required this.clientId,
-  });
+  CognitoConfirmSignUpConsumer({required this.region, required this.clientId});
 
   Future<void> confirmSignUp(
     void Function(Map<String, String> userDetails) consumer,

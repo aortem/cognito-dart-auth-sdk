@@ -1,3 +1,7 @@
+import 'package:cognito_dart_auth_sdk/exceptions/cognito_service_exception.dart';
+import 'package:cognito_dart_auth_sdk/exceptions/cognito_validate_exception.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
+
 /// AdminGetUser — Retrieves detailed user information from a Cognito user pool.
 ///
 /// This request allows administrators to fetch comprehensive details about a user,
@@ -5,10 +9,6 @@
 ///
 /// AWS API Reference:
 /// https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminGetUser.html
-
-import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
-import 'package:cognito_dart_auth_sdk/exceptions/cognito_validate_exception.dart';
-import 'package:cognito_dart_auth_sdk/exceptions/cognito_service_exception.dart';
 
 /// Immutable model representing a Cognito user summary.
 ///
@@ -21,7 +21,7 @@ import 'package:cognito_dart_auth_sdk/exceptions/cognito_service_exception.dart'
 /// - `phone_number_verified`: Whether phone is verified ('true'/'false')
 /// - `sub`: The user's unique identifier
 /// - `custom:*`: Any custom attributes defined for the user pool
-class AortemCognitoUserSummary {
+class CognitoUserSummary {
   /// The username (may be an alias or sub)
   final String username;
 
@@ -47,7 +47,7 @@ class AortemCognitoUserSummary {
   final String? userStatus;
 
   /// Creates a new user summary instance
-  const AortemCognitoUserSummary({
+  const CognitoUserSummary({
     required this.username,
     required this.attributes,
     this.enabled,
@@ -62,7 +62,7 @@ class AortemCognitoUserSummary {
   ///
   /// @param m Raw response map from Cognito API
   /// @return Parsed user summary instance
-  factory AortemCognitoUserSummary.fromJson(Map<String, dynamic> m) {
+  factory CognitoUserSummary.fromJson(Map<String, dynamic> m) {
     final attrsList =
         (m['UserAttributes'] as List<dynamic>?)
             ?.whereType<Map<String, dynamic>>()
@@ -82,7 +82,7 @@ class AortemCognitoUserSummary {
             .toList() ??
         const <String>[];
 
-    return AortemCognitoUserSummary(
+    return CognitoUserSummary(
       username: (m['Username'] ?? '').toString(),
       enabled: m['Enabled'] is bool ? m['Enabled'] as bool : null,
       attributes: attrs,
@@ -104,43 +104,39 @@ class AortemCognitoUserSummary {
 /// Result container for AdminGetUser operations.
 ///
 /// Wraps the user information returned by the API.
-class AortemCognitoAdminGetUserResult {
+class CognitoAdminGetUserResult {
   /// The user details returned by Cognito
-  final AortemCognitoUserSummary user;
+  final CognitoUserSummary user;
 
   /// Creates a new result instance
-  const AortemCognitoAdminGetUserResult(this.user);
+  const CognitoAdminGetUserResult(this.user);
 
   /// Parses the result from an HTTP response
   ///
   /// @param res HTTP response from Cognito
   /// @return Parsed result instance
-  /// @throws AortemCognitoServiceException if response is malformed
-  factory AortemCognitoAdminGetUserResult.fromHttp(
-    AortemCognitoHttpResponse res,
-  ) {
+  /// @throws    CognitoServiceException if response is malformed
+  factory CognitoAdminGetUserResult.fromHttp(CognitoHttpResponse res) {
     final json = res.jsonBody ?? const <String, dynamic>{};
     if ((json['Username'] ?? '').toString().isEmpty) {
-      throw AortemCognitoServiceException(
+      throw CognitoServiceException(
         'AdminGetUser response missing Username/User object.',
         statusCode: res.statusCode,
         responseBody: json,
       );
     }
-    return AortemCognitoAdminGetUserResult(
-      AortemCognitoUserSummary.fromJson(json),
-    );
+    return CognitoAdminGetUserResult(CognitoUserSummary.fromJson(json));
   }
 }
 
-/// {@template aortem_admin_get_user_request}
+/// {@template    admin_get_user_request}
 /// Request wrapper for the Cognito AdminGetUser API.
 ///
 /// Retrieves detailed information about a user in a Cognito user pool.
 ///
 /// ### Usage
 /// ```dart
-/// final request = AortemCognitoAdminGetUserRequest(
+/// final request =    CognitoAdminGetUserRequest(
 ///   userPoolId: 'us-east-1_abc123',
 ///   username: 'testuser',
 ///   region: 'us-east-1',
@@ -156,10 +152,10 @@ class AortemCognitoAdminGetUserResult {
 /// - `username`: 1-128 characters
 ///
 /// ### Error Handling
-/// - [AortemCognitoValidationException]: Invalid input parameters
-/// - [AortemCognitoServiceException]: API failures or malformed responses
+/// - [CognitoValidationException]: Invalid input parameters
+/// - [CognitoServiceException]: API failures or malformed responses
 /// {@endtemplate}
-class AortemCognitoAdminGetUserRequest {
+class CognitoAdminGetUserRequest {
   /// The user pool ID where the user is registered
   final String userPoolId;
 
@@ -170,7 +166,7 @@ class AortemCognitoAdminGetUserRequest {
   final String region;
 
   /// Configured HTTP client for AWS requests
-  final AortemCognitoHttpClient httpClient;
+  final CognitoHttpClient httpClient;
 
   /// Maximum retry attempts for failed requests (default: 2)
   final int maxRetries;
@@ -178,8 +174,8 @@ class AortemCognitoAdminGetUserRequest {
   /// Timeout duration for the request (default: 20 seconds)
   final Duration requestTimeout;
 
-  /// {@macro aortem_admin_get_user_request}
-  AortemCognitoAdminGetUserRequest({
+  /// {@macro    admin_get_user_request}
+  CognitoAdminGetUserRequest({
     required this.userPoolId,
     required this.username,
     required this.region,
@@ -192,21 +188,19 @@ class AortemCognitoAdminGetUserRequest {
 
   /// Validates all request parameters
   ///
-  /// @throws AortemCognitoValidationException if any parameters are invalid
+  /// @throws    CognitoValidationException if any parameters are invalid
   void _validate() {
     final poolRe = RegExp(r'^[\w-]+_[0-9A-Za-z]+$');
     if (userPoolId.trim().isEmpty || !poolRe.hasMatch(userPoolId)) {
-      throw AortemCognitoValidationException(
+      throw CognitoValidationException(
         'userPoolId is required and must match [\\w-]+_[0-9a-zA-Z]+.',
       );
     }
     if (username.trim().isEmpty) {
-      throw AortemCognitoValidationException('username is required.');
+      throw CognitoValidationException('username is required.');
     }
     if (username.length > 128) {
-      throw AortemCognitoValidationException(
-        'username must be <= 128 characters.',
-      );
+      throw CognitoValidationException('username must be <= 128 characters.');
     }
   }
 
@@ -219,9 +213,9 @@ class AortemCognitoAdminGetUserRequest {
   /// Executes the AdminGetUser request
   ///
   /// @return Future resolving to AdminGetUserResult with user details
-  /// @throws AortemCognitoValidationException for invalid parameters
-  /// @throws AortemCognitoServiceException for API failures
-  Future<AortemCognitoAdminGetUserResult> execute() async {
+  /// @throws    CognitoValidationException for invalid parameters
+  /// @throws    CognitoServiceException for API failures
+  Future<CognitoAdminGetUserResult> execute() async {
     final payload = _payload();
 
     int attempt = 0;
@@ -239,24 +233,24 @@ class AortemCognitoAdminGetUserRequest {
         );
 
         if (res.statusCode == 200) {
-          return AortemCognitoAdminGetUserResult.fromHttp(res);
+          return CognitoAdminGetUserResult.fromHttp(res);
         }
 
         if (res.statusCode >= 400 && res.statusCode < 500) {
-          throw AortemCognitoServiceException(
+          throw CognitoServiceException(
             'AdminGetUser failed. Body: ${res.bodyString}',
             statusCode: res.statusCode,
           );
         }
 
         if (res.statusCode >= 500) {
-          throw AortemCognitoServiceException(
+          throw CognitoServiceException(
             'AdminGetUser temporary failure.',
             statusCode: res.statusCode,
           );
         }
 
-        throw AortemCognitoServiceException(
+        throw CognitoServiceException(
           'AdminGetUser unexpected status.',
           statusCode: res.statusCode,
         );
@@ -270,7 +264,7 @@ class AortemCognitoAdminGetUserRequest {
       }
     }
 
-    throw AortemCognitoServiceException(
+    throw CognitoServiceException(
       'AdminGetUser failed after retries. Last error: $lastError',
     );
   }

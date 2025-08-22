@@ -1,14 +1,14 @@
 import 'dart:convert';
-import 'package:test/test.dart';
 
 import 'package:cognito_dart_auth_sdk/requests/cognito_admin_list_groups_for_user_paginator_request.dart';
 import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
+import 'package:ds_tools_testing/ds_tools_testing.dart';
 
-class _FakeHttp implements AortemCognitoHttpClient {
+class _FakeHttp implements CognitoHttpClient {
   int callCount = 0;
 
   @override
-  Future<AortemCognitoHttpResponse> send({
+  Future<CognitoHttpResponse> send({
     required String service,
     required String target,
     required String region,
@@ -19,7 +19,7 @@ class _FakeHttp implements AortemCognitoHttpClient {
     callCount += 1;
     // Page 1 -> NextToken
     if (callCount == 1) {
-      return AortemCognitoHttpResponse(
+      return CognitoHttpResponse(
         statusCode: 200,
         headers: const {},
         bodyString: jsonEncode({
@@ -31,7 +31,7 @@ class _FakeHttp implements AortemCognitoHttpClient {
       );
     }
     // Page 2 -> no NextToken
-    return AortemCognitoHttpResponse(
+    return CognitoHttpResponse(
       statusCode: 200,
       headers: const {},
       bodyString: jsonEncode({
@@ -43,7 +43,7 @@ class _FakeHttp implements AortemCognitoHttpClient {
   }
 
   @override
-  Future<AortemCognitoHttpResponse> post({
+  Future<CognitoHttpResponse> post({
     required String region,
     required String xAmzTarget,
     required Map<String, dynamic> payload,
@@ -64,7 +64,7 @@ class _FakeHttp implements AortemCognitoHttpClient {
 void main() {
   test('Paginator request fetchAll returns all groups across pages', () async {
     final http = _FakeHttp();
-    final pager = AortemCognitoAdminListGroupsForUserPaginatorRequest(
+    final pager = CognitoAdminListGroupsForUserPaginatorRequest(
       userPoolId: 'us-west-2_EXAMPLE',
       username: 'testuser',
       region: 'us-west-2',
@@ -81,7 +81,7 @@ void main() {
 
   test('Paginator request paginate() yields two pages', () async {
     final http = _FakeHttp();
-    final pager = AortemCognitoAdminListGroupsForUserPaginatorRequest(
+    final pager = CognitoAdminListGroupsForUserPaginatorRequest(
       userPoolId: 'us-west-2_EXAMPLE',
       username: 'testuser',
       region: 'us-west-2',
@@ -89,7 +89,7 @@ void main() {
       limit: 1,
     );
 
-    final pages = <AortemCognitoAdminListGroupsForUserPage>[];
+    final pages = <CognitoAdminListGroupsForUserPage>[];
     await for (final p in pager.paginate()) {
       pages.add(p);
     }

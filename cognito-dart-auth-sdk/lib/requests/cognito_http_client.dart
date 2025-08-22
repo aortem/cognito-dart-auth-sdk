@@ -11,7 +11,7 @@ import 'dart:convert';
 /// This provides a consistent interface that can be implemented by different
 /// HTTP client implementations while maintaining the required AWS Cognito
 /// authentication and request formatting.
-abstract class AortemCognitoHttpClient {
+abstract class CognitoHttpClient {
   /// Makes a signed POST request to the Cognito service.
   ///
   /// Implementations must:
@@ -30,7 +30,7 @@ abstract class AortemCognitoHttpClient {
   /// - [timeout]: Optional request timeout duration
   ///
   /// Returns a [Future] that completes with the HTTP response.
-  Future<AortemCognitoHttpResponse> post({
+  Future<CognitoHttpResponse> post({
     required String region,
     required String xAmzTarget,
     required Map<String, dynamic> payload,
@@ -52,7 +52,7 @@ abstract class AortemCognitoHttpClient {
   /// - [headers]: Additional headers
   ///
   /// Returns a [Future] that completes with the HTTP response.
-  Future<AortemCognitoHttpResponse> send({
+  Future<CognitoHttpResponse> send({
     required String service,
     required String target,
     required String region,
@@ -76,7 +76,7 @@ abstract class AortemCognitoHttpClient {
 /// This is a lightweight wrapper around the raw HTTP response that provides
 /// convenient access to the status code, headers, and body while maintaining
 /// the original response data for error handling and debugging purposes.
-class AortemCognitoHttpResponse {
+class CognitoHttpResponse {
   /// The HTTP status code of the response.
   final int statusCode;
 
@@ -95,7 +95,7 @@ class AortemCognitoHttpResponse {
   /// - [statusCode]: The HTTP status code
   /// - [headers]: The response headers
   /// - [bodyString]: The raw response body
-  AortemCognitoHttpResponse({
+  CognitoHttpResponse({
     required this.statusCode,
     required this.headers,
     required this.bodyString,

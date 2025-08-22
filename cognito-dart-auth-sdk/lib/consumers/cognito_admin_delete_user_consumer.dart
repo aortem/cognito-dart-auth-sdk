@@ -7,11 +7,11 @@ import 'package:cognito_dart_auth_sdk/exceptions/cognito_validate_exception.dart
 import 'package:cognito_dart_auth_sdk/requests/cognito_admin_delete_user_request.dart';
 import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
 
-/// A function type that configures an [AortemCognitoAdminDeleteUserBuilder].
+/// A function type that configures an [CognitoAdminDeleteUserBuilder].
 ///
 /// Used to provide a fluent interface for building AdminDeleteUser requests.
-typedef AortemCognitoDeleteUserConsumerFn =
-    void Function(AortemCognitoAdminDeleteUserBuilder b);
+typedef CognitoDeleteUserConsumerFn =
+    void Function(CognitoAdminDeleteUserBuilder b);
 
 /// A builder class for constructing AdminDeleteUser requests to Amazon Cognito.
 ///
@@ -20,12 +20,12 @@ typedef AortemCognitoDeleteUserConsumerFn =
 ///
 /// Example:
 /// ```dart
-/// final result = await AortemCognitoAdminDeleteUserConsumer(...).run((b) {
+/// final result = await     (...).run((b) {
 ///   b.userPoolId('us-east-1_abc123')
 ///    .username('johndoe');
 /// });
 /// ```
-class AortemCognitoAdminDeleteUserBuilder {
+class CognitoAdminDeleteUserBuilder {
   String? _userPoolId;
   String? _username;
 
@@ -33,7 +33,7 @@ class AortemCognitoAdminDeleteUserBuilder {
   ///
   /// The value must match the pattern `[\w-]+_[0-9a-zA-Z]+`.
   /// The value will be trimmed of whitespace.
-  AortemCognitoAdminDeleteUserBuilder userPoolId(String value) {
+  CognitoAdminDeleteUserBuilder userPoolId(String value) {
     _userPoolId = value.trim();
     return this;
   }
@@ -42,24 +42,24 @@ class AortemCognitoAdminDeleteUserBuilder {
   ///
   /// The value will be trimmed of whitespace. Length must be between 1 and 128
   /// characters (enforced when building the request).
-  AortemCognitoAdminDeleteUserBuilder username(String value) {
+  CognitoAdminDeleteUserBuilder username(String value) {
     _username = value.trim();
     return this;
   }
 
-  /// Builds the underlying [AortemCognitoAdminDeleteUserRequest].
+  /// Builds the underlying [CognitoAdminDeleteUserRequest].
   ///
   /// Validates that required parameters (userPoolId and username) are set.
-  /// Throws [AortemCognitoValidationException] if validation fails.
+  /// Throws [CognitoValidationException] if validation fails.
   ///
   /// Parameters:
   /// - [region]: The AWS region where the user pool is located
   /// - [httpClient]: The HTTP client to use for making requests
   /// - [maxRetries]: Maximum number of retries for transient failures (default: 2)
   /// - [requestTimeout]: Timeout duration for the request (default: 20 seconds)
-  AortemCognitoAdminDeleteUserRequest build({
+  CognitoAdminDeleteUserRequest build({
     required String region,
-    required AortemCognitoHttpClient httpClient,
+    required CognitoHttpClient httpClient,
     int maxRetries = 2,
     Duration requestTimeout = const Duration(seconds: 20),
   }) {
@@ -67,13 +67,13 @@ class AortemCognitoAdminDeleteUserBuilder {
     final un = _username?.trim() ?? '';
 
     if (up.isEmpty) {
-      throw AortemCognitoValidationException('userPoolId is required.');
+      throw CognitoValidationException('userPoolId is required.');
     }
     if (un.isEmpty) {
-      throw AortemCognitoValidationException('username is required.');
+      throw CognitoValidationException('username is required.');
     }
 
-    return AortemCognitoAdminDeleteUserRequest(
+    return CognitoAdminDeleteUserRequest(
       userPoolId: up,
       username: un,
       region: region,
@@ -90,12 +90,12 @@ class AortemCognitoAdminDeleteUserBuilder {
 /// using a builder pattern for request configuration.
 ///
 /// Handles request building, validation, execution, and retries automatically.
-class AortemCognitoAdminDeleteUserConsumer {
+class CognitoAdminDeleteUserConsumer {
   /// The AWS region where the user pool is located.
   final String region;
 
   /// The HTTP client to use for making requests.
-  final AortemCognitoHttpClient httpClient;
+  final CognitoHttpClient httpClient;
 
   /// The maximum number of retries for failed requests.
   final int maxRetries;
@@ -110,7 +110,7 @@ class AortemCognitoAdminDeleteUserConsumer {
   /// - [httpClient]: Required HTTP client implementation
   /// - [maxRetries]: Maximum retry attempts (default: 2)
   /// - [requestTimeout]: Request timeout duration (default: 20 seconds)
-  AortemCognitoAdminDeleteUserConsumer({
+  CognitoAdminDeleteUserConsumer({
     required this.region,
     required this.httpClient,
     this.maxRetries = 2,
@@ -124,16 +124,16 @@ class AortemCognitoAdminDeleteUserConsumer {
   /// 2. Builds the request (with validation)
   /// 3. Executes the request (with retries if configured)
   ///
-  /// Returns a [Future] that completes with [AortemCognitoAdminDeleteUserResult]
+  /// Returns a [Future] that completes with [CognitoAdminDeleteUserResult]
   /// on success.
   ///
   /// Throws:
-  /// - [AortemCognitoValidationException] if parameters are invalid
-  /// - [AortemCognitoServiceException] if the request fails
-  Future<AortemCognitoAdminDeleteUserResult> run(
-    AortemCognitoDeleteUserConsumerFn consumer,
+  /// - [CognitoValidationException] if parameters are invalid
+  /// - [ CognitoServiceException] if the request fails
+  Future<CognitoAdminDeleteUserResult> run(
+    CognitoDeleteUserConsumerFn consumer,
   ) async {
-    final b = AortemCognitoAdminDeleteUserBuilder();
+    final b = CognitoAdminDeleteUserBuilder();
     consumer(b);
 
     final req = b.build(

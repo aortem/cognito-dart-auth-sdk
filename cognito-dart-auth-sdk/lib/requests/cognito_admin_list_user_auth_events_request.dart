@@ -1,5 +1,5 @@
 // admin_list_user_auth_events_request.dart
-// cognito_admin_list_user_auth_events_request.dart
+//    cognito_admin_list_user_auth_events_request.dart
 //
 // AdminListUserAuthEvents — Returns a history of user auth events and risks.
 // Target: AWSCognitoIdentityProviderService.AdminListUserAuthEvents
@@ -7,16 +7,16 @@
 // Provides functionality to retrieve authentication events for a specific user
 // from Amazon Cognito, with support for pagination and automatic retries.
 
-import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
-import 'package:cognito_dart_auth_sdk/exceptions/cognito_validate_exception.dart';
 import 'package:cognito_dart_auth_sdk/exceptions/cognito_service_exception.dart';
+import 'package:cognito_dart_auth_sdk/exceptions/cognito_validate_exception.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
 
 /// Represents a single page of authentication events from Cognito.
 ///
 /// Contains:
 /// - [authEvents]: List of raw event maps in AuthEventType wire format
 /// - [nextToken]: Token for fetching the next page, if available
-class AortemCognitoAdminListUserAuthEventsPage {
+class CognitoAdminListUserAuthEventsPage {
   /// The list of authentication events for this page
   final List<Map<String, dynamic>> authEvents;
 
@@ -24,7 +24,7 @@ class AortemCognitoAdminListUserAuthEventsPage {
   final String? nextToken;
 
   /// Creates a new page of authentication events
-  const AortemCognitoAdminListUserAuthEventsPage({
+  const CognitoAdminListUserAuthEventsPage({
     required this.authEvents,
     this.nextToken,
   });
@@ -42,7 +42,7 @@ class AortemCognitoAdminListUserAuthEventsPage {
 /// - A MaxResults of 0 means 60 (per AWS documentation)
 /// - Success responses (200) contain AuthEvents array and optional NextToken
 /// - Empty pages are allowed (no events, possibly with NextToken)
-class AortemCognitoAdminListUserAuthEventsRequest {
+class CognitoAdminListUserAuthEventsRequest {
   /// The ID of the user pool containing the user
   final String userPoolId;
 
@@ -56,7 +56,7 @@ class AortemCognitoAdminListUserAuthEventsRequest {
   final String region;
 
   /// HTTP client for making requests
-  final AortemCognitoHttpClient httpClient;
+  final CognitoHttpClient httpClient;
 
   /// Maximum number of retry attempts for transient failures
   final int maxRetries;
@@ -66,9 +66,9 @@ class AortemCognitoAdminListUserAuthEventsRequest {
 
   /// Creates a new authentication events request
   ///
-  /// Validates parameters immediately and throws [AortemCognitoValidationException]
+  /// Validates parameters immediately and throws [CognitoValidationException]
   /// if they are invalid.
-  AortemCognitoAdminListUserAuthEventsRequest({
+  CognitoAdminListUserAuthEventsRequest({
     required this.userPoolId,
     required this.username,
     required this.region,
@@ -82,24 +82,22 @@ class AortemCognitoAdminListUserAuthEventsRequest {
 
   /// Validates the request parameters
   ///
-  /// Throws [AortemCognitoValidationException] if:
+  /// Throws [CognitoValidationException] if:
   /// - userPoolId is empty or doesn't match expected pattern
   /// - username is empty
   /// - maxResults is outside 0-60 range
   void _validate() {
     final poolRe = RegExp(r'^[\w-]+_[0-9A-Za-z]+$');
     if (userPoolId.trim().isEmpty || !poolRe.hasMatch(userPoolId)) {
-      throw AortemCognitoValidationException(
+      throw CognitoValidationException(
         'userPoolId is required and must match [\\w-]+_[0-9a-zA-Z]+.',
       );
     }
     if (username.trim().isEmpty) {
-      throw AortemCognitoValidationException('username is required.');
+      throw CognitoValidationException('username is required.');
     }
     if (maxResults != null && (maxResults! < 0 || maxResults! > 60)) {
-      throw AortemCognitoValidationException(
-        'maxResults must be between 0 and 60.',
-      );
+      throw CognitoValidationException('maxResults must be between 0 and 60.');
     }
   }
 
@@ -117,11 +115,11 @@ class AortemCognitoAdminListUserAuthEventsRequest {
   /// - [nextToken]: Token for fetching the next page (optional)
   ///
   /// Returns:
-  /// - [AortemCognitoAdminListUserAuthEventsPage] containing the events and next token
+  /// - [   CognitoAdminListUserAuthEventsPage] containing the events and next token
   ///
   /// Throws:
-  /// - [AortemCognitoServiceException] if the request fails
-  Future<AortemCognitoAdminListUserAuthEventsPage> listPage({
+  /// - [CognitoServiceException] if the request fails
+  Future<CognitoAdminListUserAuthEventsPage> listPage({
     String? nextToken,
   }) async {
     final payload = _payload(nextToken);
@@ -144,28 +142,28 @@ class AortemCognitoAdminListUserAuthEventsRequest {
           final body = res.jsonBody ?? const <String, dynamic>{};
           final events = (body['AuthEvents'] as List<dynamic>? ?? [])
               .whereType<Map>()
-              .map((m) => Map<String, dynamic>.from(m as Map))
+              .map((m) => Map<String, dynamic>.from(m))
               .toList();
           final nt = body['NextToken'] as String?;
-          return AortemCognitoAdminListUserAuthEventsPage(
+          return CognitoAdminListUserAuthEventsPage(
             authEvents: events,
             nextToken: nt,
           );
         }
 
         if (res.statusCode >= 400 && res.statusCode < 500) {
-          throw AortemCognitoServiceException(
+          throw CognitoServiceException(
             'AdminListUserAuthEvents failed. Body: ${res.bodyString}',
             statusCode: res.statusCode,
           );
         }
         if (res.statusCode >= 500) {
-          throw AortemCognitoServiceException(
+          throw CognitoServiceException(
             'AdminListUserAuthEvents temporary failure.',
             statusCode: res.statusCode,
           );
         }
-        throw AortemCognitoServiceException(
+        throw CognitoServiceException(
           'AdminListUserAuthEvents unexpected status.',
           statusCode: res.statusCode,
         );
@@ -178,7 +176,7 @@ class AortemCognitoAdminListUserAuthEventsRequest {
       }
     }
 
-    throw AortemCognitoServiceException(
+    throw CognitoServiceException(
       'AdminListUserAuthEvents failed after retries. Last error: $lastError',
     );
   }
@@ -187,7 +185,7 @@ class AortemCognitoAdminListUserAuthEventsRequest {
   ///
   /// Automatically handles pagination by following the NextToken until
   /// all results are retrieved.
-  Stream<AortemCognitoAdminListUserAuthEventsPage> paginate() async* {
+  Stream<CognitoAdminListUserAuthEventsPage> paginate() async* {
     String? token;
     do {
       final page = await listPage(nextToken: token);

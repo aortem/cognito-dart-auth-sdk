@@ -1,20 +1,20 @@
 // admin_list_devices_consumer.dart
-// cognito_admin_list_devices_consumer.dart
+//    cognito_admin_list_devices_consumer.dart
 //
 // Consumer/builder-style facade for AdminListDevices operation.
 // Provides a fluent interface for listing a user's registered devices
 // in a Cognito user pool using admin privileges.
 
+import 'package:cognito_dart_auth_sdk/exceptions/cognito_validate_exception.dart';
 import 'package:cognito_dart_auth_sdk/requests/cognito_admin_list_devices_request.dart';
 import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
-import 'package:cognito_dart_auth_sdk/exceptions/cognito_validate_exception.dart';
 
 /// Functional interface for configuring AdminListDevices requests via builder.
 ///
-/// Used with [AortemCognitoAdminListDevicesConsumer.run] to dynamically
+/// Used with [   CognitoAdminListDevicesConsumer.run] to dynamically
 /// build device listing requests before sending them to Cognito.
-typedef AortemCognitoAdminListDevicesConsumerFn =
-    void Function(AortemCognitoAdminListDevicesBuilder b);
+typedef CognitoAdminListDevicesConsumerFn =
+    void Function(CognitoAdminListDevicesBuilder b);
 
 /// Fluent builder for constructing AdminListDevices requests.
 ///
@@ -25,12 +25,12 @@ typedef AortemCognitoAdminListDevicesConsumerFn =
 ///
 /// Example:
 /// ```dart
-/// final builder = AortemCognitoAdminListDevicesBuilder()
+/// final builder =    CognitoAdminListDevicesBuilder()
 ///   ..userPoolId('us-west-2_EXAMPLE')
 ///   ..username('testuser')
 ///   ..limit(10);
 /// ```
-class AortemCognitoAdminListDevicesBuilder {
+class CognitoAdminListDevicesBuilder {
   String? _userPoolId;
   String? _username;
   int? _limit;
@@ -42,7 +42,7 @@ class AortemCognitoAdminListDevicesBuilder {
   /// - [value]: The Cognito User Pool ID (format: region_id)
   ///
   /// Returns the builder for method chaining.
-  AortemCognitoAdminListDevicesBuilder userPoolId(String value) {
+  CognitoAdminListDevicesBuilder userPoolId(String value) {
     _userPoolId = value.trim();
     return this;
   }
@@ -53,7 +53,7 @@ class AortemCognitoAdminListDevicesBuilder {
   /// - [value]: The username to query devices for
   ///
   /// Returns the builder for method chaining.
-  AortemCognitoAdminListDevicesBuilder username(String value) {
+  CognitoAdminListDevicesBuilder username(String value) {
     _username = value.trim();
     return this;
   }
@@ -64,7 +64,7 @@ class AortemCognitoAdminListDevicesBuilder {
   /// - [value]: The maximum number of results (AWS max is 60)
   ///
   /// Returns the builder for method chaining.
-  AortemCognitoAdminListDevicesBuilder limit(int value) {
+  CognitoAdminListDevicesBuilder limit(int value) {
     _limit = value;
     return this;
   }
@@ -75,7 +75,7 @@ class AortemCognitoAdminListDevicesBuilder {
   /// - [value]: Opaque token from a previous response
   ///
   /// Returns the builder for method chaining.
-  AortemCognitoAdminListDevicesBuilder paginationToken(String value) {
+  CognitoAdminListDevicesBuilder paginationToken(String value) {
     _paginationToken = value;
     return this;
   }
@@ -89,26 +89,26 @@ class AortemCognitoAdminListDevicesBuilder {
   /// - [requestTimeout]: Timeout per request (default 20 seconds)
   ///
   /// Returns:
-  /// - Configured [AortemCognitoAdminListDevicesRequest]
+  /// - Configured [   CognitoAdminListDevicesRequest]
   ///
   /// Throws:
-  /// - [AortemCognitoValidationException] if required fields are missing
-  AortemCognitoAdminListDevicesRequest build({
+  /// - [CognitoValidationException] if required fields are missing
+  CognitoAdminListDevicesRequest build({
     required String region,
-    required AortemCognitoHttpClient httpClient,
+    required CognitoHttpClient httpClient,
     int maxRetries = 2,
     Duration requestTimeout = const Duration(seconds: 20),
   }) {
     final up = _userPoolId?.trim() ?? '';
     final un = _username?.trim() ?? '';
     if (up.isEmpty) {
-      throw AortemCognitoValidationException('userPoolId is required.');
+      throw CognitoValidationException('userPoolId is required.');
     }
     if (un.isEmpty) {
-      throw AortemCognitoValidationException('username is required.');
+      throw CognitoValidationException('username is required.');
     }
 
-    return AortemCognitoAdminListDevicesRequest(
+    return CognitoAdminListDevicesRequest(
       userPoolId: up,
       username: un,
       region: region,
@@ -125,12 +125,12 @@ class AortemCognitoAdminListDevicesBuilder {
 ///
 /// Provides a higher-level interface for building and executing device
 /// listing requests using the builder pattern.
-class AortemCognitoAdminListDevicesConsumer {
+class CognitoAdminListDevicesConsumer {
   /// The AWS region for Cognito requests
   final String region;
 
   /// The HTTP client for making requests
-  final AortemCognitoHttpClient httpClient;
+  final CognitoHttpClient httpClient;
 
   /// Maximum number of retry attempts (default: 2)
   final int maxRetries;
@@ -145,7 +145,7 @@ class AortemCognitoAdminListDevicesConsumer {
   /// - [httpClient]: Required HTTP client implementation
   /// - [maxRetries]: Optional retry count (default 2)
   /// - [requestTimeout]: Optional timeout (default 20 seconds)
-  AortemCognitoAdminListDevicesConsumer({
+  CognitoAdminListDevicesConsumer({
     required this.region,
     required this.httpClient,
     this.maxRetries = 2,
@@ -163,15 +163,15 @@ class AortemCognitoAdminListDevicesConsumer {
   /// - [fn]: Callback that defines the request using the builder
   ///
   /// Returns:
-  /// - [AortemCognitoAdminListDevicesResult] containing devices and pagination token
+  /// - [   CognitoAdminListDevicesResult] containing devices and pagination token
   ///
   /// Throws:
-  /// - [AortemCognitoValidationException] for invalid parameters
-  /// - [AortemCognitoServiceException] for API failures
-  Future<AortemCognitoAdminListDevicesResult> run(
-    AortemCognitoAdminListDevicesConsumerFn fn,
+  /// - [CognitoValidationException] for invalid parameters
+  /// - [   CognitoServiceException] for API failures
+  Future<CognitoAdminListDevicesResult> run(
+    CognitoAdminListDevicesConsumerFn fn,
   ) async {
-    final b = AortemCognitoAdminListDevicesBuilder();
+    final b = CognitoAdminListDevicesBuilder();
     fn(b);
 
     final req = b.build(

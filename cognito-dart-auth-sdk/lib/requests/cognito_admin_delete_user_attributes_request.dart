@@ -4,21 +4,21 @@
 // Target: AWSCognitoIdentityProviderService.AdminDeleteUserAttributes
 //
 // Depends on shared types:
-// - AortemCognitoHttpClient (send(...) and/or post(...))
-// - AortemCognitoValidationException
-// - AortemCognitoServiceException
+// -  CognitoHttpClient (send(...) and/or post(...))
+// -  CognitoValidationException
+// -  CognitoServiceException
 
-import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
-import 'package:cognito_dart_auth_sdk/exceptions/cognito_validate_exception.dart';
 import 'package:cognito_dart_auth_sdk/exceptions/cognito_service_exception.dart';
+import 'package:cognito_dart_auth_sdk/exceptions/cognito_validate_exception.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
 
 /// The result of a successful AdminDeleteUserAttributes operation.
 ///
 /// This is essentially a marker class since AdminDeleteUserAttributes doesn't return
 /// any data on success (204 No Content response from AWS).
-class AortemCognitoAdminDeleteUserAttributesResult {
+class CognitoAdminDeleteUserAttributesResult {
   /// Creates a new result instance.
-  const AortemCognitoAdminDeleteUserAttributesResult();
+  const CognitoAdminDeleteUserAttributesResult();
 }
 
 /// A request to delete specific attributes from a Cognito user using admin privileges.
@@ -27,7 +27,7 @@ class AortemCognitoAdminDeleteUserAttributesResult {
 /// with automatic retries for transient failures and proper error handling.
 ///
 /// Allows administrators to remove specific attributes from a user's profile.
-class AortemCognitoAdminDeleteUserAttributesRequest {
+class CognitoAdminDeleteUserAttributesRequest {
   /// The ID of the user pool containing the user
   final String userPoolId;
 
@@ -41,7 +41,7 @@ class AortemCognitoAdminDeleteUserAttributesRequest {
   final String region;
 
   /// The HTTP client used to make the request
-  final AortemCognitoHttpClient httpClient;
+  final CognitoHttpClient httpClient;
 
   /// Maximum number of retry attempts for transient failures
   final int maxRetries;
@@ -51,7 +51,7 @@ class AortemCognitoAdminDeleteUserAttributesRequest {
 
   /// Creates a new AdminDeleteUserAttributes request.
   ///
-  /// Validates parameters immediately and throws [AortemCognitoValidationException]
+  /// Validates parameters immediately and throws [CognitoValidationException]
   /// if they are invalid.
   ///
   /// Parameters:
@@ -62,7 +62,7 @@ class AortemCognitoAdminDeleteUserAttributesRequest {
   /// - [httpClient]: Required HTTP client implementation
   /// - [maxRetries]: Maximum retry attempts (default: 2)
   /// - [requestTimeout]: Request timeout duration (default: 20 seconds)
-  AortemCognitoAdminDeleteUserAttributesRequest({
+  CognitoAdminDeleteUserAttributesRequest({
     required this.userPoolId,
     required this.username,
     required this.userAttributeNames,
@@ -76,7 +76,7 @@ class AortemCognitoAdminDeleteUserAttributesRequest {
 
   /// Validates the request parameters.
   ///
-  /// Throws [AortemCognitoValidationException] if:
+  /// Throws [CognitoValidationException] if:
   /// - userPoolId is empty or doesn't match the expected pattern
   /// - username is empty or exceeds 128 characters
   /// - userAttributeNames is empty or has more than 32 items
@@ -85,34 +85,32 @@ class AortemCognitoAdminDeleteUserAttributesRequest {
     // Pool ID pattern: [\w-]+_[0-9a-zA-Z]+
     final poolRe = RegExp(r'^[\w-]+_[0-9A-Za-z]+$');
     if (userPoolId.trim().isEmpty || !poolRe.hasMatch(userPoolId)) {
-      throw AortemCognitoValidationException(
+      throw CognitoValidationException(
         'userPoolId is required and must match [\\w-]+_[0-9a-zA-Z]+.',
       );
     }
 
     if (username.trim().isEmpty) {
-      throw AortemCognitoValidationException('username is required.');
+      throw CognitoValidationException('username is required.');
     }
     if (username.length > 128) {
-      throw AortemCognitoValidationException(
-        'username must be <= 128 characters.',
-      );
+      throw CognitoValidationException('username must be <= 128 characters.');
     }
 
     if (userAttributeNames.isEmpty) {
-      throw AortemCognitoValidationException(
+      throw CognitoValidationException(
         'At least one attribute name must be provided.',
       );
     }
     if (userAttributeNames.length > 32) {
-      throw AortemCognitoValidationException(
+      throw CognitoValidationException(
         'No more than 32 attribute names may be provided.',
       );
     }
     for (final name in userAttributeNames) {
       final trimmed = name.trim();
       if (trimmed.isEmpty) {
-        throw AortemCognitoValidationException(
+        throw CognitoValidationException(
           'Attribute names must be non-empty strings.',
         );
       }
@@ -130,14 +128,14 @@ class AortemCognitoAdminDeleteUserAttributesRequest {
 
   /// Executes the AdminDeleteUserAttributes request.
   ///
-  /// Returns a [Future] that completes with [AortemCognitoAdminDeleteUserAttributesResult]
+  /// Returns a [Future] that completes with [CognitoAdminDeleteUserAttributesResult]
   /// on success.
   ///
   /// Throws:
-  /// - [AortemCognitoValidationException] if parameters are invalid
-  /// - [AortemCognitoServiceException] if the request fails (including after retries)
+  /// - [CognitoValidationException] if parameters are invalid
+  /// - [CognitoServiceException] if the request fails (including after retries)
   /// - Other platform/network exceptions if unrecoverable errors occur
-  Future<AortemCognitoAdminDeleteUserAttributesResult> execute() async {
+  Future<CognitoAdminDeleteUserAttributesResult> execute() async {
     final payload = _payload();
 
     int attempt = 0;
@@ -155,24 +153,24 @@ class AortemCognitoAdminDeleteUserAttributesRequest {
         );
 
         if (res.statusCode == 200) {
-          return const AortemCognitoAdminDeleteUserAttributesResult();
+          return const CognitoAdminDeleteUserAttributesResult();
         }
 
         if (res.statusCode >= 400 && res.statusCode < 500) {
-          throw AortemCognitoServiceException(
+          throw CognitoServiceException(
             'AdminDeleteUserAttributes failed. Body: ${res.bodyString}',
             statusCode: res.statusCode,
           );
         }
 
         if (res.statusCode >= 500) {
-          throw AortemCognitoServiceException(
+          throw CognitoServiceException(
             'AdminDeleteUserAttributes temporary failure.',
             statusCode: res.statusCode,
           );
         }
 
-        throw AortemCognitoServiceException(
+        throw CognitoServiceException(
           'AdminDeleteUserAttributes unexpected status.',
           statusCode: res.statusCode,
         );
@@ -186,7 +184,7 @@ class AortemCognitoAdminDeleteUserAttributesRequest {
       }
     }
 
-    throw AortemCognitoServiceException(
+    throw CognitoServiceException(
       'AdminDeleteUserAttributes failed after retries. Last error: $lastError',
     );
   }

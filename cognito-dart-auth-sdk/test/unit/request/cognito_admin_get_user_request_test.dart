@@ -1,12 +1,11 @@
-import 'package:test/test.dart';
-
 // Adjust imports to your package name / paths.
 import 'package:cognito_dart_auth_sdk/requests/cognito_admin_get_user_request.dart';
 import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
 import 'package:cognito_dart_auth_sdk/exceptions/cognito_validate_exception.dart';
 import 'package:cognito_dart_auth_sdk/exceptions/cognito_service_exception.dart';
+import 'package:ds_tools_testing/ds_tools_testing.dart';
 
-class _FakeHttp implements AortemCognitoHttpClient {
+class _FakeHttp implements CognitoHttpClient {
   Map<String, dynamic>? lastPayload;
   String? lastTarget;
   String? lastRegion;
@@ -31,7 +30,7 @@ class _FakeHttp implements AortemCognitoHttpClient {
 ''';
 
   @override
-  Future<AortemCognitoHttpResponse> send({
+  Future<CognitoHttpResponse> send({
     required String service,
     required String target,
     required String region,
@@ -44,7 +43,7 @@ class _FakeHttp implements AortemCognitoHttpClient {
     lastHeaders = headers;
     lastPayload = payload;
 
-    return AortemCognitoHttpResponse(
+    return CognitoHttpResponse(
       statusCode: statusCode,
       headers: const {},
       bodyString: bodyString,
@@ -52,7 +51,7 @@ class _FakeHttp implements AortemCognitoHttpClient {
   }
 
   @override
-  Future<AortemCognitoHttpResponse> post({
+  Future<CognitoHttpResponse> post({
     required String region,
     required String xAmzTarget,
     required Map<String, dynamic> payload,
@@ -75,7 +74,7 @@ void main() {
     test('happy path: parses user and attributes', () async {
       final http = _FakeHttp();
 
-      final req = AortemCognitoAdminGetUserRequest(
+      final req = CognitoAdminGetUserRequest(
         userPoolId: 'us-west-2_EXAMPLE',
         username: 'testuser',
         region: 'us-west-2',
@@ -83,7 +82,7 @@ void main() {
       );
 
       final res = await req.execute();
-      expect(res, isA<AortemCognitoAdminGetUserResult>());
+      expect(res, isA<CognitoAdminGetUserResult>());
 
       // HTTP wiring
       final p = http.lastPayload!;
@@ -113,24 +112,24 @@ void main() {
 
       // Bad pool id
       expect(
-        () => AortemCognitoAdminGetUserRequest(
+        () => CognitoAdminGetUserRequest(
           userPoolId: 'badPoolId',
           username: 'u',
           region: 'us-west-2',
           httpClient: http,
         ),
-        throwsA(isA<AortemCognitoValidationException>()),
+        throwsA(isA<CognitoValidationException>()),
       );
 
       // Empty username
       expect(
-        () => AortemCognitoAdminGetUserRequest(
+        () => CognitoAdminGetUserRequest(
           userPoolId: 'us-west-2_EXAMPLE',
           username: '   ',
           region: 'us-west-2',
           httpClient: http,
         ),
-        throwsA(isA<AortemCognitoValidationException>()),
+        throwsA(isA<CognitoValidationException>()),
       );
     });
 
@@ -139,7 +138,7 @@ void main() {
         ..statusCode = 404
         ..bodyString = '{"message":"UserNotFoundException"}';
 
-      final req = AortemCognitoAdminGetUserRequest(
+      final req = CognitoAdminGetUserRequest(
         userPoolId: 'us-west-2_EXAMPLE',
         username: 'missing',
         region: 'us-west-2',
@@ -147,10 +146,7 @@ void main() {
         maxRetries: 0,
       );
 
-      expect(
-        () => req.execute(),
-        throwsA(isA<AortemCognitoServiceException>()),
-      );
+      expect(() => req.execute(), throwsA(isA<CognitoServiceException>()));
     });
   });
 }

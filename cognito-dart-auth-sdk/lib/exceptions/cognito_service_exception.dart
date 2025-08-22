@@ -12,7 +12,7 @@
 /// ```dart
 /// try {
 ///   await cognitoClient.makeRequest();
-/// } on AortemCognitoServiceException catch (e) {
+/// } on CognitoServiceException catch (e) {
 ///   if (e.statusCode != null) {
 ///     print('Cognito error (${e.statusCode}): ${e.message}');
 ///   } else {
@@ -24,7 +24,7 @@
 ///   }
 /// }
 /// ```
-class AortemCognitoServiceException implements Exception {
+class CognitoServiceException implements Exception {
   /// A human-readable description of the error that occurred.
   final String message;
 
@@ -50,14 +50,10 @@ class AortemCognitoServiceException implements Exception {
   /// - [message]: Required description of the error
   /// - [statusCode]: Optional HTTP status code from the failed request
   /// - [responseBody]: Optional raw response data for debugging
-  AortemCognitoServiceException(
-    this.message, {
-    this.statusCode,
-    this.responseBody,
-  });
+  CognitoServiceException(this.message, {this.statusCode, this.responseBody});
 
   @override
   String toString() => statusCode != null
-      ? 'AortemCognitoServiceException($statusCode): $message'
-      : 'AortemCognitoServiceException: $message';
+      ? 'CognitoServiceException($statusCode): $message'
+      : 'CognitoServiceException: $message';
 }

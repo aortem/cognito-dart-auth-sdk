@@ -5,7 +5,7 @@ import 'package:cognito_dart_auth_sdk/exceptions/cognito_validate_exception.dart
 import 'package:cognito_dart_auth_sdk/requests/cognito_admin_delete_user_attributes_request.dart';
 import 'package:ds_tools_testing/ds_tools_testing.dart';
 
-class _FakeHttp implements AortemCognitoHttpClient {
+class _FakeHttp implements CognitoHttpClient {
   Map<String, dynamic>? lastPayload;
   String? lastTarget;
   String? lastRegion;
@@ -15,7 +15,7 @@ class _FakeHttp implements AortemCognitoHttpClient {
   String bodyString = '{}';
 
   @override
-  Future<AortemCognitoHttpResponse> send({
+  Future<CognitoHttpResponse> send({
     required String service,
     required String target,
     required String region,
@@ -28,7 +28,7 @@ class _FakeHttp implements AortemCognitoHttpClient {
     lastHeaders = headers;
     lastPayload = payload;
 
-    return AortemCognitoHttpResponse(
+    return CognitoHttpResponse(
       statusCode: statusCode,
       headers: const {},
       bodyString: bodyString,
@@ -36,7 +36,7 @@ class _FakeHttp implements AortemCognitoHttpClient {
   }
 
   @override
-  Future<AortemCognitoHttpResponse> post({
+  Future<CognitoHttpResponse> post({
     required String region,
     required String xAmzTarget,
     required Map<String, dynamic> payload,
@@ -58,7 +58,7 @@ void main() {
   group('AdminDeleteUserAttributesConsumer', () {
     test('happy path: builds and sends payload with attribute names', () async {
       final http = _FakeHttp();
-      final consumer = AortemCognitoAdminDeleteUserAttributesConsumer(
+      final consumer = CognitoAdminDeleteUserAttributesConsumer(
         region: 'us-west-2',
         httpClient: http,
       );
@@ -70,7 +70,7 @@ void main() {
           ..attributes(['custom:deliverables', 'nickname']),
       );
 
-      expect(res, isA<AortemCognitoAdminDeleteUserAttributesResult>());
+      expect(res, isA<CognitoAdminDeleteUserAttributesResult>());
 
       // Verify payload + target + headers
       final p = http.lastPayload!;
@@ -88,7 +88,7 @@ void main() {
 
     test('missing requireds throw before HTTP', () {
       final http = _FakeHttp();
-      final consumer = AortemCognitoAdminDeleteUserAttributesConsumer(
+      final consumer = CognitoAdminDeleteUserAttributesConsumer(
         region: 'us-west-2',
         httpClient: http,
       );
@@ -100,7 +100,7 @@ void main() {
             ..userPoolId('us-west-2_EXAMPLE')
             ..attributes(['nickname']),
         ),
-        throwsA(isA<AortemCognitoValidationException>()),
+        throwsA(isA<CognitoValidationException>()),
       );
 
       // Missing userPoolId
@@ -110,7 +110,7 @@ void main() {
             ..username('user')
             ..attributes(['nickname']),
         ),
-        throwsA(isA<AortemCognitoValidationException>()),
+        throwsA(isA<CognitoValidationException>()),
       );
 
       // Missing attributes
@@ -120,7 +120,7 @@ void main() {
             ..userPoolId('us-west-2_EXAMPLE')
             ..username('user'),
         ),
-        throwsA(isA<AortemCognitoValidationException>()),
+        throwsA(isA<CognitoValidationException>()),
       );
     });
   });
