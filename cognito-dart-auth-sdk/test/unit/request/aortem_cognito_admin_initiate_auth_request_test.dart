@@ -1,11 +1,10 @@
-import 'package:test/test.dart';
-
 import 'package:cognito_dart_auth_sdk/requests/cognito_admin_initiate_auth_request.dart';
 import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
 import 'package:cognito_dart_auth_sdk/exceptions/cognito_validate_exception.dart';
 import 'package:cognito_dart_auth_sdk/exceptions/cognito_service_exception.dart';
+import 'package:ds_tools_testing/ds_tools_testing.dart';
 
-class _FakeHttp implements AortemCognitoHttpClient {
+class _FakeHttp implements CognitoHttpClient {
   Map<String, dynamic>? lastPayload;
   String? lastTarget;
   String? lastRegion;
@@ -30,7 +29,7 @@ class _FakeHttp implements AortemCognitoHttpClient {
 ''';
 
   @override
-  Future<AortemCognitoHttpResponse> send({
+  Future<CognitoHttpResponse> send({
     required String service,
     required String target,
     required String region,
@@ -43,7 +42,7 @@ class _FakeHttp implements AortemCognitoHttpClient {
     lastHeaders = headers;
     lastPayload = payload;
 
-    return AortemCognitoHttpResponse(
+    return CognitoHttpResponse(
       statusCode: statusCode,
       headers: const {},
       bodyString: bodyString,
@@ -51,7 +50,7 @@ class _FakeHttp implements AortemCognitoHttpClient {
   }
 
   @override
-  Future<AortemCognitoHttpResponse> post({
+  Future<CognitoHttpResponse> post({
     required String region,
     required String xAmzTarget,
     required Map<String, dynamic> payload,
@@ -74,7 +73,7 @@ void main() {
     test('happy path: returns AuthenticationResult tokens', () async {
       final http = _FakeHttp();
 
-      final req = AortemCognitoAdminInitiateAuthRequest(
+      final req = CognitoAdminInitiateAuthRequest(
         userPoolId: 'us-west-2_EXAMPLE',
         clientId: '1example23456789',
         authFlow: 'ADMIN_USER_PASSWORD_AUTH',
@@ -124,7 +123,7 @@ void main() {
 }
 ''';
 
-      final req = AortemCognitoAdminInitiateAuthRequest(
+      final req = CognitoAdminInitiateAuthRequest(
         userPoolId: 'us-west-2_EXAMPLE',
         clientId: '1example23456789',
         authFlow: 'ADMIN_USER_PASSWORD_AUTH',
@@ -145,7 +144,7 @@ void main() {
 
       // bad pool id
       expect(
-        () => AortemCognitoAdminInitiateAuthRequest(
+        () => CognitoAdminInitiateAuthRequest(
           userPoolId: 'badPool',
           clientId: 'client123',
           authFlow: 'ADMIN_USER_PASSWORD_AUTH',
@@ -153,12 +152,12 @@ void main() {
           region: 'us-west-2',
           httpClient: http,
         ),
-        throwsA(isA<AortemCognitoValidationException>()),
+        throwsA(isA<CognitoValidationException>()),
       );
 
       // bad client id (invalid chars)
       expect(
-        () => AortemCognitoAdminInitiateAuthRequest(
+        () => CognitoAdminInitiateAuthRequest(
           userPoolId: 'us-west-2_EXAMPLE',
           clientId: 'bad id!',
           authFlow: 'ADMIN_USER_PASSWORD_AUTH',
@@ -166,12 +165,12 @@ void main() {
           region: 'us-west-2',
           httpClient: http,
         ),
-        throwsA(isA<AortemCognitoValidationException>()),
+        throwsA(isA<CognitoValidationException>()),
       );
 
       // unsupported flow
       expect(
-        () => AortemCognitoAdminInitiateAuthRequest(
+        () => CognitoAdminInitiateAuthRequest(
           userPoolId: 'us-west-2_EXAMPLE',
           clientId: 'client123',
           authFlow:
@@ -180,7 +179,7 @@ void main() {
           region: 'us-west-2',
           httpClient: http,
         ),
-        throwsA(isA<AortemCognitoValidationException>()),
+        throwsA(isA<CognitoValidationException>()),
       );
     });
 
@@ -189,7 +188,7 @@ void main() {
         ..statusCode = 400
         ..bodyString = '{"message":"NotAuthorizedException"}';
 
-      final req = AortemCognitoAdminInitiateAuthRequest(
+      final req = CognitoAdminInitiateAuthRequest(
         userPoolId: 'us-west-2_EXAMPLE',
         clientId: 'client123',
         authFlow: 'ADMIN_USER_PASSWORD_AUTH',
@@ -199,10 +198,7 @@ void main() {
         maxRetries: 0,
       );
 
-      expect(
-        () => req.execute(),
-        throwsA(isA<AortemCognitoServiceException>()),
-      );
+      expect(() => req.execute(), throwsA(isA<CognitoServiceException>()));
     });
   });
 }

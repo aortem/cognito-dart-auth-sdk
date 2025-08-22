@@ -1,4 +1,4 @@
-/// Main entry point for Aortem Cognito SDK in Dart.
+/// Main entry point for     Cognito SDK in Dart.
 /// Provides high-level wrapper methods for Cognito operations.
 library cognito_main;
 
@@ -19,12 +19,19 @@ import 'package:cognito_dart_auth_sdk/consumers/cognito_admin_link_provider_for_
 import 'package:cognito_dart_auth_sdk/consumers/cognito_admin_list_devices_consumer.dart';
 import 'package:cognito_dart_auth_sdk/consumers/cognito_admin_list_groups_for_user_consumer.dart';
 import 'package:cognito_dart_auth_sdk/consumers/cognito_admin_list_groups_for_user_paginator_consumer.dart';
+import 'package:cognito_dart_auth_sdk/consumers/cognito_admin_list_user_auth_events_consumer.dart';
+import 'package:cognito_dart_auth_sdk/consumers/cognito_admin_reset_user_password_consumer.dart';
+import 'package:cognito_dart_auth_sdk/consumers/cognito_admin_respond_to_auth_challenge_consumer.dart';
+import 'package:cognito_dart_auth_sdk/consumers/cognito_admin_set_user_mfa_preference_consumer.dart';
+import 'package:cognito_dart_auth_sdk/consumers/cognito_admin_set_user_password_consumer.dart';
+import 'package:cognito_dart_auth_sdk/consumers/cognito_admin_update_auth_event_feedback_consumer.dart';
 import 'package:cognito_dart_auth_sdk/requests/cognito_add_custom_attributes_request.dart';
 import 'package:cognito_dart_auth_sdk/requests/cognito_admin_add_user_to_group_request.dart';
 import 'package:cognito_dart_auth_sdk/requests/cognito_admin_confirm_sign_up_request.dart';
 import 'package:cognito_dart_auth_sdk/requests/cognito_admin_create_user_request.dart';
 import 'package:cognito_dart_auth_sdk/requests/cognito_admin_delete_user_attributes_request.dart';
 import 'package:cognito_dart_auth_sdk/requests/cognito_admin_delete_user_request.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_admin_disable_provider_for_user_request.dart';
 import 'package:cognito_dart_auth_sdk/requests/cognito_admin_disable_user_request.dart';
 import 'package:cognito_dart_auth_sdk/requests/cognito_admin_enable_user_request.dart';
 import 'package:cognito_dart_auth_sdk/requests/cognito_admin_forget_device_request.dart';
@@ -33,13 +40,17 @@ import 'package:cognito_dart_auth_sdk/requests/cognito_admin_get_user_request.da
 import 'package:cognito_dart_auth_sdk/requests/cognito_admin_initiate_auth_request.dart';
 import 'package:cognito_dart_auth_sdk/requests/cognito_admin_link_provider_for_user_request.dart';
 import 'package:cognito_dart_auth_sdk/requests/cognito_admin_list_devices_request.dart';
-import 'package:cognito_dart_auth_sdk/requests/cognito_admin_list_groups_for_user_paginator_request.dart';
 import 'package:cognito_dart_auth_sdk/requests/cognito_admin_list_groups_for_user_request.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_admin_list_user_auth_events_paginator_request.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_admin_list_user_auth_events_request.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_admin_reset_user_password_request.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_admin_respond_to_auth_challenge_request.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_admin_set_user_mfa_preference_request.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_admin_set_user_password_request.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_admin_update_auth_event_feedback_request.dart';
 import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
 
-import 'requests/cognito_admin_disable_provider_for_user_request.dart';
-
-/// High-level Aortem Cognito client.
+/// High-level     Cognito client.
 ///
 /// This is the primary interface for interacting with AWS Cognito services.
 /// It maintains shared configuration and exposes methods for all supported operations.
@@ -52,25 +63,25 @@ import 'requests/cognito_admin_disable_provider_for_user_request.dart';
 ///
 /// ## Example Usage
 /// ```dart
-/// final cognito = AortemCognito(
+/// final cognito =    Cognito(
 ///   region: 'us-east-1',
 ///   httpClient: myHttpClient,
 /// );
 /// ```
-class AortemCognito {
+class Cognito {
   /// The AWS region where Cognito services are located (e.g., 'us-east-1')
   /// This is used to construct service endpoints
   final String region;
 
   /// The HTTP client implementation for making authenticated requests
   /// Must be configured with appropriate AWS credentials
-  final AortemCognitoHttpClient httpClient;
+  final CognitoHttpClient httpClient;
 
-  /// Creates a new Aortem Cognito client instance.
+  /// Creates a new     Cognito client instance.
   ///
   /// @param region The AWS region identifier (required)
   /// @param httpClient Configured HTTP client (required)
-  AortemCognito({required this.region, required this.httpClient});
+  Cognito({required this.region, required this.httpClient});
 
   /// Adds custom attributes to a Cognito User Pool.
   ///
@@ -81,15 +92,15 @@ class AortemCognito {
   /// @param maxRetries Maximum retry attempts for failed requests (default: 2)
   /// @param requestTimeout Duration before request times out (default: 20s)
   /// @return Future resolving to operation result
-  /// @throws AortemCognitoValidationException for invalid parameters
-  /// @throws AortemCognitoServiceException for API failures
-  Future<AortemCognitoAddCustomAttributesResult> addCustomAttributes({
+  /// @throws    CognitoValidationException for invalid parameters
+  /// @throws    CognitoServiceException for API failures
+  Future<CognitoAddCustomAttributesResult> addCustomAttributes({
     required String userPoolId,
-    required List<AortemCognitoSchemaAttributeType> customAttributes,
+    required List<CognitoSchemaAttributeType> customAttributes,
     int maxRetries = 2,
     Duration requestTimeout = const Duration(seconds: 20),
   }) async {
-    final req = AortemCognitoAddCustomAttributesRequest(
+    final req = CognitoAddCustomAttributesRequest(
       userPoolId: userPoolId,
       region: region,
       httpClient: httpClient,
@@ -110,8 +121,8 @@ class AortemCognito {
   /// @param maxRetries Maximum retry attempts (default: 2)
   /// @param requestTimeout Duration before request times out (default: 20s)
   /// @return Future resolving to operation result
-  /// @throws AortemCognitoValidationException for invalid parameters
-  /// @throws AortemCognitoServiceException for API failures
+  /// @throws    CognitoValidationException for invalid parameters
+  /// @throws    CognitoServiceException for API failures
   ///
   /// Example:
   /// ```dart
@@ -122,13 +133,13 @@ class AortemCognito {
   ///     .number(name: 'custom:security_level', minValue: '1', maxValue: '10'),
   /// );
   /// ```
-  Future<AortemCognitoAddCustomAttributesResult> addCustomAttributesWith({
+  Future<CognitoAddCustomAttributesResult> addCustomAttributesWith({
     required String userPoolId,
-    required AortemCognitoAttributesConsumer consumer,
+    required CognitoAttributesConsumer consumer,
     int maxRetries = 2,
     Duration requestTimeout = const Duration(seconds: 20),
   }) async {
-    final c = AortemCognitoAddCustomAttributesConsumer(
+    final c = CognitoAddCustomAttributesConsumer(
       userPoolId: userPoolId,
       region: region,
       httpClient: httpClient,
@@ -148,16 +159,16 @@ class AortemCognito {
   /// @param maxRetries Maximum retry attempts (default: 2)
   /// @param requestTimeout Duration before request times out (default: 20s)
   /// @return Future resolving to operation result
-  /// @throws AortemCognitoValidationException for invalid parameters
-  /// @throws AortemCognitoServiceException for API failures
-  Future<AortemCognitoAdminAddUserToGroupResult> adminAddUserToGroup({
+  /// @throws    CognitoValidationException for invalid parameters
+  /// @throws    CognitoServiceException for API failures
+  Future<CognitoAdminAddUserToGroupResult> adminAddUserToGroup({
     required String userPoolId,
     required String username,
     required String groupName,
     int maxRetries = 2,
     Duration requestTimeout = const Duration(seconds: 20),
   }) async {
-    final req = AortemCognitoAdminAddUserToGroupRequest(
+    final req = CognitoAdminAddUserToGroupRequest(
       userPoolId: userPoolId,
       username: username,
       groupName: groupName,
@@ -179,8 +190,8 @@ class AortemCognito {
   /// @param maxRetries Maximum retry attempts (default: 2)
   /// @param requestTimeout Duration before request times out (default: 20s)
   /// @return Future resolving to operation result
-  /// @throws AortemCognitoValidationException for invalid parameters
-  /// @throws AortemCognitoServiceException for API failures
+  /// @throws    CognitoValidationException for invalid parameters
+  /// @throws    CognitoServiceException for API failures
   ///
   /// Example:
   /// ```dart
@@ -191,13 +202,13 @@ class AortemCognito {
   ///     .groupName('Administrators'),
   /// );
   /// ```
-  Future<AortemCognitoAdminAddUserToGroupResult> adminAddUserToGroupWith({
+  Future<CognitoAdminAddUserToGroupResult> adminAddUserToGroupWith({
     required String userPoolId,
-    required void Function(AortemCognitoAdminAddUserToGroupBuilder) consumer,
+    required void Function(CognitoAdminAddUserToGroupBuilder) consumer,
     int maxRetries = 2,
     Duration requestTimeout = const Duration(seconds: 20),
   }) async {
-    final c = AortemCognitoAdminAddUserToGroupConsumer(
+    final c = CognitoAdminAddUserToGroupConsumer(
       region: region,
       httpClient: httpClient,
       maxRetries: maxRetries,
@@ -220,16 +231,16 @@ class AortemCognito {
   /// @param maxRetries Maximum retry attempts (default: 2)
   /// @param requestTimeout Duration before request times out (default: 20s)
   /// @return Future resolving to operation result
-  /// @throws AortemCognitoValidationException for invalid parameters
-  /// @throws AortemCognitoServiceException for API failures
-  Future<AortemCognitoAdminConfirmSignUpResult> adminConfirmSignUp({
+  /// @throws    CognitoValidationException for invalid parameters
+  /// @throws    CognitoServiceException for API failures
+  Future<CognitoAdminConfirmSignUpResult> adminConfirmSignUp({
     required String userPoolId,
     required String username,
     Map<String, String>? clientMetadata,
     int maxRetries = 2,
     Duration requestTimeout = const Duration(seconds: 20),
   }) async {
-    final req = AortemCognitoAdminConfirmSignUpRequest(
+    final req = CognitoAdminConfirmSignUpRequest(
       userPoolId: userPoolId,
       username: username,
       clientMetadata: clientMetadata,
@@ -251,8 +262,8 @@ class AortemCognito {
   /// @param maxRetries Maximum retry attempts (default: 2)
   /// @param requestTimeout Duration before request times out (default: 20s)
   /// @return Future resolving to operation result
-  /// @throws AortemCognitoValidationException for invalid parameters
-  /// @throws AortemCognitoServiceException for API failures
+  /// @throws    CognitoValidationException for invalid parameters
+  /// @throws    CognitoServiceException for API failures
   ///
   /// Example:
   /// ```dart
@@ -262,12 +273,12 @@ class AortemCognito {
   ///     .username('jane.doe@example.com'),
   /// );
   /// ```
-  Future<AortemCognitoAdminConfirmSignUpResult> adminConfirmSignUpWith({
-    required AortemCognitoConfirmSignUpConsumerFn consumer,
+  Future<CognitoAdminConfirmSignUpResult> adminConfirmSignUpWith({
+    required CognitoConfirmSignUpConsumerFn consumer,
     int maxRetries = 2,
     Duration requestTimeout = const Duration(seconds: 20),
   }) async {
-    final c = AortemCognitoAdminConfirmSignUpConsumer(
+    final c = CognitoAdminConfirmSignUpConsumer(
       region: region,
       httpClient: httpClient,
       maxRetries: maxRetries,
@@ -295,22 +306,22 @@ class AortemCognito {
   /// @param maxRetries Maximum retry attempts (default: 2)
   /// @param requestTimeout Duration before request times out (default: 20s)
   /// @return Future resolving to operation result
-  /// @throws AortemCognitoValidationException for invalid parameters
-  /// @throws AortemCognitoServiceException for API failures
-  Future<AortemCognitoAdminCreateUserResult> adminCreateUser({
+  /// @throws    CognitoValidationException for invalid parameters
+  /// @throws    CognitoServiceException for API failures
+  Future<CognitoAdminCreateUserResult> adminCreateUser({
     required String userPoolId,
     required String username,
-    List<AortemCognitoAttributeType>? userAttributes,
+    List<CognitoAttributeType>? userAttributes,
     List<String>? desiredDeliveryMediums,
     bool? forceAliasCreation,
-    AortemCognitoMessageActionType? messageAction,
+    CognitoMessageActionType? messageAction,
     String? temporaryPassword,
     Map<String, String>? clientMetadata,
-    List<AortemCognitoAttributeType>? validationData,
+    List<CognitoAttributeType>? validationData,
     int maxRetries = 2,
     Duration requestTimeout = const Duration(seconds: 20),
   }) async {
-    final req = AortemCognitoAdminCreateUserRequest(
+    final req = CognitoAdminCreateUserRequest(
       userPoolId: userPoolId,
       username: username,
       userAttributes: userAttributes,
@@ -338,8 +349,8 @@ class AortemCognito {
   /// @param maxRetries Maximum retry attempts (default: 2)
   /// @param requestTimeout Duration before request times out (default: 20s)
   /// @return Future resolving to operation result
-  /// @throws AortemCognitoValidationException for invalid parameters
-  /// @throws AortemCognitoServiceException for API failures
+  /// @throws    CognitoValidationException for invalid parameters
+  /// @throws    CognitoServiceException for API failures
   ///
   /// Example:
   /// ```dart
@@ -352,12 +363,12 @@ class AortemCognito {
   ///     .messageSuppress(),
   /// );
   /// ```
-  Future<AortemCognitoAdminCreateUserResult> adminCreateUserWith({
-    required AortemCognitoCreateUserConsumerFn consumer,
+  Future<CognitoAdminCreateUserResult> adminCreateUserWith({
+    required CognitoCreateUserConsumerFn consumer,
     int maxRetries = 2,
     Duration requestTimeout = const Duration(seconds: 20),
   }) async {
-    final c = AortemCognitoAdminCreateUserConsumer(
+    final c = CognitoAdminCreateUserConsumer(
       region: region,
       httpClient: httpClient,
       maxRetries: maxRetries,
@@ -378,15 +389,15 @@ class AortemCognito {
   /// @param maxRetries Maximum retry attempts (default: 2)
   /// @param requestTimeout Duration before request times out (default: 20s)
   /// @return Future resolving to operation result (no data on success)
-  /// @throws AortemCognitoValidationException for invalid parameters
-  /// @throws AortemCognitoServiceException for API failures
-  Future<AortemCognitoAdminDeleteUserResult> adminDeleteUser({
+  /// @throws    CognitoValidationException for invalid parameters
+  /// @throws    CognitoServiceException for API failures
+  Future<CognitoAdminDeleteUserResult> adminDeleteUser({
     required String userPoolId,
     required String username,
     int maxRetries = 2,
     Duration requestTimeout = const Duration(seconds: 20),
   }) async {
-    final req = AortemCognitoAdminDeleteUserRequest(
+    final req = CognitoAdminDeleteUserRequest(
       userPoolId: userPoolId,
       username: username,
       region: region,
@@ -407,8 +418,8 @@ class AortemCognito {
   /// @param maxRetries Maximum retry attempts (default: 2)
   /// @param requestTimeout Duration before request times out (default: 20s)
   /// @return Future resolving to operation result (no data on success)
-  /// @throws AortemCognitoValidationException for invalid parameters
-  /// @throws AortemCognitoServiceException for API failures
+  /// @throws    CognitoValidationException for invalid parameters
+  /// @throws    CognitoServiceException for API failures
   ///
   /// Example:
   /// ```dart
@@ -418,12 +429,12 @@ class AortemCognito {
   ///      .username('user.to.delete@example.com'),
   /// );
   /// ```
-  Future<AortemCognitoAdminDeleteUserResult> adminDeleteUserWith({
-    required AortemCognitoDeleteUserConsumerFn consumer,
+  Future<CognitoAdminDeleteUserResult> adminDeleteUserWith({
+    required CognitoDeleteUserConsumerFn consumer,
     int maxRetries = 2,
     Duration requestTimeout = const Duration(seconds: 20),
   }) async {
-    final c = AortemCognitoAdminDeleteUserConsumer(
+    final c = CognitoAdminDeleteUserConsumer(
       region: region,
       httpClient: httpClient,
       maxRetries: maxRetries,
@@ -442,17 +453,16 @@ class AortemCognito {
   /// @param maxRetries Maximum retry attempts (default: 2)
   /// @param requestTimeout Duration before request times out (default: 20s)
   /// @return Future resolving to operation result (no data on success)
-  /// @throws AortemCognitoValidationException for invalid parameters
-  /// @throws AortemCognitoServiceException for API failures
-  Future<AortemCognitoAdminDeleteUserAttributesResult>
-  adminDeleteUserAttributes({
+  /// @throws    CognitoValidationException for invalid parameters
+  /// @throws    CognitoServiceException for API failures
+  Future<CognitoAdminDeleteUserAttributesResult> adminDeleteUserAttributes({
     required String userPoolId,
     required String username,
     required List<String> userAttributeNames,
     int maxRetries = 2,
     Duration requestTimeout = const Duration(seconds: 20),
   }) async {
-    final req = AortemCognitoAdminDeleteUserAttributesRequest(
+    final req = CognitoAdminDeleteUserAttributesRequest(
       userPoolId: userPoolId,
       username: username,
       userAttributeNames: userAttributeNames,
@@ -474,8 +484,8 @@ class AortemCognito {
   /// @param maxRetries Maximum retry attempts (default: 2)
   /// @param requestTimeout Duration before request times out (default: 20s)
   /// @return Future resolving to operation result (no data on success)
-  /// @throws AortemCognitoValidationException for invalid parameters
-  /// @throws AortemCognitoServiceException for API failures
+  /// @throws    CognitoValidationException for invalid parameters
+  /// @throws    CognitoServiceException for API failures
   ///
   /// Example:
   /// ```dart
@@ -487,13 +497,12 @@ class AortemCognito {
   ///      .attributes(['address', 'phone_number']),
   /// );
   /// ```
-  Future<AortemCognitoAdminDeleteUserAttributesResult>
-  adminDeleteUserAttributesWith({
-    required AortemCognitoDeleteUserAttrsConsumerFn consumer,
+  Future<CognitoAdminDeleteUserAttributesResult> adminDeleteUserAttributesWith({
+    required CognitoDeleteUserAttrsConsumerFn consumer,
     int maxRetries = 2,
     Duration requestTimeout = const Duration(seconds: 20),
   }) async {
-    final c = AortemCognitoAdminDeleteUserAttributesConsumer(
+    final c = CognitoAdminDeleteUserAttributesConsumer(
       region: region,
       httpClient: httpClient,
       maxRetries: maxRetries,
@@ -516,10 +525,9 @@ class AortemCognito {
   /// @param maxRetries Maximum retry attempts (default: 2).
   /// @param requestTimeout Duration before request times out (default: 20s).
   /// @return Future resolving to operation result (no data on success).
-  /// @throws AortemCognitoValidationException for invalid parameters.
-  /// @throws AortemCognitoServiceException for API failures.
-  Future<AortemCognitoAdminDisableProviderForUserResult>
-  adminDisableProviderForUser({
+  /// @throws    CognitoValidationException for invalid parameters.
+  /// @throws    CognitoServiceException for API failures.
+  Future<CognitoAdminDisableProviderForUserResult> adminDisableProviderForUser({
     required String userPoolId,
     required String providerName,
     required String providerAttributeName,
@@ -527,13 +535,13 @@ class AortemCognito {
     int maxRetries = 2,
     Duration requestTimeout = const Duration(seconds: 20),
   }) async {
-    final userIdentifier = AortemCognitoProviderUserIdentifier(
+    final userIdentifier = CognitoProviderUserIdentifier(
       providerName: providerName,
       providerAttributeName: providerAttributeName,
       providerAttributeValue: providerAttributeValue,
     );
 
-    final req = AortemCognitoAdminDisableProviderForUserRequest(
+    final req = CognitoAdminDisableProviderForUserRequest(
       userPoolId: userPoolId,
       user: userIdentifier,
       region: region,
@@ -553,8 +561,8 @@ class AortemCognito {
   /// @param maxRetries Maximum retry attempts (default: 2).
   /// @param requestTimeout Duration before request times out (default: 20s).
   /// @return Future resolving to operation result (no data on success).
-  /// @throws AortemCognitoValidationException for invalid parameters.
-  /// @throws AortemCognitoServiceException for API failures.
+  /// @throws    CognitoValidationException for invalid parameters.
+  /// @throws    CognitoServiceException for API failures.
   ///
   /// Example:
   /// ```dart
@@ -566,13 +574,13 @@ class AortemCognito {
   ///      .providerAttributeValue('google-subject-id-123'),
   /// );
   /// ```
-  Future<AortemCognitoAdminDisableProviderForUserResult>
+  Future<CognitoAdminDisableProviderForUserResult>
   adminDisableProviderForUserWith({
-    required AortemCognitoDisableProviderConsumerFn consumer,
+    required CognitoDisableProviderConsumerFn consumer,
     int maxRetries = 2,
     Duration requestTimeout = const Duration(seconds: 20),
   }) async {
-    final c = AortemCognitoAdminDisableProviderForUserConsumer(
+    final c = CognitoAdminDisableProviderForUserConsumer(
       region: region,
       httpClient: httpClient,
       maxRetries: maxRetries,
@@ -591,15 +599,15 @@ class AortemCognito {
   /// @param maxRetries Maximum retry attempts (default: 2).
   /// @param requestTimeout Duration before request times out (default: 20s).
   /// @return Future resolving to operation result (no data on success).
-  /// @throws AortemCognitoValidationException for invalid parameters.
-  /// @throws AortemCognitoServiceException for API failures.
-  Future<AortemCognitoAdminDisableUserResult> adminDisableUser({
+  /// @throws    CognitoValidationException for invalid parameters.
+  /// @throws    CognitoServiceException for API failures.
+  Future<CognitoAdminDisableUserResult> adminDisableUser({
     required String userPoolId,
     required String username,
     int maxRetries = 2,
     Duration requestTimeout = const Duration(seconds: 20),
   }) async {
-    final req = AortemCognitoAdminDisableUserRequest(
+    final req = CognitoAdminDisableUserRequest(
       userPoolId: userPoolId,
       username: username,
       region: region,
@@ -620,8 +628,8 @@ class AortemCognito {
   /// @param maxRetries Maximum retry attempts (default: 2).
   /// @param requestTimeout Duration before request times out (default: 20s).
   /// @return Future resolving to operation result (no data on success).
-  /// @throws AortemCognitoValidationException for invalid parameters.
-  /// @throws AortemCognitoServiceException for API failures.
+  /// @throws    CognitoValidationException for invalid parameters.
+  /// @throws    CognitoServiceException for API failures.
   ///
   /// Example:
   /// ```dart
@@ -631,12 +639,12 @@ class AortemCognito {
   ///      .username('user.to.disable@example.com'),
   /// );
   /// ```
-  Future<AortemCognitoAdminDisableUserResult> adminDisableUserWith({
-    required AortemCognitoDisableUserConsumerFn consumer,
+  Future<CognitoAdminDisableUserResult> adminDisableUserWith({
+    required CognitoDisableUserConsumerFn consumer,
     int maxRetries = 2,
     Duration requestTimeout = const Duration(seconds: 20),
   }) async {
-    final c = AortemCognitoAdminDisableUserConsumer(
+    final c = CognitoAdminDisableUserConsumer(
       region: region,
       httpClient: httpClient,
       maxRetries: maxRetries,
@@ -655,15 +663,15 @@ class AortemCognito {
   /// @param maxRetries Maximum retry attempts (default: 2).
   /// @param requestTimeout Duration before request times out (default: 20s).
   /// @return Future resolving to operation result (no data on success).
-  /// @throws AortemCognitoValidationException for invalid parameters.
-  /// @throws AortemCognitoServiceException for API failures.
-  Future<AortemCognitoAdminEnableUserResult> adminEnableUser({
+  /// @throws    CognitoValidationException for invalid parameters.
+  /// @throws    CognitoServiceException for API failures.
+  Future<CognitoAdminEnableUserResult> adminEnableUser({
     required String userPoolId,
     required String username,
     int maxRetries = 2,
     Duration requestTimeout = const Duration(seconds: 20),
   }) async {
-    final req = AortemCognitoAdminEnableUserRequest(
+    final req = CognitoAdminEnableUserRequest(
       userPoolId: userPoolId,
       username: username,
       region: region,
@@ -684,8 +692,8 @@ class AortemCognito {
   /// @param maxRetries Maximum retry attempts (default: 2).
   /// @param requestTimeout Duration before request times out (default: 20s).
   /// @return Future resolving to operation result (no data on success).
-  /// @throws AortemCognitoValidationException for invalid parameters.
-  /// @throws AortemCognitoServiceException for API failures.
+  /// @throws    CognitoValidationException for invalid parameters.
+  /// @throws    CognitoServiceException for API failures.
   ///
   /// Example:
   /// ```dart
@@ -695,12 +703,12 @@ class AortemCognito {
   ///      .username('user.to.enable@example.com'),
   /// );
   /// ```
-  Future<AortemCognitoAdminEnableUserResult> adminEnableUserWith({
-    required AortemCognitoEnableUserConsumerFn consumer,
+  Future<CognitoAdminEnableUserResult> adminEnableUserWith({
+    required CognitoEnableUserConsumerFn consumer,
     int maxRetries = 2,
     Duration requestTimeout = const Duration(seconds: 20),
   }) async {
-    final c = AortemCognitoAdminEnableUserConsumer(
+    final c = CognitoAdminEnableUserConsumer(
       region: region,
       httpClient: httpClient,
       maxRetries: maxRetries,
@@ -722,16 +730,16 @@ class AortemCognito {
   /// @param maxRetries Maximum retry attempts (default: 2).
   /// @param requestTimeout Duration before request times out (default: 20s).
   /// @return Future resolving to operation result (no data on success).
-  /// @throws AortemCognitoValidationException for invalid parameters.
-  /// @throws AortemCognitoServiceException for API failures.
-  Future<AortemCognitoAdminForgetDeviceResult> adminForgetDevice({
+  /// @throws    CognitoValidationException for invalid parameters.
+  /// @throws    CognitoServiceException for API failures.
+  Future<CognitoAdminForgetDeviceResult> adminForgetDevice({
     required String userPoolId,
     required String username,
     required String deviceKey,
     int maxRetries = 2,
     Duration requestTimeout = const Duration(seconds: 20),
   }) async {
-    final req = AortemCognitoAdminForgetDeviceRequest(
+    final req = CognitoAdminForgetDeviceRequest(
       userPoolId: userPoolId,
       username: username,
       deviceKey: deviceKey,
@@ -753,8 +761,8 @@ class AortemCognito {
   /// @param maxRetries Maximum retry attempts (default: 2).
   /// @param requestTimeout Duration before request times out (default: 20s).
   /// @return Future resolving to operation result (no data on success).
-  /// @throws AortemCognitoValidationException for invalid parameters.
-  /// @throws AortemCognitoServiceException for API failures.
+  /// @throws    CognitoValidationException for invalid parameters.
+  /// @throws    CognitoServiceException for API failures.
   ///
   /// Example:
   /// ```dart
@@ -765,12 +773,12 @@ class AortemCognito {
   ///      .deviceKey('some-device-key-uuid'),
   /// );
   /// ```
-  Future<AortemCognitoAdminForgetDeviceResult> adminForgetDeviceWith({
-    required AortemCognitoForgetDeviceConsumerFn consumer,
+  Future<CognitoAdminForgetDeviceResult> adminForgetDeviceWith({
+    required CognitoForgetDeviceConsumerFn consumer,
     int maxRetries = 2,
     Duration requestTimeout = const Duration(seconds: 20),
   }) async {
-    final c = AortemCognitoAdminForgetDeviceConsumer(
+    final c = CognitoAdminForgetDeviceConsumer(
       region: region,
       httpClient: httpClient,
       maxRetries: maxRetries,
@@ -789,17 +797,17 @@ class AortemCognito {
   /// @param deviceKey The unique identifier of the device.
   /// @param maxRetries Maximum retry attempts (default: 2).
   /// @param requestTimeout Duration before request times out (default: 20s).
-  /// @return Future resolving to [AortemCognitoAdminGetDeviceResult] containing device details.
-  /// @throws AortemCognitoValidationException for invalid parameters.
-  /// @throws AortemCognitoServiceException for API failures.
-  Future<AortemCognitoAdminGetDeviceResult> adminGetDevice({
+  /// @return Future resolving to [   CognitoAdminGetDeviceResult] containing device details.
+  /// @throws    CognitoValidationException for invalid parameters.
+  /// @throws    CognitoServiceException for API failures.
+  Future<CognitoAdminGetDeviceResult> adminGetDevice({
     required String userPoolId,
     required String username,
     required String deviceKey,
     int maxRetries = 2,
     Duration requestTimeout = const Duration(seconds: 20),
   }) async {
-    final req = AortemCognitoAdminGetDeviceRequest(
+    final req = CognitoAdminGetDeviceRequest(
       userPoolId: userPoolId,
       username: username,
       deviceKey: deviceKey,
@@ -820,9 +828,9 @@ class AortemCognito {
   /// @param consumer Builder function that configures the operation.
   /// @param maxRetries Maximum retry attempts (default: 2).
   /// @param requestTimeout Duration before request times out (default: 20s).
-  /// @return Future resolving to [AortemCognitoAdminGetDeviceResult] containing device details.
-  /// @throws AortemCognitoValidationException for invalid parameters.
-  /// @throws AortemCognitoServiceException for API failures.
+  /// @return Future resolving to [   CognitoAdminGetDeviceResult] containing device details.
+  /// @throws    CognitoValidationException for invalid parameters.
+  /// @throws    CognitoServiceException for API failures.
   ///
   /// Example:
   /// ```dart
@@ -833,12 +841,12 @@ class AortemCognito {
   ///      .deviceKey('some-device-key-uuid'),
   /// );
   /// ```
-  Future<AortemCognitoAdminGetDeviceResult> adminGetDeviceWith({
-    required AortemCognitoGetDeviceConsumerFn consumer,
+  Future<CognitoAdminGetDeviceResult> adminGetDeviceWith({
+    required CognitoGetDeviceConsumerFn consumer,
     int maxRetries = 2,
     Duration requestTimeout = const Duration(seconds: 20),
   }) async {
-    final c = AortemCognitoAdminGetDeviceConsumer(
+    final c = CognitoAdminGetDeviceConsumer(
       region: region,
       httpClient: httpClient,
       maxRetries: maxRetries,
@@ -860,16 +868,16 @@ class AortemCognito {
   /// @param username The username of the user to retrieve.
   /// @param maxRetries Maximum retry attempts (default: 2).
   /// @param requestTimeout Duration before request times out (default: 20s).
-  /// @return Future resolving to [AortemCognitoAdminGetUserResult] containing user details.
-  /// @throws AortemCognitoValidationException for invalid parameters.
-  /// @throws AortemCognitoServiceException for API failures.
-  Future<AortemCognitoAdminGetUserResult> adminGetUser({
+  /// @return Future resolving to [   CognitoAdminGetUserResult] containing user details.
+  /// @throws    CognitoValidationException for invalid parameters.
+  /// @throws    CognitoServiceException for API failures.
+  Future<CognitoAdminGetUserResult> adminGetUser({
     required String userPoolId,
     required String username,
     int maxRetries = 2,
     Duration requestTimeout = const Duration(seconds: 20),
   }) async {
-    final req = AortemCognitoAdminGetUserRequest(
+    final req = CognitoAdminGetUserRequest(
       userPoolId: userPoolId,
       username: username,
       region: region,
@@ -889,9 +897,9 @@ class AortemCognito {
   /// @param consumer Builder function that configures the operation.
   /// @param maxRetries Maximum retry attempts (default: 2).
   /// @param requestTimeout Duration before request times out (default: 20s).
-  /// @return Future resolving to [AortemCognitoAdminGetUserResult] containing user details.
-  /// @throws AortemCognitoValidationException for invalid parameters.
-  /// @throws AortemCognitoServiceException for API failures.
+  /// @return Future resolving to [   CognitoAdminGetUserResult] containing user details.
+  /// @throws    CognitoValidationException for invalid parameters.
+  /// @throws    CognitoServiceException for API failures.
   ///
   /// Example:
   /// ```dart
@@ -901,12 +909,12 @@ class AortemCognito {
   ///      .username('user.to.query@example.com'),
   /// );
   /// ```
-  Future<AortemCognitoAdminGetUserResult> adminGetUserWith({
-    required AortemCognitoGetUserConsumerFn consumer,
+  Future<CognitoAdminGetUserResult> adminGetUserWith({
+    required CognitoGetUserConsumerFn consumer,
     int maxRetries = 2,
     Duration requestTimeout = const Duration(seconds: 20),
   }) async {
-    final c = AortemCognitoAdminGetUserConsumer(
+    final c = CognitoAdminGetUserConsumer(
       region: region,
       httpClient: httpClient,
       maxRetries: maxRetries,
@@ -935,10 +943,10 @@ class AortemCognito {
   /// @param session Optional session string from a previous challenge.
   /// @param maxRetries Maximum retry attempts (default: 2).
   /// @param requestTimeout Duration before request times out (default: 20s).
-  /// @return Future resolving to [AortemCognitoAdminInitiateAuthResult] with tokens or challenge details.
-  /// @throws AortemCognitoValidationException for invalid parameters.
-  /// @throws AortemCognitoServiceException for API failures.
-  Future<AortemCognitoAdminInitiateAuthResult> adminInitiateAuth({
+  /// @return Future resolving to [   CognitoAdminInitiateAuthResult] with tokens or challenge details.
+  /// @throws    CognitoValidationException for invalid parameters.
+  /// @throws    CognitoServiceException for API failures.
+  Future<CognitoAdminInitiateAuthResult> adminInitiateAuth({
     required String userPoolId,
     required String clientId,
     required String authFlow,
@@ -950,7 +958,7 @@ class AortemCognito {
     int maxRetries = 2,
     Duration requestTimeout = const Duration(seconds: 20),
   }) async {
-    final req = AortemCognitoAdminInitiateAuthRequest(
+    final req = CognitoAdminInitiateAuthRequest(
       userPoolId: userPoolId,
       clientId: clientId,
       authFlow: authFlow,
@@ -976,9 +984,9 @@ class AortemCognito {
   /// @param consumer Builder function that configures the operation.
   /// @param maxRetries Maximum retry attempts (default: 2).
   /// @param requestTimeout Duration before request times out (default: 20s).
-  /// @return Future resolving to [AortemCognitoAdminInitiateAuthResult] with tokens or challenge details.
-  /// @throws AortemCognitoValidationException for invalid parameters.
-  /// @throws AortemCognitoServiceException for API failures.
+  /// @return Future resolving to [   CognitoAdminInitiateAuthResult] with tokens or challenge details.
+  /// @throws    CognitoValidationException for invalid parameters.
+  /// @throws    CognitoServiceException for API failures.
   ///
   /// Example:
   /// ```dart
@@ -990,12 +998,12 @@ class AortemCognito {
   ///      .authParameters({'USERNAME': 'testuser', 'PASSWORD': 'Password!234'}),
   /// );
   /// ```
-  Future<AortemCognitoAdminInitiateAuthResult> adminInitiateAuthWith({
-    required AortemCognitoAdminInitiateAuthConsumerFn consumer,
+  Future<CognitoAdminInitiateAuthResult> adminInitiateAuthWith({
+    required CognitoAdminInitiateAuthConsumerFn consumer,
     int maxRetries = 2,
     Duration requestTimeout = const Duration(seconds: 20),
   }) async {
-    final c = AortemCognitoAdminInitiateAuthConsumer(
+    final c = CognitoAdminInitiateAuthConsumer(
       region: region,
       httpClient: httpClient,
       maxRetries: maxRetries,
@@ -1020,16 +1028,16 @@ class AortemCognito {
   /// @param maxRetries Maximum retry attempts (default: 2).
   /// @param requestTimeout Duration before request times out (default: 20s).
   /// @return Future resolving to operation result (no data on success).
-  /// @throws AortemCognitoValidationException for invalid parameters.
-  /// @throws AortemCognitoServiceException for API failures.
-  Future<AortemCognitoAdminLinkProviderForUserResult> adminLinkProviderForUser({
+  /// @throws    CognitoValidationException for invalid parameters.
+  /// @throws    CognitoServiceException for API failures.
+  Future<CognitoAdminLinkProviderForUserResult> adminLinkProviderForUser({
     required String userPoolId,
-    required AortemCognitoProviderUserLinkingIdentifier destinationUser,
-    required AortemCognitoProviderUserLinkingIdentifier sourceUser,
+    required CognitoProviderUserLinkingIdentifier destinationUser,
+    required CognitoProviderUserLinkingIdentifier sourceUser,
     int maxRetries = 2,
     Duration requestTimeout = const Duration(seconds: 20),
   }) async {
-    final req = AortemCognitoAdminLinkProviderForUserRequest(
+    final req = CognitoAdminLinkProviderForUserRequest(
       userPoolId: userPoolId,
       destinationUser: destinationUser,
       sourceUser: sourceUser,
@@ -1051,8 +1059,8 @@ class AortemCognito {
   /// @param maxRetries Maximum retry attempts (default: 2).
   /// @param requestTimeout Duration before request times out (default: 20s).
   /// @return Future resolving to operation result (no data on success).
-  /// @throws AortemCognitoValidationException for invalid parameters.
-  /// @throws AortemCognitoServiceException for API failures.
+  /// @throws    CognitoValidationException for invalid parameters.
+  /// @throws    CognitoServiceException for API failures.
   ///
   /// Example:
   /// ```dart
@@ -1070,13 +1078,12 @@ class AortemCognito {
   ///      ),
   /// );
   /// ```
-  Future<AortemCognitoAdminLinkProviderForUserResult>
-  adminLinkProviderForUserWith({
-    required AortemCognitoAdminLinkProviderForUserConsumerFn consumer,
+  Future<CognitoAdminLinkProviderForUserResult> adminLinkProviderForUserWith({
+    required CognitoAdminLinkProviderForUserConsumerFn consumer,
     int maxRetries = 2,
     Duration requestTimeout = const Duration(seconds: 20),
   }) async {
-    final c = AortemCognitoAdminLinkProviderForUserConsumer(
+    final c = CognitoAdminLinkProviderForUserConsumer(
       region: region,
       httpClient: httpClient,
       maxRetries: maxRetries,
@@ -1099,10 +1106,10 @@ class AortemCognito {
   /// @param paginationToken Optional: An opaque pagination token for fetching the next page.
   /// @param maxRetries Maximum retry attempts (default: 2).
   /// @param requestTimeout Duration before request times out (default: 20s).
-  /// @return Future resolving to [AortemCognitoAdminListDevicesResult] containing device list and pagination token.
-  /// @throws AortemCognitoValidationException for invalid parameters.
-  /// @throws AortemCognitoServiceException for API failures.
-  Future<AortemCognitoAdminListDevicesResult> adminListDevices({
+  /// @return Future resolving to [   CognitoAdminListDevicesResult] containing device list and pagination token.
+  /// @throws    CognitoValidationException for invalid parameters.
+  /// @throws    CognitoServiceException for API failures.
+  Future<CognitoAdminListDevicesResult> adminListDevices({
     required String userPoolId,
     required String username,
     int? limit,
@@ -1110,7 +1117,7 @@ class AortemCognito {
     int maxRetries = 2,
     Duration requestTimeout = const Duration(seconds: 20),
   }) async {
-    final req = AortemCognitoAdminListDevicesRequest(
+    final req = CognitoAdminListDevicesRequest(
       userPoolId: userPoolId,
       username: username,
       limit: limit,
@@ -1132,9 +1139,9 @@ class AortemCognito {
   /// @param consumer Builder function that configures the operation.
   /// @param maxRetries Maximum retry attempts (default: 2).
   /// @param requestTimeout Duration before request times out (default: 20s).
-  /// @return Future resolving to [AortemCognitoAdminListDevicesResult] containing device list and pagination token.
-  /// @throws AortemCognitoValidationException for invalid parameters.
-  /// @throws AortemCognitoServiceException for API failures.
+  /// @return Future resolving to [   CognitoAdminListDevicesResult] containing device list and pagination token.
+  /// @throws    CognitoValidationException for invalid parameters.
+  /// @throws    CognitoServiceException for API failures.
   ///
   /// Example:
   /// ```dart
@@ -1145,12 +1152,12 @@ class AortemCognito {
   ///      .limit(10),
   /// );
   /// ```
-  Future<AortemCognitoAdminListDevicesResult> adminListDevicesWith({
-    required AortemCognitoAdminListDevicesConsumerFn consumer,
+  Future<CognitoAdminListDevicesResult> adminListDevicesWith({
+    required CognitoAdminListDevicesConsumerFn consumer,
     int maxRetries = 2,
     Duration requestTimeout = const Duration(seconds: 20),
   }) async {
-    final c = AortemCognitoAdminListDevicesConsumer(
+    final c = CognitoAdminListDevicesConsumer(
       region: region,
       httpClient: httpClient,
       maxRetries: maxRetries,
@@ -1173,10 +1180,10 @@ class AortemCognito {
   /// @param nextToken Optional: An opaque pagination token for fetching the next page.
   /// @param maxRetries Maximum retry attempts (default: 2).
   /// @param requestTimeout Duration before request times out (default: 20s).
-  /// @return Future resolving to [AortemCognitoAdminListGroupsForUserResult] containing group list and pagination token.
-  /// @throws AortemCognitoValidationException for invalid parameters.
-  /// @throws AortemCognitoServiceException for API failures.
-  Future<AortemCognitoAdminListGroupsForUserResult> adminListGroupsForUser({
+  /// @return Future resolving to [   CognitoAdminListGroupsForUserResult] containing group list and pagination token.
+  /// @throws    CognitoValidationException for invalid parameters.
+  /// @throws    CognitoServiceException for API failures.
+  Future<CognitoAdminListGroupsForUserResult> adminListGroupsForUser({
     required String userPoolId,
     required String username,
     int? limit,
@@ -1184,7 +1191,7 @@ class AortemCognito {
     int maxRetries = 2,
     Duration requestTimeout = const Duration(seconds: 20),
   }) async {
-    final req = AortemCognitoAdminListGroupsForUserRequest(
+    final req = CognitoAdminListGroupsForUserRequest(
       userPoolId: userPoolId,
       username: username,
       limit: limit,
@@ -1206,9 +1213,9 @@ class AortemCognito {
   /// @param consumer Builder function that configures the operation.
   /// @param maxRetries Maximum retry attempts (default: 2).
   /// @param requestTimeout Duration before request times out (default: 20s).
-  /// @return Future resolving to [AortemCognitoAdminListGroupsForUserResult] containing group list and pagination token.
-  /// @throws AortemCognitoValidationException for invalid parameters.
-  /// @throws AortemCognitoServiceException for API failures.
+  /// @return Future resolving to [   CognitoAdminListGroupsForUserResult] containing group list and pagination token.
+  /// @throws    CognitoValidationException for invalid parameters.
+  /// @throws    CognitoServiceException for API failures.
   ///
   /// Example:
   /// ```dart
@@ -1219,12 +1226,12 @@ class AortemCognito {
   ///      .limit(5),
   /// );
   /// ```
-  Future<AortemCognitoAdminListGroupsForUserResult> adminListGroupsForUserWith({
-    required AortemCognitoAdminListGroupsForUserConsumerFn consumer,
+  Future<CognitoAdminListGroupsForUserResult> adminListGroupsForUserWith({
+    required CognitoAdminListGroupsForUserConsumerFn consumer,
     int maxRetries = 2,
     Duration requestTimeout = const Duration(seconds: 20),
   }) async {
-    final c = AortemCognitoAdminListGroupsForUserConsumer(
+    final c = CognitoAdminListGroupsForUserConsumer(
       region: region,
       httpClient: httpClient,
       maxRetries: maxRetries,
@@ -1246,8 +1253,8 @@ class AortemCognito {
   /// @param limit Optional: The maximum number of results per page (0-60).
   /// @param maxRetries Maximum retry attempts for failed requests (default: 2).
   /// @param requestTimeout Duration before request times out (default: 20s).
-  /// @return An instance of [AortemCognitoAdminListGroupsForUserPaginatorRequest].
-  /// @throws AortemCognitoValidationException for invalid parameters.
+  /// @return An instance of [   CognitoAdminListGroupsForUserPaginatorRequest].
+  /// @throws    CognitoValidationException for invalid parameters.
 
   // //
   // --------------------------------------------------------------------------------
@@ -1261,9 +1268,9 @@ class AortemCognito {
   /// @param limit Optional: The maximum number of results per page (0-60).
   /// @param maxRetries Maximum retry attempts for failed requests (default: 2).
   /// @param requestTimeout Duration before request times out (default: 20s).
-  /// @return An instance of [AortemCognitoAdminListGroupsForUserPaginatorConsumer].
-  /// @throws AortemCognitoValidationException for invalid parameters.
-  AortemCognitoAdminListGroupsForUserPaginatorConsumer
+  /// @return An instance of [   CognitoAdminListGroupsForUserPaginatorConsumer].
+  /// @throws    CognitoValidationException for invalid parameters.
+  CognitoAdminListGroupsForUserPaginatorConsumer
   adminListGroupsForUserPaginator({
     required String userPoolId,
     required String username,
@@ -1271,11 +1278,500 @@ class AortemCognito {
     int maxRetries = 2,
     Duration requestTimeout = const Duration(seconds: 20),
   }) {
-    return AortemCognitoAdminListGroupsForUserPaginatorConsumer(
+    return CognitoAdminListGroupsForUserPaginatorConsumer(
       region: region,
       httpClient: httpClient,
       maxRetries: maxRetries,
       requestTimeout: requestTimeout,
     ); // Set initial values
   }
+
+  // New AdminListUserAuthEventsPaginator methods
+  //
+  // --------------------------------------------------------------------------------
+  /// Returns a paginator for listing a user's authentication events and risk signals.
+  ///
+  /// This paginator allows fetching all events or iterating page by page.
+  /// Requires appropriate IAM permissions for the `cognito-idp:AdminListUserAuthEvents` action.
+  ///
+  /// @param userPoolId The target user pool ID (format: region_ID).
+  /// @param username The username of the user to query.
+  /// @param maxResults Optional: The maximum number of results to be returned per page (0-60).
+  /// @param maxRetries Maximum retry attempts for failed requests (default: 2).
+  /// @param requestTimeout Duration before request times out (default: 20s).
+  /// @return An instance of [   CognitoAdminListUserAuthEventsPaginatorRequest].
+  /// @throws    CognitoValidationException for invalid parameters.
+  CognitoAdminListUserAuthEventsPaginatorRequest
+  adminListUserAuthEventsPaginator({
+    required String userPoolId,
+    required String username,
+    int? maxResults,
+    int maxRetries = 2,
+    Duration requestTimeout = const Duration(seconds: 20),
+  }) {
+    return CognitoAdminListUserAuthEventsPaginatorRequest(
+      userPoolId: userPoolId,
+      username: username,
+
+      region: region,
+      httpClient: httpClient,
+      maxRetries: maxRetries,
+      requestTimeout: requestTimeout,
+    );
+  }
+
+  //
+  // Existing AdminListUserAuthEvents methods
+  //
+  // --------------------------------------------------------------------------------
+  /// Returns a history of user authentication events and associated risk scores as an administrator.
+  ///
+  /// Requires appropriate IAM permissions for the `cognito-idp:AdminListUserAuthEvents` action.
+  ///
+  /// @param userPoolId The target user pool ID (format: region_ID).
+  /// @param username The username of the user to query.
+  /// @param maxResults Optional: The maximum number of results to be returned per page (0-60).
+  /// @param nextToken Optional: An opaque pagination token for fetching the next page.
+  /// @param maxRetries Maximum retry attempts (default: 2).
+  /// @param requestTimeout Duration before request times out (default: 20s).
+  /// @return Future resolving to a list of all authentication events across all pages.
+  /// @throws    CognitoValidationException for invalid parameters.
+  /// @throws    CognitoServiceException for API failures.
+  Future<List<Map<String, dynamic>>> adminListUserAuthEvents({
+    required String userPoolId,
+    required String username,
+    int? maxResults,
+    String? nextToken,
+    int maxRetries = 2,
+    Duration requestTimeout = const Duration(seconds: 20),
+  }) async {
+    final req = CognitoAdminListUserAuthEventsRequest(
+      userPoolId: userPoolId,
+      username: username,
+      maxResults: maxResults,
+      region: region,
+      httpClient: httpClient,
+      maxRetries: maxRetries,
+      requestTimeout: requestTimeout,
+    );
+    return await req.listAll();
+  }
+
+  // --------------------------------------------------------------------------------
+  /// Returns a paginator for listing user authentication events.
+  ///
+  /// This paginator allows iterating page by page or fetching all events at once.
+  ///
+  /// @param consumer Builder function that configures the operation.
+  /// @param maxRetries Maximum retry attempts (default: 2).
+  /// @param requestTimeout Duration before request times out (default: 20s).
+  /// @return An instance of [   CognitoAdminListUserAuthEventsConsumer].
+  /// @throws    CognitoValidationException for invalid parameters.
+  CognitoAdminListUserAuthEventsConsumer adminListUserAuthEventsWith({
+    required CognitoAdminListUserAuthEventsFn consumer,
+    int maxRetries = 2,
+    Duration requestTimeout = const Duration(seconds: 20),
+  }) {
+    final c = CognitoAdminListUserAuthEventsConsumer(
+      region: region,
+      httpClient: httpClient,
+      maxRetries: maxRetries,
+      requestTimeout: requestTimeout,
+    );
+    return c..runAll(consumer);
+  }
+
+  // New AdminResetUserPassword methods
+  //
+  // --------------------------------------------------------------------------------
+  /// Begins a password reset for a user in a Cognito user pool as an administrator.
+  ///
+  /// This operation initiates the password reset flow, typically sending a
+  /// verification code via email or SMS.
+  ///
+  /// Requires appropriate IAM permissions for the `cognito-idp:AdminResetUserPassword` action.
+  ///
+  /// @param userPoolId The target user pool ID (format: region_ID).
+  /// @param username The username of the user whose password will be reset.
+  /// @param clientMetadata Optional map of client-side metadata.
+  /// @param maxRetries Maximum retry attempts (default: 2).
+  /// @param requestTimeout Duration before request times out (default: 20s).
+  /// @return Future resolving to operation result (no data on success).
+  /// @throws    CognitoValidationException for invalid parameters.
+  /// @throws    CognitoServiceException for API failures.
+  Future<CognitoAdminResetUserPasswordResult> adminResetUserPassword({
+    required String userPoolId,
+    required String username,
+    Map<String, String>? clientMetadata,
+    int maxRetries = 2,
+    Duration requestTimeout = const Duration(seconds: 20),
+  }) async {
+    final req = CognitoAdminResetUserPasswordRequest(
+      userPoolId: userPoolId,
+      username: username,
+      clientMetadata: clientMetadata,
+      region: region,
+      httpClient: httpClient,
+      maxRetries: maxRetries,
+      requestTimeout: requestTimeout,
+    );
+
+    return await req.execute();
+  }
+
+  // --------------------------------------------------------------------------------
+  /// Begins a password reset for a user using a consumer/builder pattern.
+  ///
+  /// Provides input normalization and validation before execution.
+  ///
+  /// @param consumer Builder function that configures the operation.
+  /// @param maxRetries Maximum retry attempts (default: 2).
+  /// @param requestTimeout Duration before request times out (default: 20s).
+  /// @return Future resolving to operation result (no data on success).
+  /// @throws    CognitoValidationException for invalid parameters.
+  /// @throws    CognitoServiceException for API failures.
+  ///
+  /// Example:
+  /// ```dart
+  /// await client.adminResetUserPasswordWith(
+  ///    (b) => b
+  ///      .userPoolId('us-east-1_abc123')
+  ///      .username('user.to.reset@example.com')
+  ///      .clientMetadata({'source': 'admin-panel'}),
+  /// );
+  /// ```
+  Future<CognitoAdminResetUserPasswordResult> adminResetUserPasswordWith({
+    required CognitoAdminResetUserPasswordFn consumer,
+    int maxRetries = 2,
+    Duration requestTimeout = const Duration(seconds: 20),
+  }) async {
+    final c = CognitoAdminResetUserPasswordConsumer(
+      region: region,
+      httpClient: httpClient,
+      maxRetries: maxRetries,
+      requestTimeout: requestTimeout,
+    );
+    return await c.run(consumer);
+  }
+
+  //
+  // New AdminRespondToAuthChallenge methods
+  //
+  // --------------------------------------------------------------------------------
+  /// Responds to an authentication challenge from Cognito as an administrator.
+  ///
+  /// This operation is used to complete authentication flows that require
+  /// additional steps, such as MFA challenges, new password requirements,
+  /// or custom authentication challenges.
+  ///
+  /// Requires appropriate IAM permissions for the `cognito-idp:AdminRespondToAuthChallenge` action.
+  ///
+  /// @param userPoolId The ID of the user pool.
+  /// @param clientId The ID of the app client.
+  /// @param challengeName The name of the challenge (e.g., 'SMS_MFA', 'NEW_PASSWORD_REQUIRED').
+  /// @param challengeResponses A map of challenge response parameters.
+  /// @param clientMetadata Optional map of client-side metadata.
+  /// @param analyticsMetadata Optional map of analytics metadata.
+  /// @param contextData Optional map of context data.
+  /// @param session Optional session string from the previous challenge.
+  /// @param maxRetries Maximum retry attempts (default: 2).
+  /// @param requestTimeout Duration before request times out (default: 20s).
+  /// @return Future resolving to [   CognitoAdminRespondToAuthChallengeResult] with raw response body and status.
+  /// @throws    CognitoValidationException for invalid parameters.
+  /// @throws    CognitoServiceException for API failures.
+  Future<CognitoAdminRespondToAuthChallengeResult> adminRespondToAuthChallenge({
+    required String userPoolId,
+    required String clientId,
+    required String challengeName,
+    required Map<String, String> challengeResponses,
+    Map<String, String>? clientMetadata,
+    Map<String, dynamic>? analyticsMetadata,
+    Map<String, dynamic>? contextData,
+    String? session,
+    int maxRetries = 2,
+    Duration requestTimeout = const Duration(seconds: 20),
+  }) async {
+    final req = CognitoAdminRespondToAuthChallengeRequest(
+      userPoolId: userPoolId,
+      clientId: clientId,
+      challengeName: challengeName,
+      challengeResponses: challengeResponses,
+      clientMetadata: clientMetadata,
+      analyticsMetadata: analyticsMetadata,
+      contextData: contextData,
+      session: session,
+      region: region,
+      httpClient: httpClient,
+      maxRetries: maxRetries,
+      requestTimeout: requestTimeout,
+    );
+
+    return await req.execute();
+  }
+
+  // --------------------------------------------------------------------------------
+  /// Responds to an authentication challenge using a consumer/builder pattern.
+  ///
+  /// Provides a fluent interface for configuring challenge responses.
+  ///
+  /// @param consumer Builder function that configures the operation.
+  /// @param maxRetries Maximum retry attempts (default: 2).
+  /// @param requestTimeout Duration before request times out (default: 20s).
+  /// @return Future resolving to [   CognitoAdminRespondToAuthChallengeResult] with raw response body and status.
+  /// @throws    CognitoValidationException for invalid parameters.
+  /// @throws    CognitoServiceException for API failures.
+  ///
+  /// Example:
+  /// ```dart
+  /// await client.adminRespondToAuthChallengeWith(
+  ///    (b) => b
+  ///      .userPoolId('us-east-1_abc123')
+  ///      .clientId('app-client-id')
+  ///      .challengeName('SMS_MFA')
+  ///      .challengeResponses({'USERNAME': 'testuser', 'SMS_MFA_CODE': '123456'})
+  ///      .session('session-token-from-initiate-auth'),
+  /// );
+  /// ```
+  Future<CognitoAdminRespondToAuthChallengeResult>
+  adminRespondToAuthChallengeWith({
+    required CognitoAdminRespondToAuthChallengeFn consumer,
+    int maxRetries = 2,
+    Duration requestTimeout = const Duration(seconds: 20),
+  }) async {
+    final c = CognitoAdminRespondToAuthChallengeConsumer(
+      region: region,
+      httpClient: httpClient,
+      maxRetries: maxRetries,
+      requestTimeout: requestTimeout,
+    );
+    return await c.run(consumer);
+  }
+
+  // New AdminSetUserMFAPreference methods
+  //
+  // --------------------------------------------------------------------------------
+  /// Sets the MFA preference for a user in a Cognito user pool as an administrator.
+  ///
+  /// This operation allows enabling or disabling specific MFA methods (SMS, Email, Software Token)
+  /// and setting a preferred MFA method for a user.
+  ///
+  /// Requires appropriate IAM permissions for the `cognito-idp:AdminSetUserMFAPreference` action.
+  ///
+  /// @param userPoolId The target user pool ID (format: region_ID).
+  /// @param username The username of the user whose MFA preference will be set.
+  /// @param emailMfaSettings Optional map for email MFA settings (e.g., `{'Enabled': true}`).
+  /// @param smsMfaSettings Optional map for SMS MFA settings (e.g., `{'Enabled': true}`).
+  /// @param softwareTokenMfaSettings Optional map for software token MFA settings (e.g., `{'Enabled': true}`).
+  /// @param maxRetries Maximum retry attempts (default: 2).
+  /// @param requestTimeout Duration before request times out (default: 20s).
+  /// @return Future resolving to [   CognitoAdminSetUserMFAPreferenceResult] with raw response JSON.
+  /// @throws    CognitoValidationException for invalid parameters.
+  /// @throws    CognitoServiceException for API failures.
+  Future<CognitoAdminSetUserMFAPreferenceResult> adminSetUserMFAPreference({
+    required String userPoolId,
+    required String username,
+    Map<String, dynamic>? emailMfaSettings,
+    Map<String, dynamic>? smsMfaSettings,
+    Map<String, dynamic>? softwareTokenMfaSettings,
+    int maxRetries = 2,
+    Duration requestTimeout = const Duration(seconds: 20),
+  }) async {
+    final req = CognitoAdminSetUserMFAPreferenceRequest(
+      userPoolId: userPoolId,
+      username: username,
+      emailMfaSettings: emailMfaSettings,
+      smsMfaSettings: smsMfaSettings,
+      softwareTokenMfaSettings: softwareTokenMfaSettings,
+      region: region,
+      httpClient: httpClient,
+      maxRetries: maxRetries,
+      requestTimeout: requestTimeout,
+    );
+
+    return await req.execute();
+  }
+
+  // --------------------------------------------------------------------------------
+  /// Sets the MFA preference for a user using a consumer/builder pattern.
+  ///
+  /// Provides a fluent interface for configuring MFA settings.
+  ///
+  /// @param consumer Builder function that configures the operation.
+  /// @param maxRetries Maximum retry attempts (default: 2).
+  /// @param requestTimeout Duration before request times out (default: 20s).
+  /// @return Future resolving to [   CognitoAdminSetUserMFAPreferenceResult] with raw response JSON.
+  /// @throws    CognitoValidationException for invalid parameters.
+  /// @throws    CognitoServiceException for API failures.
+  ///
+  /// Example:
+  /// ```dart
+  /// await client.adminSetUserMFAPreferenceWith(
+  ///    (b) => b
+  ///      .userPoolId('us-east-1_abc123')
+  ///      .username('user.mfa@example.com')
+  ///      .smsMfaSettings({'Enabled': true, 'PreferredMfa': true})
+  ///      .emailMfaSettings({'Enabled': false}),
+  /// );
+  /// ```
+  Future<CognitoAdminSetUserMFAPreferenceResult> adminSetUserMFAPreferenceWith({
+    required CognitoAdminSetUserMFAPreferenceFn consumer,
+    int maxRetries = 2,
+    Duration requestTimeout = const Duration(seconds: 20),
+  }) async {
+    final c = CognitoAdminSetUserMFAPreferenceConsumer(
+      region: region,
+      httpClient: httpClient,
+      maxRetries: maxRetries,
+      requestTimeout: requestTimeout,
+    );
+    return await c.run(consumer);
+  }
+
+  //
+  // New AdminSetUserPassword methods
+  //
+  // --------------------------------------------------------------------------------
+  /// Sets a user's password in a Cognito user pool as an administrator.
+  ///
+  /// This operation can be used to set a new password for a user,
+  /// optionally making it permanent.
+  ///
+  /// Requires appropriate IAM permissions for the `cognito-idp:AdminSetUserPassword` action.
+  ///
+  /// @param userPoolId The target user pool ID (format: region_ID).
+  /// @param username The username of the user whose password will be set.
+  /// @param password The new password for the user.
+  /// @param permanent Optional: Whether the password is permanent (true) or temporary (false).
+  /// @param maxRetries Maximum retry attempts (default: 2).
+  /// @param requestTimeout Duration before request times out (default: 20s).
+  /// @return Future resolving to operation result (no data on success).
+  /// @throws    CognitoValidationException for invalid parameters.
+  /// @throws    CognitoServiceException for API failures.
+  Future<CognitoAdminSetUserPasswordResult> adminSetUserPassword({
+    required String userPoolId,
+    required String username,
+    required String password,
+    bool? permanent,
+    int maxRetries = 2,
+    Duration requestTimeout = const Duration(seconds: 20),
+  }) async {
+    final req = CognitoAdminSetUserPasswordRequest(
+      userPoolId: userPoolId,
+      username: username,
+      password: password,
+      permanent: permanent,
+      region: region,
+      httpClient: httpClient,
+      maxRetries: maxRetries,
+      requestTimeout: requestTimeout,
+    );
+
+    return await req.execute();
+  }
+
+  // --------------------------------------------------------------------------------
+  /// Sets a user's password using a consumer/builder pattern.
+  ///
+  /// Provides a fluent interface for configuring the password setting operation.
+  ///
+  /// @param consumer Builder function that configures the operation.
+  /// @param maxRetries Maximum retry attempts (default: 2).
+  /// @param requestTimeout Duration before request times out (default: 20s).
+  /// @return Future resolving to operation result (no data on success).
+  /// @throws    CognitoValidationException for invalid parameters.
+  /// @throws    CognitoServiceException for API failures.
+  ///
+  /// Example:
+  /// ```dart
+  /// await client.adminSetUserPasswordWith(
+  ///    (b) => b
+  ///      .userPoolId('us-east-1_abc123')
+  ///      .username('user.to.set.password@example.com')
+  ///      .password('NewSecurePassword!1')
+  ///      .permanent(true),
+  /// );
+  /// ```
+  Future<CognitoAdminSetUserPasswordResult> adminSetUserPasswordWith({
+    required CognitoAdminSetUserPasswordFn consumer,
+    int maxRetries = 2,
+    Duration requestTimeout = const Duration(seconds: 20),
+  }) async {
+    final c = CognitoAdminSetUserPasswordConsumer(
+      region: region,
+      httpClient: httpClient,
+      maxRetries: maxRetries,
+      requestTimeout: requestTimeout,
+    );
+    return await c.run(consumer);
+  }
+
+  //
+  // New AdminUpdateAuthEventFeedback methods
+  //
+  // --------------------------------------------------------------------------------
+  /// Provides feedback on an authentication event for risk-based adaptive authentication.
+  ///
+  /// This operation allows administrators to mark an authentication event as either
+  /// legitimate ('Valid') or fraudulent ('Invalid').
+  ///
+  /// Requires appropriate IAM permissions for the `cognito-idp:AdminUpdateAuthEventFeedback` action.
+  ///
+  /// @param userPoolId The target user pool ID (format: region_ID).
+  /// @param username The username of the user associated with the event.
+  /// @param eventId The unique identifier of the authentication event.
+  /// @param feedbackValue The feedback value, either 'Valid' or 'Invalid'.
+  /// @param maxRetries Maximum retry attempts (default: 2).
+  /// @param requestTimeout Duration before request times out (default: 20s).
+  /// @return Future resolving to operation result (no data on success).
+  /// @throws    CognitoValidationException for invalid parameters.
+  /// @throws    CognitoServiceException for API failures.
+  Future<CognitoAdminUpdateAuthEventFeedbackResult>
+  adminUpdateAuthEventFeedback({
+    required String userPoolId,
+    required String username,
+    required String eventId,
+    required String feedbackValue,
+    int maxRetries = 2,
+    Duration requestTimeout = const Duration(seconds: 20),
+  }) async {
+    final req = CognitoAdminUpdateAuthEventFeedbackRequest(
+      userPoolId: userPoolId,
+      username: username,
+      eventId: eventId,
+      feedbackValue: feedbackValue,
+      region: region,
+      httpClient: httpClient,
+      maxRetries: maxRetries,
+      requestTimeout: requestTimeout,
+    );
+
+    return await req.execute();
+  }
+
+  /// Provides feedback on an authentication event using a consumer/builder pattern.
+  ///
+  /// Provides a fluent interface for configuring the feedback operation.
+  ///
+  /// @param consumer Builder function that configures the operation.
+  /// @param maxRetries Maximum retry attempts (default: 2).
+  /// @param requestTimeout Duration before request times out (default: 20s).
+  /// @return Future resolving to operation result (no data on success).
+  /// @throws    CognitoValidationException for invalid parameters.
+  /// @throws    CognitoServiceException for API failures.
+  Future<CognitoAdminUpdateAuthEventFeedbackResult>
+  adminUpdateAuthEventFeedbackWith({
+    required CognitoAdminUpdateAuthEventFeedbackConsumerFn consumer,
+    int maxRetries = 2,
+    Duration requestTimeout = const Duration(seconds: 20),
+  }) async {
+    final c = CognitoAdminUpdateAuthEventFeedbackConsumer(
+      region: region,
+      httpClient: httpClient,
+      maxRetries: maxRetries,
+      requestTimeout: requestTimeout,
+    );
+    return await c.run(consumer);
+  }
+
+  //
 }

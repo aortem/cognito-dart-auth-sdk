@@ -5,14 +5,14 @@ import 'package:cognito_dart_auth_sdk/exceptions/cognito_validate_exception.dart
 import 'package:cognito_dart_auth_sdk/exceptions/cognito_service_exception.dart';
 import 'package:ds_tools_testing/ds_tools_testing.dart';
 
-class _FakeHttp implements AortemCognitoHttpClient {
+class _FakeHttp implements CognitoHttpClient {
   Map<String, dynamic>? lastPayload;
   String? lastTarget;
   int statusCode = 200;
   String bodyString = '{"User":{"Username":"testuser"}}';
 
   @override
-  Future<AortemCognitoHttpResponse> send({
+  Future<CognitoHttpResponse> send({
     required String service,
     required String target,
     required String region,
@@ -22,7 +22,7 @@ class _FakeHttp implements AortemCognitoHttpClient {
   }) async {
     lastTarget = target;
     lastPayload = payload;
-    return AortemCognitoHttpResponse(
+    return CognitoHttpResponse(
       statusCode: statusCode,
       headers: const {},
       bodyString: bodyString,
@@ -30,7 +30,7 @@ class _FakeHttp implements AortemCognitoHttpClient {
   }
 
   @override
-  Future<AortemCognitoHttpResponse> post({
+  Future<CognitoHttpResponse> post({
     required String region,
     required String xAmzTarget,
     required Map<String, dynamic> payload,
@@ -53,17 +53,17 @@ void main() {
     test('happy path: builds payload and returns result with User', () async {
       final http = _FakeHttp();
 
-      final req = AortemCognitoAdminCreateUserRequest(
+      final req = CognitoAdminCreateUserRequest(
         userPoolId: 'us-east-1_EXAMPLE',
         username: 'testuser',
         region: 'us-east-1',
         httpClient: http,
         userAttributes: const [
-          AortemCognitoAttributeType(name: 'email', value: 'test@example.com'),
-          AortemCognitoAttributeType(name: 'name', value: 'John'),
+          CognitoAttributeType(name: 'email', value: 'test@example.com'),
+          CognitoAttributeType(name: 'name', value: 'John'),
         ],
         desiredDeliveryMediums: const ['EMAIL'],
-        messageAction: AortemCognitoMessageActionType.suppress,
+        messageAction: CognitoMessageActionType.suppress,
         temporaryPassword: 'Temp#123456', // optional
       );
 
@@ -87,41 +87,38 @@ void main() {
     test('validation: EMAIL delivery without email attribute throws', () {
       final http = _FakeHttp();
       expect(
-        () => AortemCognitoAdminCreateUserRequest(
+        () => CognitoAdminCreateUserRequest(
           userPoolId: 'us-east-1_EXAMPLE',
           username: 'user1',
           region: 'us-east-1',
           httpClient: http,
           desiredDeliveryMediums: const ['EMAIL'],
           userAttributes: const [
-            AortemCognitoAttributeType(name: 'name', value: 'No Email'),
+            CognitoAttributeType(name: 'name', value: 'No Email'),
           ],
         ),
-        throwsA(isA<AortemCognitoValidationException>()),
+        throwsA(isA<CognitoValidationException>()),
       );
     });
 
-    test('4xx from service throws AortemCognitoServiceException', () async {
+    test('4xx from service throws    CognitoServiceException', () async {
       final http = _FakeHttp()
         ..statusCode = 400
         ..bodyString = '{"message":"InvalidParameterException"}';
 
-      final req = AortemCognitoAdminCreateUserRequest(
+      final req = CognitoAdminCreateUserRequest(
         userPoolId: 'us-east-1_EXAMPLE',
         username: 'user2',
         region: 'us-east-1',
         httpClient: http,
         userAttributes: const [
-          AortemCognitoAttributeType(name: 'email', value: 'x@y.com'),
+          CognitoAttributeType(name: 'email', value: 'x@y.com'),
         ],
         desiredDeliveryMediums: const ['EMAIL'],
         maxRetries: 0,
       );
 
-      expect(
-        () => req.execute(),
-        throwsA(isA<AortemCognitoServiceException>()),
-      );
+      expect(() => req.execute(), throwsA(isA<CognitoServiceException>()));
     });
   });
 }

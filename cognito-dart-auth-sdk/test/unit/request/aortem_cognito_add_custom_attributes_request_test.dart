@@ -3,9 +3,9 @@ import 'package:cognito_dart_auth_sdk/exceptions/cognito_validate_exception.dart
 import 'package:ds_tools_testing/ds_tools_testing.dart';
 
 void main() {
-  group('AortemCognitoAttributeBuilder', () {
+  group('   CognitoAttributeBuilder', () {
     test('string() adds custom: prefix and constraints', () {
-      final builder = AortemCognitoAttributeBuilder()
+      final builder = CognitoAttributeBuilder()
         ..string(name: 'deliverables', minLength: '1', maxLength: '255');
 
       final attrs = builder.build();
@@ -15,7 +15,7 @@ void main() {
     });
 
     test('developerOnly true gets dev: prefix', () {
-      final builder = AortemCognitoAttributeBuilder()
+      final builder = CognitoAttributeBuilder()
         ..boolean(name: 'flag', developerOnly: true);
 
       final attrs = builder.build();
@@ -24,10 +24,10 @@ void main() {
     });
 
     test('throws if attribute name empty', () {
-      final builder = AortemCognitoAttributeBuilder();
+      final builder = CognitoAttributeBuilder();
       expect(
         () => builder.string(name: ''),
-        throwsA(isA<AortemCognitoValidationException>()),
+        throwsA(isA<CognitoValidationException>()),
       );
     });
   });

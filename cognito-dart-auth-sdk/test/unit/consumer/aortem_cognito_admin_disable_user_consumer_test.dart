@@ -4,7 +4,7 @@ import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
 import 'package:cognito_dart_auth_sdk/exceptions/cognito_validate_exception.dart';
 import 'package:ds_tools_testing/ds_tools_testing.dart';
 
-class _FakeHttp implements AortemCognitoHttpClient {
+class _FakeHttp implements CognitoHttpClient {
   Map<String, dynamic>? lastPayload;
   String? lastTarget;
   String? lastRegion;
@@ -14,7 +14,7 @@ class _FakeHttp implements AortemCognitoHttpClient {
   String bodyString = '{}';
 
   @override
-  Future<AortemCognitoHttpResponse> send({
+  Future<CognitoHttpResponse> send({
     required String service,
     required String target,
     required String region,
@@ -27,7 +27,7 @@ class _FakeHttp implements AortemCognitoHttpClient {
     lastHeaders = headers;
     lastPayload = payload;
 
-    return AortemCognitoHttpResponse(
+    return CognitoHttpResponse(
       statusCode: statusCode,
       headers: const {},
       bodyString: bodyString,
@@ -35,7 +35,7 @@ class _FakeHttp implements AortemCognitoHttpClient {
   }
 
   @override
-  Future<AortemCognitoHttpResponse> post({
+  Future<CognitoHttpResponse> post({
     required String region,
     required String xAmzTarget,
     required Map<String, dynamic> payload,
@@ -58,7 +58,7 @@ void main() {
     test('happy path: builds and sends minimal payload', () async {
       final http = _FakeHttp();
 
-      final consumer = AortemCognitoAdminDisableUserConsumer(
+      final consumer = CognitoAdminDisableUserConsumer(
         region: 'us-west-2',
         httpClient: http,
       );
@@ -69,7 +69,7 @@ void main() {
           ..username('testuser'),
       );
 
-      expect(res, isA<AortemCognitoAdminDisableUserResult>());
+      expect(res, isA<CognitoAdminDisableUserResult>());
 
       final p = http.lastPayload!;
       expect(
@@ -85,7 +85,7 @@ void main() {
 
     test('missing requireds throw before HTTP', () {
       final http = _FakeHttp();
-      final consumer = AortemCognitoAdminDisableUserConsumer(
+      final consumer = CognitoAdminDisableUserConsumer(
         region: 'us-west-2',
         httpClient: http,
       );
@@ -93,13 +93,13 @@ void main() {
       // Missing username
       expect(
         () => consumer.run((b) => b..userPoolId('us-west-2_EXAMPLE')),
-        throwsA(isA<AortemCognitoValidationException>()),
+        throwsA(isA<CognitoValidationException>()),
       );
 
       // Missing userPoolId
       expect(
         () => consumer.run((b) => b..username('user')),
-        throwsA(isA<AortemCognitoValidationException>()),
+        throwsA(isA<CognitoValidationException>()),
       );
     });
   });
