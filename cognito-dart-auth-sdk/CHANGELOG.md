@@ -1,3 +1,60 @@
+## **0.0.1
+
+### **Added**
+
+* **CI/CD Debugging Enhancements**
+
+  * Added stderr/stdout capture for Firebase preview deployments to improve debugging reliability during hosting channel deploys.
+  * Introduced `mktemp`-based temporary file handling for error inspection.
+
+* **API Key Referrer Management**
+
+  * Added automatic preview-origin referrer injection into the Preview/QA Firebase API Key using Google API Keys API.
+  * Implemented fallback logic and three-attempt retry behavior for resilient PATCH updates.
+
+* **Preview Environment Metadata Output**
+
+  * Added JSON pretty-printing (`jq`) for Firebase Hosting preview deploy responses.
+  * Added extraction logic for preview URL + origin pattern (`https://<site>.web.app/*`).
+
+### **Changed**
+
+* **CI Pipeline (Preview Deploy Job)**
+
+  * Updated preview deploy script to:
+
+    * Print full raw Firebase deploy output.
+    * Capture and inspect HTTP error codes.
+    * Display current key configuration before referrer updates.
+  * Improved ordering of steps for clearer debugging workflow.
+
+* **HTTP & Curl Operations**
+
+  * Updated fetch and patch operations to use consistent `-sS` flags and JSON encoding.
+  * Normalized formatting in all request/response handlers for readability.
+
+* **Environment Variable Handling**
+
+  * Improved validation for `GOOGLE_APPLICATION_CREDENTIALS`, preview key IDs, and access tokens.
+  * Standardized echo messages and exit handling for missing configuration.
+
+* **Referrer Merge Process**
+
+  * Unified existing + new + localhost referrers into a single deduplicated array using `jq`.
+  * Improved temporary file handling via `mktemp` for safe merge operations.
+
+### **Removed**
+
+* **Old Inline Firebase Preview Logic**
+
+  * Replaced earlier unstructured preview deploy calls with the new JSON-driven deploy + referrer update system.
+  * Removed previous implicit behavior that skipped referrer updates silently.
+
+### **Renamed**
+
+* *(None in this patch)* — file paths were preserved; only internal logic and script formatting were changed.
+
+
 ## 0.0.1-pre+1
 
 ### Added
