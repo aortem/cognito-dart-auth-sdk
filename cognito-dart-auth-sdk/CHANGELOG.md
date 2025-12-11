@@ -1,3 +1,56 @@
+## **0.0.1
+
+### **Added**
+
+* **UI & Code Readability Improvements (Example Apps)**
+
+  * Streamlined layout and widget construction across multiple example Flutter screens.
+  * Added cleaner, more consistent formatting for:
+
+    * `SnackBar` usage
+    * `MaterialPageRoute` navigation
+    * `AppBar` declarations
+    * Loading indicators and async UI states
+  * Introduced improved helper patterns for displaying results and errors.
+
+* **Inline UI Simplifications**
+
+  * Many widgets converted from multi-line constructors to single-line readable expressions without changing functionality.
+
+### **Changed**
+
+* **General UI Refactors Across Example Apps**
+
+  * Consolidated repeated code patterns in authentication flows (Apple, Google, email/password, MFA).
+  * Updated parameter formatting in ViewModel methods for clarity and consistency.
+  * Cleaned up `Navigator.push` calls and standardised screen transitions.
+  * Simplified WebView initialization and request URL builders for OAuth-related flows.
+
+* **Home & Auth State Screens**
+
+  * Token display logic reformatted for readability.
+  * Improved provider-linking UI, making layout more consistent with other screens.
+
+* **Multi-Factor & Phone Auth Screens**
+
+  * Cleaner button actions and error handling patterns.
+  * Reduced nested widget structures for better maintainability.
+
+* **Popup, Redirect, and OAuth Screens**
+
+  * More compact formatting for builder functions and row/column structures.
+  * Updated Google Sign-In scopes to use inline array syntax.
+
+### **Removed**
+
+* **Legacy Example App Placeholder File**
+
+  * Deleted: `example/cognito-dart-auth-sdk-flutter-web-app/placeholder.txt`.
+
+### **Renamed**
+
+* *(None in this patch.)*
+
 ## 0.0.1-pre+1
 
 ### Added
