@@ -2,58 +2,54 @@
 
 ### **Added**
 
-* **CI/CD Debugging Enhancements**
+* **UI & Code Readability Improvements (Example Apps)**
 
-  * Added stderr/stdout capture for Firebase preview deployments to improve debugging reliability during hosting channel deploys.
-  * Introduced `mktemp`-based temporary file handling for error inspection.
+  * Streamlined layout and widget construction across multiple example Flutter screens.
+  * Added cleaner, more consistent formatting for:
 
-* **API Key Referrer Management**
+    * `SnackBar` usage
+    * `MaterialPageRoute` navigation
+    * `AppBar` declarations
+    * Loading indicators and async UI states
+  * Introduced improved helper patterns for displaying results and errors.
 
-  * Added automatic preview-origin referrer injection into the Preview/QA Firebase API Key using Google API Keys API.
-  * Implemented fallback logic and three-attempt retry behavior for resilient PATCH updates.
+* **Inline UI Simplifications**
 
-* **Preview Environment Metadata Output**
-
-  * Added JSON pretty-printing (`jq`) for Firebase Hosting preview deploy responses.
-  * Added extraction logic for preview URL + origin pattern (`https://<site>.web.app/*`).
+  * Many widgets converted from multi-line constructors to single-line readable expressions without changing functionality.
 
 ### **Changed**
 
-* **CI Pipeline (Preview Deploy Job)**
+* **General UI Refactors Across Example Apps**
 
-  * Updated preview deploy script to:
+  * Consolidated repeated code patterns in authentication flows (Apple, Google, email/password, MFA).
+  * Updated parameter formatting in ViewModel methods for clarity and consistency.
+  * Cleaned up `Navigator.push` calls and standardised screen transitions.
+  * Simplified WebView initialization and request URL builders for OAuth-related flows.
 
-    * Print full raw Firebase deploy output.
-    * Capture and inspect HTTP error codes.
-    * Display current key configuration before referrer updates.
-  * Improved ordering of steps for clearer debugging workflow.
+* **Home & Auth State Screens**
 
-* **HTTP & Curl Operations**
+  * Token display logic reformatted for readability.
+  * Improved provider-linking UI, making layout more consistent with other screens.
 
-  * Updated fetch and patch operations to use consistent `-sS` flags and JSON encoding.
-  * Normalized formatting in all request/response handlers for readability.
+* **Multi-Factor & Phone Auth Screens**
 
-* **Environment Variable Handling**
+  * Cleaner button actions and error handling patterns.
+  * Reduced nested widget structures for better maintainability.
 
-  * Improved validation for `GOOGLE_APPLICATION_CREDENTIALS`, preview key IDs, and access tokens.
-  * Standardized echo messages and exit handling for missing configuration.
+* **Popup, Redirect, and OAuth Screens**
 
-* **Referrer Merge Process**
-
-  * Unified existing + new + localhost referrers into a single deduplicated array using `jq`.
-  * Improved temporary file handling via `mktemp` for safe merge operations.
+  * More compact formatting for builder functions and row/column structures.
+  * Updated Google Sign-In scopes to use inline array syntax.
 
 ### **Removed**
 
-* **Old Inline Firebase Preview Logic**
+* **Legacy Example App Placeholder File**
 
-  * Replaced earlier unstructured preview deploy calls with the new JSON-driven deploy + referrer update system.
-  * Removed previous implicit behavior that skipped referrer updates silently.
+  * Deleted: `example/cognito-dart-auth-sdk-flutter-web-app/placeholder.txt`.
 
 ### **Renamed**
 
-* *(None in this patch)* — file paths were preserved; only internal logic and script formatting were changed.
-
+* *(None in this patch.)*
 
 ## 0.0.1-pre+1
 
