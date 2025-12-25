@@ -1,4 +1,4 @@
-import 'package:test/test.dart';
+import 'package:ds_tools_testing/ds_tools_testing.dart';
 
 // Adjust these imports to match your package name / paths.
 import 'package:cognito_dart_auth_sdk/requests/cognito_admin_confirm_sign_up_request.dart';
@@ -7,7 +7,7 @@ import 'package:cognito_dart_auth_sdk/exceptions/cognito_validate_exception.dart
 import 'package:cognito_dart_auth_sdk/exceptions/cognito_service_exception.dart';
 
 /// Minimal fake HTTP client to capture payloads and control status codes.
-class _FakeHttpClient implements AortemCognitoHttpClient {
+class _FakeHttpClient implements CognitoHttpClient {
   Map<String, dynamic>? lastPayload;
   String? lastTarget;
   String? lastRegion;
@@ -17,7 +17,7 @@ class _FakeHttpClient implements AortemCognitoHttpClient {
   String bodyString = '{}';
 
   @override
-  Future<AortemCognitoHttpResponse> send({
+  Future<CognitoHttpResponse> send({
     required String service,
     required String target,
     required String region,
@@ -30,7 +30,7 @@ class _FakeHttpClient implements AortemCognitoHttpClient {
     lastHeaders = headers;
     lastPayload = payload;
 
-    return AortemCognitoHttpResponse(
+    return CognitoHttpResponse(
       statusCode: statusCode,
       headers: const {},
       bodyString: bodyString,
@@ -39,7 +39,7 @@ class _FakeHttpClient implements AortemCognitoHttpClient {
 
   // If your interface also declares post(...), delegate it to send(...) to keep tests happy.
   @override
-  Future<AortemCognitoHttpResponse> post({
+  Future<CognitoHttpResponse> post({
     required String region,
     required String xAmzTarget,
     required Map<String, dynamic> payload,
@@ -58,12 +58,12 @@ class _FakeHttpClient implements AortemCognitoHttpClient {
 }
 
 void main() {
-  group('AortemCognitoAdminConfirmSignUpRequest (simple)', () {
+  group('   CognitoAdminConfirmSignUpRequest (simple)', () {
     test(
       'happy path: 200 OK returns result and sends expected payload',
       () async {
         final http = _FakeHttpClient();
-        final req = AortemCognitoAdminConfirmSignUpRequest(
+        final req = CognitoAdminConfirmSignUpRequest(
           userPoolId: 'us-west-2_EXAMPLE',
           username: 'testuser',
           region: 'us-west-2',
@@ -71,7 +71,7 @@ void main() {
         );
 
         final res = await req.execute();
-        expect(res, isA<AortemCognitoAdminConfirmSignUpResult>());
+        expect(res, isA<CognitoAdminConfirmSignUpResult>());
 
         // Verify payload + target
         final p = http.lastPayload!;
@@ -90,7 +90,7 @@ void main() {
 
     test('includes ClientMetadata when provided', () async {
       final http = _FakeHttpClient();
-      final req = AortemCognitoAdminConfirmSignUpRequest(
+      final req = CognitoAdminConfirmSignUpRequest(
         userPoolId: 'us-west-2_EXAMPLE',
         username: 'user1',
         region: 'us-west-2',
@@ -106,35 +106,35 @@ void main() {
     test('validation: bad pool id pattern throws', () {
       final http = _FakeHttpClient();
       expect(
-        () => AortemCognitoAdminConfirmSignUpRequest(
+        () => CognitoAdminConfirmSignUpRequest(
           userPoolId: 'badPoolId',
           username: 'user',
           region: 'us-west-2',
           httpClient: http,
         ),
-        throwsA(isA<AortemCognitoValidationException>()),
+        throwsA(isA<CognitoValidationException>()),
       );
     });
 
     test('validation: empty username throws', () {
       final http = _FakeHttpClient();
       expect(
-        () => AortemCognitoAdminConfirmSignUpRequest(
+        () => CognitoAdminConfirmSignUpRequest(
           userPoolId: 'us-west-2_EXAMPLE',
           username: '   ',
           region: 'us-west-2',
           httpClient: http,
         ),
-        throwsA(isA<AortemCognitoValidationException>()),
+        throwsA(isA<CognitoValidationException>()),
       );
     });
 
-    test('4xx response throws AortemCognitoServiceException', () async {
+    test('4xx response throws    CognitoServiceException', () async {
       final http = _FakeHttpClient()
         ..statusCode = 400
         ..bodyString = '{"message":"InvalidParameterException"}';
 
-      final req = AortemCognitoAdminConfirmSignUpRequest(
+      final req = CognitoAdminConfirmSignUpRequest(
         userPoolId: 'us-west-2_EXAMPLE',
         username: 'user',
         region: 'us-west-2',
@@ -142,10 +142,7 @@ void main() {
         maxRetries: 0, // fail fast
       );
 
-      expect(
-        () => req.execute(),
-        throwsA(isA<AortemCognitoServiceException>()),
-      );
+      expect(() => req.execute(), throwsA(isA<CognitoServiceException>()));
     });
   });
 }

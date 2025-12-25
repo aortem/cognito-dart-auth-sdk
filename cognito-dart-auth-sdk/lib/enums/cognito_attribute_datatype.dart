@@ -12,10 +12,10 @@
 ///
 /// Example:
 /// ```dart
-/// final attributeType = AortemCognitoAttributeDataType.string;
+/// final attributeType =    CognitoAttributeDataType.string;
 /// print(attributeType.wire); // 'String'
 /// ```
-enum AortemCognitoAttributeDataType {
+enum CognitoAttributeDataType {
   /// Textual data type for string values
   string,
 
@@ -29,28 +29,28 @@ enum AortemCognitoAttributeDataType {
   boolean,
 }
 
-/// Extension providing serialization of [AortemCognitoAttributeDataType] to wire format.
+/// Extension providing serialization of [CognitoAttributeDataType] to wire format.
 ///
 /// Converts the enum values to their string representations as expected by
 /// the Cognito API. This is used internally when sending requests to AWS.
-extension _AttributeDataTypeWire on AortemCognitoAttributeDataType {
+extension _AttributeDataTypeWire on CognitoAttributeDataType {
   /// Returns the string representation of the attribute data type
   /// as expected by the Cognito API.
   ///
   /// Returns:
-  /// - 'String' for [AortemCognitoAttributeDataType.string]
-  /// - 'Number' for [AortemCognitoAttributeDataType.number]
-  /// - 'DateTime' for [AortemCognitoAttributeDataType.datetime]
-  /// - 'Boolean' for [AortemCognitoAttributeDataType.boolean]
+  /// - 'String' for [CognitoAttributeDataType.string]
+  /// - 'Number' for [CognitoAttributeDataType.number]
+  /// - 'DateTime' for [CognitoAttributeDataType.datetime]
+  /// - 'Boolean' for [CognitoAttributeDataType.boolean]
   String get wire {
     switch (this) {
-      case AortemCognitoAttributeDataType.string:
+      case CognitoAttributeDataType.string:
         return 'String';
-      case AortemCognitoAttributeDataType.number:
+      case CognitoAttributeDataType.number:
         return 'Number';
-      case AortemCognitoAttributeDataType.datetime:
+      case CognitoAttributeDataType.datetime:
         return 'DateTime';
-      case AortemCognitoAttributeDataType.boolean:
+      case CognitoAttributeDataType.boolean:
         return 'Boolean';
     }
   }

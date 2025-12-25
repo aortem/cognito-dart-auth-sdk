@@ -1,23 +1,24 @@
 // admin_list_devices_request.dart
-// cognito_admin_list_devices_request.dart
+//    cognito_admin_list_devices_request.dart
 //
 // AdminListDevices — Lists a user's registered devices in a Cognito user pool.
 // AWS Target: AWSCognitoIdentityProviderService.AdminListDevices
 //
 // Depends on shared types:
-// - AortemCognitoHttpClient
-// - AortemCognitoValidationException
-// - AortemCognitoServiceException
+// -    CognitoHttpClient
+// -    CognitoValidationException
+// -    CognitoServiceException
 
-import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
+import 'package:cognito_dart_auth_sdk/exceptions/cognito_service_exception.dart'
+    show CognitoServiceException;
 import 'package:cognito_dart_auth_sdk/exceptions/cognito_validate_exception.dart';
-import 'package:cognito_dart_auth_sdk/exceptions/cognito_service_exception.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
 
 /// Represents the result of a successful AdminListDevices request.
 ///
 /// Contains the list of registered devices and an optional pagination token
 /// for retrieving additional results.
-class AortemCognitoAdminListDevicesResult {
+class CognitoAdminListDevicesResult {
   /// The list of registered devices, each represented as a map of device attributes.
   ///
   /// Each device contains properties like:
@@ -34,22 +35,20 @@ class AortemCognitoAdminListDevicesResult {
   final String? paginationToken;
 
   /// Constructure
-  const AortemCognitoAdminListDevicesResult({
+  const CognitoAdminListDevicesResult({
     required this.devices,
     this.paginationToken,
   });
 
   /// Creates a result instance from the raw API response JSON.
-  factory AortemCognitoAdminListDevicesResult.fromJson(
-    Map<String, dynamic> json,
-  ) {
+  factory CognitoAdminListDevicesResult.fromJson(Map<String, dynamic> json) {
     final items = (json['Devices'] as List<dynamic>? ?? [])
         .whereType<Map>()
         .map((m) => Map<String, dynamic>.from(m))
         .toList();
 
     final token = json['PaginationToken'] as String?;
-    return AortemCognitoAdminListDevicesResult(
+    return CognitoAdminListDevicesResult(
       devices: items,
       paginationToken: token,
     );
@@ -63,7 +62,7 @@ class AortemCognitoAdminListDevicesResult {
 ///
 /// Example Usage:
 /// ```dart
-/// final req = AortemCognitoAdminListDevicesRequest(
+/// final req =    CognitoAdminListDevicesRequest(
 ///   userPoolId: 'us-west-2_EXAMPLE',
 ///   username: 'testuser',
 ///   region: 'us-west-2',
@@ -77,13 +76,13 @@ class AortemCognitoAdminListDevicesResult {
 ///   if (res.paginationToken != null) {
 ///     print('More devices available with pagination token');
 ///   }
-/// } on AortemCognitoValidationException catch (e) {
+/// } on    CognitoValidationException catch (e) {
 ///   print('Validation error: ${e.message}');
-/// } on AortemCognitoServiceException catch (e) {
+/// } on    CognitoServiceException catch (e) {
 ///   print('Service error (${e.statusCode}): ${e.message}');
 /// }
 /// ```
-class AortemCognitoAdminListDevicesRequest {
+class CognitoAdminListDevicesRequest {
   /// The ID of the user pool containing the user
   final String userPoolId;
 
@@ -100,7 +99,7 @@ class AortemCognitoAdminListDevicesRequest {
   final String region;
 
   /// The HTTP client for making authenticated requests
-  final AortemCognitoHttpClient httpClient;
+  final CognitoHttpClient httpClient;
 
   /// Maximum number of retry attempts for transient failures (default: 2)
   final int maxRetries;
@@ -119,7 +118,7 @@ class AortemCognitoAdminListDevicesRequest {
   /// - [paginationToken]: Optional token for paginated results
   /// - [maxRetries]: Optional retry count (default 2)
   /// - [requestTimeout]: Optional timeout per request (default 20 seconds)
-  AortemCognitoAdminListDevicesRequest({
+  CognitoAdminListDevicesRequest({
     required this.userPoolId,
     required this.username,
     required this.region,
@@ -135,29 +134,27 @@ class AortemCognitoAdminListDevicesRequest {
   /// Validates all request parameters against AWS constraints.
   ///
   /// Throws:
-  /// - [AortemCognitoValidationException] if any parameters are invalid
+  /// - [CognitoValidationException] if any parameters are invalid
   void _validate() {
     // Pool ID: [\w-]+_[0-9a-zA-Z]+
     final poolRe = RegExp(r'^[\w-]+_[0-9A-Za-z]+$');
     if (userPoolId.trim().isEmpty || !poolRe.hasMatch(userPoolId)) {
-      throw AortemCognitoValidationException(
+      throw CognitoValidationException(
         'userPoolId is required and must match [\\w-]+_[0-9a-zA-Z]+.',
       );
     }
     if (username.trim().isEmpty) {
-      throw AortemCognitoValidationException('username is required.');
+      throw CognitoValidationException('username is required.');
     }
     if (limit != null) {
       if (limit! < 0 || limit! > 60) {
-        throw AortemCognitoValidationException(
-          'limit must be between 0 and 60.',
-        );
+        throw CognitoValidationException('limit must be between 0 and 60.');
       }
     }
     if (paginationToken != null) {
       if (paginationToken!.isEmpty ||
           RegExp(r'^\s+$').hasMatch(paginationToken!)) {
-        throw AortemCognitoValidationException(
+        throw CognitoValidationException(
           'paginationToken must be a non-empty, non-whitespace string.',
         );
       }
@@ -180,12 +177,12 @@ class AortemCognitoAdminListDevicesRequest {
   /// - Response parsing
   ///
   /// Returns:
-  /// - [AortemCognitoAdminListDevicesResult] containing devices and pagination token
+  /// - [   CognitoAdminListDevicesResult] containing devices and pagination token
   ///
   /// Throws:
-  /// - [AortemCognitoValidationException] for invalid parameters
-  /// - [AortemCognitoServiceException] for API failures
-  Future<AortemCognitoAdminListDevicesResult> execute() async {
+  /// - [CognitoValidationException] for invalid parameters
+  /// - [CognitoServiceException] for API failures
+  Future<CognitoAdminListDevicesResult> execute() async {
     final payload = _payload();
 
     int attempt = 0;
@@ -204,24 +201,24 @@ class AortemCognitoAdminListDevicesRequest {
 
         if (res.statusCode == 200) {
           final body = res.jsonBody ?? const <String, dynamic>{};
-          return AortemCognitoAdminListDevicesResult.fromJson(body);
+          return CognitoAdminListDevicesResult.fromJson(body);
         }
 
         if (res.statusCode >= 400 && res.statusCode < 500) {
-          throw AortemCognitoServiceException(
+          throw CognitoServiceException(
             'AdminListDevices failed. Body: ${res.bodyString}',
             statusCode: res.statusCode,
           );
         }
 
         if (res.statusCode >= 500) {
-          throw AortemCognitoServiceException(
+          throw CognitoServiceException(
             'AdminListDevices temporary failure.',
             statusCode: res.statusCode,
           );
         }
 
-        throw AortemCognitoServiceException(
+        throw CognitoServiceException(
           'AdminListDevices unexpected status.',
           statusCode: res.statusCode,
         );
@@ -235,7 +232,7 @@ class AortemCognitoAdminListDevicesRequest {
       }
     }
 
-    throw AortemCognitoServiceException(
+    throw CognitoServiceException(
       'AdminListDevices failed after retries. Last error: $lastError',
     );
   }

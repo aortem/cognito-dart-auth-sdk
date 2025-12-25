@@ -1,14 +1,14 @@
 import 'dart:convert';
 import 'package:cognito_dart_auth_sdk/consumers/cognito_admin_list_user_auth_events_consumer.dart';
-import 'package:test/test.dart';
+import 'package:ds_tools_testing/ds_tools_testing.dart';
 
 import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
 
-class _FakeHttp implements AortemCognitoHttpClient {
+class _FakeHttp implements CognitoHttpClient {
   int calls = 0;
 
   @override
-  Future<AortemCognitoHttpResponse> send({
+  Future<CognitoHttpResponse> send({
     required String service,
     required String target,
     required String region,
@@ -18,7 +18,7 @@ class _FakeHttp implements AortemCognitoHttpClient {
   }) async {
     calls++;
     if (calls == 1) {
-      return AortemCognitoHttpResponse(
+      return CognitoHttpResponse(
         statusCode: 200,
         headers: const {},
         bodyString: jsonEncode({
@@ -29,7 +29,7 @@ class _FakeHttp implements AortemCognitoHttpClient {
         }),
       );
     }
-    return AortemCognitoHttpResponse(
+    return CognitoHttpResponse(
       statusCode: 200,
       headers: const {},
       bodyString: jsonEncode({
@@ -41,7 +41,7 @@ class _FakeHttp implements AortemCognitoHttpClient {
   }
 
   @override
-  Future<AortemCognitoHttpResponse> post({
+  Future<CognitoHttpResponse> post({
     required String region,
     required String xAmzTarget,
     required Map<String, dynamic> payload,
@@ -62,7 +62,7 @@ class _FakeHttp implements AortemCognitoHttpClient {
 void main() {
   test('consumer runAll aggregates all events', () async {
     final http = _FakeHttp();
-    final consumer = AortemCognitoAdminListUserAuthEventsConsumer(
+    final consumer = CognitoAdminListUserAuthEventsConsumer(
       region: 'us-west-2',
       httpClient: http,
     );
@@ -79,7 +79,7 @@ void main() {
 
   test('consumer runPages yields pages', () async {
     final http = _FakeHttp();
-    final consumer = AortemCognitoAdminListUserAuthEventsConsumer(
+    final consumer = CognitoAdminListUserAuthEventsConsumer(
       region: 'us-west-2',
       httpClient: http,
     );

@@ -5,26 +5,27 @@
 ///
 /// AWS API Reference:
 /// https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminConfirmSignUp.html
-library cognito_admin_confirm_sign_up_request;
+library _cognito_admin_confirm_sign_up_request;
 
-import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
-import 'package:cognito_dart_auth_sdk/exceptions/cognito_validate_exception.dart';
 import 'package:cognito_dart_auth_sdk/exceptions/cognito_service_exception.dart';
+import 'package:cognito_dart_auth_sdk/exceptions/cognito_validate_exception.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart'
+    show CognitoHttpClient;
 
 /// Result container for successful AdminConfirmSignUp operations.
 ///
 /// The AWS API returns an empty response on success, so this serves
 /// as a type-safe marker for completion.
-class AortemCognitoAdminConfirmSignUpResult {
+class CognitoAdminConfirmSignUpResult {
   /// Creates a new successful result instance
-  const AortemCognitoAdminConfirmSignUpResult();
+  const CognitoAdminConfirmSignUpResult();
 }
 
 /// Request class for AdminConfirmSignUp API operation.
 ///
 /// This allows administrators to confirm user registrations without
 /// requiring verification codes.
-class AortemCognitoAdminConfirmSignUpRequest {
+class CognitoAdminConfirmSignUpRequest {
   /// The user pool ID for the user pool where the user is registered
   /// Format: [\w-]+_[0-9a-zA-Z]+
   final String userPoolId;
@@ -41,7 +42,7 @@ class AortemCognitoAdminConfirmSignUpRequest {
   final String region;
 
   /// The HTTP client for making authenticated requests
-  final AortemCognitoHttpClient httpClient;
+  final CognitoHttpClient httpClient;
 
   /// Maximum number of retry attempts for transient failures
   final int maxRetries;
@@ -58,7 +59,7 @@ class AortemCognitoAdminConfirmSignUpRequest {
   /// @param clientMetadata Optional metadata for Lambda triggers
   /// @param maxRetries Maximum retry attempts (default: 2)
   /// @param requestTimeout Request timeout duration (default: 20s)
-  AortemCognitoAdminConfirmSignUpRequest({
+  CognitoAdminConfirmSignUpRequest({
     required this.userPoolId,
     required this.username,
     required this.region,
@@ -72,24 +73,24 @@ class AortemCognitoAdminConfirmSignUpRequest {
 
   /// Validates the request parameters before execution
   ///
-  /// @throws AortemCognitoValidationException if any parameters are invalid
+  /// @throws    CognitoValidationException if any parameters are invalid
   void _validate() {
     // Pool ID pattern: [\w-]+_[0-9a-zA-Z]+
     final poolRe = RegExp(r'^[\w-]+_[0-9A-Za-z]+$');
     if (userPoolId.trim().isEmpty || !poolRe.hasMatch(userPoolId)) {
-      throw AortemCognitoValidationException(
+      throw CognitoValidationException(
         'userPoolId is required and must match [\\w-]+_[0-9a-zA-Z]+.',
       );
     }
     if (username.trim().isEmpty) {
-      throw AortemCognitoValidationException('username is required.');
+      throw CognitoValidationException('username is required.');
     }
     if (clientMetadata != null) {
       // Basic sanity: keys/values non-null (Map<String,String> already enforces)
       // You can add size limits if you want (docs allow very large).
       for (final entry in clientMetadata!.entries) {
         if (entry.key.isEmpty) {
-          throw AortemCognitoValidationException(
+          throw CognitoValidationException(
             'clientMetadata keys must be non-empty.',
           );
         }
@@ -108,10 +109,10 @@ class AortemCognitoAdminConfirmSignUpRequest {
 
   /// Executes the AdminConfirmSignUp request
   ///
-  /// @return Future resolving to AortemCognitoAdminConfirmSignUpResult on success
-  /// @throws AortemCognitoServiceException for API failures
-  /// @throws AortemCognitoValidationException for invalid parameters
-  Future<AortemCognitoAdminConfirmSignUpResult> execute() async {
+  /// @return Future resolving to    CognitoAdminConfirmSignUpResult on success
+  /// @throws    CognitoServiceException for API failures
+  /// @throws    CognitoValidationException for invalid parameters
+  Future<CognitoAdminConfirmSignUpResult> execute() async {
     final payload = _payload();
 
     int attempt = 0;
@@ -129,24 +130,24 @@ class AortemCognitoAdminConfirmSignUpRequest {
         );
 
         if (res.statusCode == 200) {
-          return const AortemCognitoAdminConfirmSignUpResult();
+          return const CognitoAdminConfirmSignUpResult();
         }
 
         if (res.statusCode >= 400 && res.statusCode < 500) {
-          throw AortemCognitoServiceException(
+          throw CognitoServiceException(
             'AdminConfirmSignUp failed. Body: ${res.bodyString}',
             statusCode: res.statusCode,
           );
         }
 
         if (res.statusCode >= 500) {
-          throw AortemCognitoServiceException(
+          throw CognitoServiceException(
             'AdminConfirmSignUp temporary failure.',
             statusCode: res.statusCode,
           );
         }
 
-        throw AortemCognitoServiceException(
+        throw CognitoServiceException(
           'AdminConfirmSignUp unexpected status.',
           statusCode: res.statusCode,
         );
@@ -160,7 +161,7 @@ class AortemCognitoAdminConfirmSignUpRequest {
       }
     }
 
-    throw AortemCognitoServiceException(
+    throw CognitoServiceException(
       'AdminConfirmSignUp failed after retries. Last error: $lastError',
     );
   }

@@ -5,26 +5,26 @@
 ///
 /// AWS API Reference:
 /// https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminDisableUser.html
-library cognito_admin_disable_user_request;
+library _cognito_admin_disable_user_request;
 
-import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
-import 'package:cognito_dart_auth_sdk/exceptions/cognito_validate_exception.dart';
 import 'package:cognito_dart_auth_sdk/exceptions/cognito_service_exception.dart';
+import 'package:cognito_dart_auth_sdk/exceptions/cognito_validate_exception.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
 
 /// Result container for successful AdminDisableUser operations.
 ///
 /// The AWS API returns an empty response on success, so this serves
 /// as a type-safe marker for completion.
-class AortemCognitoAdminDisableUserResult {
+class CognitoAdminDisableUserResult {
   /// Creates a new successful result instance
-  const AortemCognitoAdminDisableUserResult();
+  const CognitoAdminDisableUserResult();
 }
 
 /// Request class for AdminDisableUser API operation.
 ///
 /// This prevents a user from signing in while maintaining their profile
 /// and attributes in the user pool.
-class AortemCognitoAdminDisableUserRequest {
+class CognitoAdminDisableUserRequest {
   /// The user pool ID where the user is registered
   final String userPoolId;
 
@@ -35,7 +35,7 @@ class AortemCognitoAdminDisableUserRequest {
   final String region;
 
   /// Configured HTTP client for AWS requests
-  final AortemCognitoHttpClient httpClient;
+  final CognitoHttpClient httpClient;
 
   /// Maximum retry attempts for failed requests
   final int maxRetries;
@@ -51,7 +51,7 @@ class AortemCognitoAdminDisableUserRequest {
   /// @param httpClient Configured HTTP client
   /// @param maxRetries Maximum retry attempts (default: 2)
   /// @param requestTimeout Request timeout duration (default: 20s)
-  AortemCognitoAdminDisableUserRequest({
+  CognitoAdminDisableUserRequest({
     required this.userPoolId,
     required this.username,
     required this.region,
@@ -64,22 +64,20 @@ class AortemCognitoAdminDisableUserRequest {
 
   /// Validates all request parameters
   ///
-  /// @throws AortemCognitoValidationException if any parameters are invalid
+  /// @throws    CognitoValidationException if any parameters are invalid
   void _validate() {
     // Pattern: [\w-]+_[0-9a-zA-Z]+
     final poolRe = RegExp(r'^[\w-]+_[0-9A-Za-z]+$');
     if (userPoolId.trim().isEmpty || !poolRe.hasMatch(userPoolId)) {
-      throw AortemCognitoValidationException(
+      throw CognitoValidationException(
         'userPoolId is required and must match [\\w-]+_[0-9a-zA-Z]+.',
       );
     }
     if (username.trim().isEmpty) {
-      throw AortemCognitoValidationException('username is required.');
+      throw CognitoValidationException('username is required.');
     }
     if (username.length > 128) {
-      throw AortemCognitoValidationException(
-        'username must be <= 128 characters.',
-      );
+      throw CognitoValidationException('username must be <= 128 characters.');
     }
   }
 
@@ -92,9 +90,9 @@ class AortemCognitoAdminDisableUserRequest {
   /// Executes the AdminDisableUser request
   ///
   /// @return Future resolving to AdminDisableUserResult on success
-  /// @throws AortemCognitoValidationException for invalid parameters
-  /// @throws AortemCognitoServiceException for API failures
-  Future<AortemCognitoAdminDisableUserResult> execute() async {
+  /// @throws    CognitoValidationException for invalid parameters
+  /// @throws    CognitoServiceException for API failures
+  Future<CognitoAdminDisableUserResult> execute() async {
     final payload = _payload();
 
     int attempt = 0;
@@ -112,24 +110,24 @@ class AortemCognitoAdminDisableUserRequest {
         );
 
         if (res.statusCode == 200) {
-          return const AortemCognitoAdminDisableUserResult();
+          return const CognitoAdminDisableUserResult();
         }
 
         if (res.statusCode >= 400 && res.statusCode < 500) {
-          throw AortemCognitoServiceException(
+          throw CognitoServiceException(
             'AdminDisableUser failed. Body: ${res.bodyString}',
             statusCode: res.statusCode,
           );
         }
 
         if (res.statusCode >= 500) {
-          throw AortemCognitoServiceException(
+          throw CognitoServiceException(
             'AdminDisableUser temporary failure.',
             statusCode: res.statusCode,
           );
         }
 
-        throw AortemCognitoServiceException(
+        throw CognitoServiceException(
           'AdminDisableUser unexpected status.',
           statusCode: res.statusCode,
         );
@@ -143,7 +141,7 @@ class AortemCognitoAdminDisableUserRequest {
       }
     }
 
-    throw AortemCognitoServiceException(
+    throw CognitoServiceException(
       'AdminDisableUser failed after retries. Last error: $lastError',
     );
   }

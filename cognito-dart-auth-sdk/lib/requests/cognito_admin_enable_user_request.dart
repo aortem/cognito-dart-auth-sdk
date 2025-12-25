@@ -5,26 +5,26 @@
 ///
 /// AWS API Reference:
 /// https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminEnableUser.html
-library cognito_admin_enable_user_request;
+library _cognito_admin_enable_user_request;
 
-import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
-import 'package:cognito_dart_auth_sdk/exceptions/cognito_validate_exception.dart';
 import 'package:cognito_dart_auth_sdk/exceptions/cognito_service_exception.dart';
+import 'package:cognito_dart_auth_sdk/exceptions/cognito_validate_exception.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
 
 /// Result container for successful AdminEnableUser operations.
 ///
 /// The AWS API returns an empty response on success, so this serves
 /// as a type-safe marker for completion.
-class AortemCognitoAdminEnableUserResult {
+class CognitoAdminEnableUserResult {
   /// Creates a new successful result instance
-  const AortemCognitoAdminEnableUserResult();
+  const CognitoAdminEnableUserResult();
 }
 
 /// Request class for AdminEnableUser API operation.
 ///
 /// This restores a disabled user's ability to sign in while maintaining
 /// their profile and attributes in the user pool.
-class AortemCognitoAdminEnableUserRequest {
+class CognitoAdminEnableUserRequest {
   /// The user pool ID where the user is registered
   final String userPoolId;
 
@@ -35,7 +35,7 @@ class AortemCognitoAdminEnableUserRequest {
   final String region;
 
   /// Configured HTTP client for AWS requests
-  final AortemCognitoHttpClient httpClient;
+  final CognitoHttpClient httpClient;
 
   /// Maximum retry attempts for failed requests
   final int maxRetries;
@@ -51,7 +51,7 @@ class AortemCognitoAdminEnableUserRequest {
   /// @param httpClient Configured HTTP client
   /// @param maxRetries Maximum retry attempts (default: 2)
   /// @param requestTimeout Request timeout duration (default: 20s)
-  AortemCognitoAdminEnableUserRequest({
+  CognitoAdminEnableUserRequest({
     required this.userPoolId,
     required this.username,
     required this.region,
@@ -64,22 +64,20 @@ class AortemCognitoAdminEnableUserRequest {
 
   /// Validates all request parameters
   ///
-  /// @throws AortemCognitoValidationException if any parameters are invalid
+  /// @throws    CognitoValidationException if any parameters are invalid
   void _validate() {
     // Pattern: [\w-]+_[0-9a-zA-Z]+
     final poolRe = RegExp(r'^[\w-]+_[0-9A-Za-z]+$');
     if (userPoolId.trim().isEmpty || !poolRe.hasMatch(userPoolId)) {
-      throw AortemCognitoValidationException(
+      throw CognitoValidationException(
         'userPoolId is required and must match [\\w-]+_[0-9a-zA-Z]+.',
       );
     }
     if (username.trim().isEmpty) {
-      throw AortemCognitoValidationException('username is required.');
+      throw CognitoValidationException('username is required.');
     }
     if (username.length > 128) {
-      throw AortemCognitoValidationException(
-        'username must be <= 128 characters.',
-      );
+      throw CognitoValidationException('username must be <= 128 characters.');
     }
   }
 
@@ -92,9 +90,9 @@ class AortemCognitoAdminEnableUserRequest {
   /// Executes the AdminEnableUser request
   ///
   /// @return Future resolving to AdminEnableUserResult on success
-  /// @throws AortemCognitoValidationException for invalid parameters
-  /// @throws AortemCognitoServiceException for API failures
-  Future<AortemCognitoAdminEnableUserResult> execute() async {
+  /// @throws    CognitoValidationException for invalid parameters
+  /// @throws    CognitoServiceException for API failures
+  Future<CognitoAdminEnableUserResult> execute() async {
     final payload = _payload();
 
     int attempt = 0;
@@ -112,24 +110,24 @@ class AortemCognitoAdminEnableUserRequest {
         );
 
         if (res.statusCode == 200) {
-          return const AortemCognitoAdminEnableUserResult();
+          return const CognitoAdminEnableUserResult();
         }
 
         if (res.statusCode >= 400 && res.statusCode < 500) {
-          throw AortemCognitoServiceException(
+          throw CognitoServiceException(
             'AdminEnableUser failed. Body: ${res.bodyString}',
             statusCode: res.statusCode,
           );
         }
 
         if (res.statusCode >= 500) {
-          throw AortemCognitoServiceException(
+          throw CognitoServiceException(
             'AdminEnableUser temporary failure.',
             statusCode: res.statusCode,
           );
         }
 
-        throw AortemCognitoServiceException(
+        throw CognitoServiceException(
           'AdminEnableUser unexpected status.',
           statusCode: res.statusCode,
         );
@@ -143,7 +141,7 @@ class AortemCognitoAdminEnableUserRequest {
       }
     }
 
-    throw AortemCognitoServiceException(
+    throw CognitoServiceException(
       'AdminEnableUser failed after retries. Last error: $lastError',
     );
   }

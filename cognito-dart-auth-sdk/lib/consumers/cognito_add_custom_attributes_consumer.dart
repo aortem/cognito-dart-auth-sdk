@@ -7,6 +7,7 @@
 // Depends on types from: cognito_add_custom_attributes_request.dart
 
 import 'package:cognito_dart_auth_sdk/enums/cognito_attribute_datatype.dart';
+
 import 'package:cognito_dart_auth_sdk/exceptions/cognito_validate_exception.dart';
 import 'package:cognito_dart_auth_sdk/requests/cognito_add_custom_attributes_request.dart';
 import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
@@ -14,10 +15,9 @@ import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
 /// A functional interface that allows callers to define Cognito attributes
 /// using a fluent builder pattern at runtime.
 ///
-/// Used with [AortemCognitoAddCustomAttributesConsumer.run] to dynamically
+/// Used with [CognitoAddCustomAttributesConsumer.run] to dynamically
 /// build attribute definitions before sending them to Cognito.
-typedef AortemCognitoAttributesConsumer =
-    void Function(AortemCognitoAttributeBuilder b);
+typedef CognitoAttributesConsumer = void Function(CognitoAttributeBuilder b);
 
 /// Fluent builder for defining Cognito User Pool custom attributes.
 ///
@@ -26,8 +26,8 @@ typedef AortemCognitoAttributesConsumer =
 /// - A generic attribute method for full control
 /// - Automatic name normalization (adding 'custom:' or 'dev:' prefixes)
 /// - Built-in validation
-class AortemCognitoAttributeBuilder {
-  final List<AortemCognitoSchemaAttributeType> _items = [];
+class CognitoAttributeBuilder {
+  final List<CognitoSchemaAttributeType> _items = [];
 
   /// Adds a generic attribute with full control over all parameters.
   ///
@@ -41,18 +41,18 @@ class AortemCognitoAttributeBuilder {
   /// - [numberConstraints]: For number-type attributes only
   ///
   /// Returns the builder for method chaining.
-  AortemCognitoAttributeBuilder attribute({
+  CognitoAttributeBuilder attribute({
     required String name,
-    required AortemCognitoAttributeDataType type,
+    required CognitoAttributeDataType type,
     bool developerOnly = false,
     bool mutable = true,
     bool required = false,
-    AortemCognitoStringAttributeConstraints? stringConstraints,
-    AortemCognitoNumberAttributeConstraints? numberConstraints,
+    CognitoStringAttributeConstraints? stringConstraints,
+    CognitoNumberAttributeConstraints? numberConstraints,
   }) {
     final normalized = _normalizeName(name, developerOnly: developerOnly);
     _items.add(
-      AortemCognitoSchemaAttributeType(
+      CognitoSchemaAttributeType(
         name: normalized,
         attributeDataType: type,
         developerOnlyAttribute: developerOnly,
@@ -76,7 +76,7 @@ class AortemCognitoAttributeBuilder {
   /// - [maxLength]: Maximum length constraint (as string)
   ///
   /// Returns the builder for method chaining.
-  AortemCognitoAttributeBuilder string({
+  CognitoAttributeBuilder string({
     required String name,
     bool developerOnly = false,
     bool mutable = true,
@@ -86,12 +86,12 @@ class AortemCognitoAttributeBuilder {
   }) {
     return attribute(
       name: name,
-      type: AortemCognitoAttributeDataType.string,
+      type: CognitoAttributeDataType.string,
       developerOnly: developerOnly,
       mutable: mutable,
       required: required,
       stringConstraints: (minLength != null || maxLength != null)
-          ? AortemCognitoStringAttributeConstraints(
+          ? CognitoStringAttributeConstraints(
               minLength: minLength,
               maxLength: maxLength,
             )
@@ -110,7 +110,7 @@ class AortemCognitoAttributeBuilder {
   /// - [maxValue]: Maximum value constraint (as string)
   ///
   /// Returns the builder for method chaining.
-  AortemCognitoAttributeBuilder number({
+  CognitoAttributeBuilder number({
     required String name,
     bool developerOnly = false,
     bool mutable = true,
@@ -120,12 +120,12 @@ class AortemCognitoAttributeBuilder {
   }) {
     return attribute(
       name: name,
-      type: AortemCognitoAttributeDataType.number,
+      type: CognitoAttributeDataType.number,
       developerOnly: developerOnly,
       mutable: mutable,
       required: required,
       numberConstraints: (minValue != null || maxValue != null)
-          ? AortemCognitoNumberAttributeConstraints(
+          ? CognitoNumberAttributeConstraints(
               minValue: minValue,
               maxValue: maxValue,
             )
@@ -142,7 +142,7 @@ class AortemCognitoAttributeBuilder {
   /// - [required]: Whether the attribute is required
   ///
   /// Returns the builder for method chaining.
-  AortemCognitoAttributeBuilder boolean({
+  CognitoAttributeBuilder boolean({
     required String name,
     bool developerOnly = false,
     bool mutable = true,
@@ -150,7 +150,7 @@ class AortemCognitoAttributeBuilder {
   }) {
     return attribute(
       name: name,
-      type: AortemCognitoAttributeDataType.boolean,
+      type: CognitoAttributeDataType.boolean,
       developerOnly: developerOnly,
       mutable: mutable,
       required: required,
@@ -166,7 +166,7 @@ class AortemCognitoAttributeBuilder {
   /// - [required]: Whether the attribute is required
   ///
   /// Returns the builder for method chaining.
-  AortemCognitoAttributeBuilder dateTime({
+  CognitoAttributeBuilder dateTime({
     required String name,
     bool developerOnly = false,
     bool mutable = true,
@@ -174,7 +174,7 @@ class AortemCognitoAttributeBuilder {
   }) {
     return attribute(
       name: name,
-      type: AortemCognitoAttributeDataType.datetime,
+      type: CognitoAttributeDataType.datetime,
       developerOnly: developerOnly,
       mutable: mutable,
       required: required,
@@ -183,8 +183,8 @@ class AortemCognitoAttributeBuilder {
 
   /// Builds the final list of attribute definitions.
   ///
-  /// Returns an unmodifiable list of [AortemCognitoSchemaAttributeType].
-  List<AortemCognitoSchemaAttributeType> build() => List.unmodifiable(_items);
+  /// Returns an unmodifiable list of [CognitoSchemaAttributeType].
+  List<CognitoSchemaAttributeType> build() => List.unmodifiable(_items);
 
   /// Normalizes attribute names by ensuring proper prefixes.
   ///
@@ -193,16 +193,16 @@ class AortemCognitoAttributeBuilder {
   /// - For regular attributes: ensures 'custom:' prefix
   /// - Validates name format
   ///
-  /// Throws [AortemCognitoValidationException] for invalid names.
+  /// Throws [CognitoValidationException] for invalid names.
   String _normalizeName(String raw, {required bool developerOnly}) {
     final trimmed = raw.trim();
     if (trimmed.isEmpty) {
-      throw AortemCognitoValidationException('Attribute name cannot be empty.');
+      throw CognitoValidationException('Attribute name cannot be empty.');
     }
     if (developerOnly) {
       if (trimmed.startsWith('dev:')) return trimmed;
       if (trimmed.startsWith('custom:')) {
-        throw AortemCognitoValidationException(
+        throw CognitoValidationException(
           'Developer-only attributes must use the "dev:" prefix.',
         );
       }
@@ -220,7 +220,7 @@ class AortemCognitoAttributeBuilder {
 ///
 /// This class wraps the lower-level request API with a more fluent interface
 /// that allows dynamic attribute definition at runtime.
-class AortemCognitoAddCustomAttributesConsumer {
+class CognitoAddCustomAttributesConsumer {
   /// The Cognito User Pool ID to add attributes to.
   final String userPoolId;
 
@@ -228,7 +228,7 @@ class AortemCognitoAddCustomAttributesConsumer {
   final String region;
 
   /// The HTTP client for making requests.
-  final AortemCognitoHttpClient httpClient;
+  final CognitoHttpClient httpClient;
 
   /// Maximum number of retry attempts for transient failures.
   /// Defaults to 2 (total attempts = initial + 2 retries = 3 attempts).
@@ -248,7 +248,7 @@ class AortemCognitoAddCustomAttributesConsumer {
   /// Optional parameters:
   /// - [maxRetries]: Number of retry attempts (default 2)
   /// - [requestTimeout]: Timeout per attempt (default 20 seconds)
-  AortemCognitoAddCustomAttributesConsumer({
+  CognitoAddCustomAttributesConsumer({
     required this.userPoolId,
     required this.region,
     required this.httpClient,
@@ -269,31 +269,31 @@ class AortemCognitoAddCustomAttributesConsumer {
   /// Returns a Future that completes with the operation result.
   ///
   /// Throws:
-  /// - [AortemCognitoValidationException] for invalid input
-  /// - [AortemCognitoServiceException] for API failures
-  Future<AortemCognitoAddCustomAttributesResult> run(
-    AortemCognitoAttributesConsumer consumer,
+  /// - [CognitoValidationException] for invalid input
+  /// - [CognitoServiceException] for API failures
+  Future<CognitoAddCustomAttributesResult> run(
+    CognitoAttributesConsumer consumer,
   ) async {
     if (userPoolId.trim().isEmpty) {
-      throw AortemCognitoValidationException('userPoolId is required.');
+      throw CognitoValidationException('userPoolId is required.');
     }
 
-    final builder = AortemCognitoAttributeBuilder();
+    final builder = CognitoAttributeBuilder();
     consumer(builder);
     final attrs = builder.build();
 
     if (attrs.isEmpty) {
-      throw AortemCognitoValidationException(
+      throw CognitoValidationException(
         'At least one attribute must be defined.',
       );
     }
     if (attrs.length > 25) {
-      throw AortemCognitoValidationException(
+      throw CognitoValidationException(
         'You can add a maximum of 25 attributes per request.',
       );
     }
 
-    final req = AortemCognitoAddCustomAttributesRequest(
+    final req = CognitoAddCustomAttributesRequest(
       userPoolId: userPoolId,
       region: region,
       httpClient: httpClient,

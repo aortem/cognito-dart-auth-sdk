@@ -9,13 +9,13 @@ import 'package:cognito_dart_auth_sdk/requests/cognito_admin_disable_provider_fo
 import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
 
 /// Function type for builder configuration callbacks
-typedef AortemCognitoDisableProviderConsumerFn =
-    void Function(AortemCognitoAdminDisableProviderForUserBuilder b);
+typedef CognitoDisableProviderConsumerFn =
+    void Function(CognitoAdminDisableProviderForUserBuilder b);
 
 /// Builder class for constructing AdminDisableProviderForUser requests.
 ///
 /// Provides a fluent interface for setting parameters with validation.
-class AortemCognitoAdminDisableProviderForUserBuilder {
+class CognitoAdminDisableProviderForUserBuilder {
   /// Stores the user pool ID
   String? _userPoolId;
 
@@ -32,7 +32,7 @@ class AortemCognitoAdminDisableProviderForUserBuilder {
   ///
   /// @param value The user pool ID (format: [\w-]+_[0-9a-zA-Z]+)
   /// @return The builder instance for method chaining
-  AortemCognitoAdminDisableProviderForUserBuilder userPoolId(String value) {
+  CognitoAdminDisableProviderForUserBuilder userPoolId(String value) {
     _userPoolId = value.trim();
     return this;
   }
@@ -41,7 +41,7 @@ class AortemCognitoAdminDisableProviderForUserBuilder {
   ///
   /// @param value The provider name (e.g., 'Google', 'Facebook', 'Cognito')
   /// @return The builder instance for method chaining
-  AortemCognitoAdminDisableProviderForUserBuilder providerName(String value) {
+  CognitoAdminDisableProviderForUserBuilder providerName(String value) {
     _providerName = value.trim();
     return this;
   }
@@ -50,7 +50,7 @@ class AortemCognitoAdminDisableProviderForUserBuilder {
   ///
   /// @param value The attribute name used by the provider
   /// @return The builder instance for method chaining
-  AortemCognitoAdminDisableProviderForUserBuilder providerAttributeName(
+  CognitoAdminDisableProviderForUserBuilder providerAttributeName(
     String value,
   ) {
     _providerAttributeName = value.trim();
@@ -61,7 +61,7 @@ class AortemCognitoAdminDisableProviderForUserBuilder {
   ///
   /// @param value The unique identifier from the provider
   /// @return The builder instance for method chaining
-  AortemCognitoAdminDisableProviderForUserBuilder providerAttributeValue(
+  CognitoAdminDisableProviderForUserBuilder providerAttributeValue(
     String value,
   ) {
     _providerAttributeValue = value.trim();
@@ -75,10 +75,10 @@ class AortemCognitoAdminDisableProviderForUserBuilder {
   /// @param maxRetries Maximum retry attempts (default: 2)
   /// @param requestTimeout Request timeout duration (default: 20s)
   /// @return Configured AdminDisableProviderForUser request
-  /// @throws AortemCognitoValidationException if required fields are missing
-  AortemCognitoAdminDisableProviderForUserRequest build({
+  /// @throws  CognitoValidationException if required fields are missing
+  CognitoAdminDisableProviderForUserRequest build({
     required String region,
-    required AortemCognitoHttpClient httpClient,
+    required CognitoHttpClient httpClient,
     int maxRetries = 2,
     Duration requestTimeout = const Duration(seconds: 20),
   }) {
@@ -88,29 +88,25 @@ class AortemCognitoAdminDisableProviderForUserBuilder {
     final pav = _providerAttributeValue?.trim() ?? '';
 
     if (up.isEmpty) {
-      throw AortemCognitoValidationException('userPoolId is required.');
+      throw CognitoValidationException('userPoolId is required.');
     }
     if (pn.isEmpty) {
-      throw AortemCognitoValidationException('providerName is required.');
+      throw CognitoValidationException('providerName is required.');
     }
     if (pan.isEmpty) {
-      throw AortemCognitoValidationException(
-        'providerAttributeName is required.',
-      );
+      throw CognitoValidationException('providerAttributeName is required.');
     }
     if (pav.isEmpty) {
-      throw AortemCognitoValidationException(
-        'providerAttributeValue is required.',
-      );
+      throw CognitoValidationException('providerAttributeValue is required.');
     }
 
-    final id = AortemCognitoProviderUserIdentifier(
+    final id = CognitoProviderUserIdentifier(
       providerName: pn,
       providerAttributeName: pan,
       providerAttributeValue: pav,
     );
 
-    return AortemCognitoAdminDisableProviderForUserRequest(
+    return CognitoAdminDisableProviderForUserRequest(
       userPoolId: up,
       user: id,
       region: region,
@@ -125,12 +121,12 @@ class AortemCognitoAdminDisableProviderForUserBuilder {
 ///
 /// Provides a simplified interface for executing provider disable requests
 /// using the builder pattern.
-class AortemCognitoAdminDisableProviderForUserConsumer {
+class CognitoAdminDisableProviderForUserConsumer {
   /// AWS region for the Cognito endpoint
   final String region;
 
   /// Configured HTTP client for AWS requests
-  final AortemCognitoHttpClient httpClient;
+  final CognitoHttpClient httpClient;
 
   /// Maximum retry attempts for failed requests (default: 2)
   final int maxRetries;
@@ -144,7 +140,7 @@ class AortemCognitoAdminDisableProviderForUserConsumer {
   /// @param httpClient Configured HTTP client
   /// @param maxRetries Maximum retry attempts (default: 2)
   /// @param requestTimeout Request timeout duration (default: 20s)
-  AortemCognitoAdminDisableProviderForUserConsumer({
+  CognitoAdminDisableProviderForUserConsumer({
     required this.region,
     required this.httpClient,
     this.maxRetries = 2,
@@ -155,12 +151,12 @@ class AortemCognitoAdminDisableProviderForUserConsumer {
   ///
   /// @param consumer Builder configuration callback
   /// @return Future resolving to operation result
-  /// @throws AortemCognitoValidationException for invalid inputs
-  /// @throws AortemCognitoServiceException for API failures
-  Future<AortemCognitoAdminDisableProviderForUserResult> run(
-    AortemCognitoDisableProviderConsumerFn consumer,
+  /// @throws  CognitoValidationException for invalid inputs
+  /// @throws  CognitoServiceException for API failures
+  Future<CognitoAdminDisableProviderForUserResult> run(
+    CognitoDisableProviderConsumerFn consumer,
   ) async {
-    final b = AortemCognitoAdminDisableProviderForUserBuilder();
+    final b = CognitoAdminDisableProviderForUserBuilder();
     consumer(b);
 
     final req = b.build(

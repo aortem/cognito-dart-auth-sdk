@@ -9,13 +9,13 @@ import 'package:cognito_dart_auth_sdk/requests/cognito_admin_confirm_sign_up_req
 import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
 
 /// Function type for builder configuration callbacks
-typedef AortemCognitoConfirmSignUpConsumerFn =
-    void Function(AortemCognitoAdminConfirmSignUpBuilder b);
+typedef CognitoConfirmSignUpConsumerFn =
+    void Function(CognitoAdminConfirmSignUpBuilder b);
 
 /// Builder class for constructing AdminConfirmSignUp requests.
 ///
 /// Provides a fluent interface for setting parameters with validation.
-class AortemCognitoAdminConfirmSignUpBuilder {
+class CognitoAdminConfirmSignUpBuilder {
   /// Stores the user pool ID for the request
   String? _userPoolId;
 
@@ -29,7 +29,7 @@ class AortemCognitoAdminConfirmSignUpBuilder {
   ///
   /// @param value The user pool ID (format: [\w-]+_[0-9a-zA-Z]+)
   /// @return The builder instance for method chaining
-  AortemCognitoAdminConfirmSignUpBuilder userPoolId(String value) {
+  CognitoAdminConfirmSignUpBuilder userPoolId(String value) {
     _userPoolId = value.trim();
     return this;
   }
@@ -38,7 +38,7 @@ class AortemCognitoAdminConfirmSignUpBuilder {
   ///
   /// @param value The username to confirm
   /// @return The builder instance for method chaining
-  AortemCognitoAdminConfirmSignUpBuilder username(String value) {
+  CognitoAdminConfirmSignUpBuilder username(String value) {
     _username = value.trim();
     return this;
   }
@@ -48,12 +48,10 @@ class AortemCognitoAdminConfirmSignUpBuilder {
   /// @param key The metadata key (must be non-empty)
   /// @param value The metadata value
   /// @return The builder instance for method chaining
-  /// @throws AortemCognitoValidationException if key is empty
-  AortemCognitoAdminConfirmSignUpBuilder meta(String key, String value) {
+  /// @throws  CognitoValidationException if key is empty
+  CognitoAdminConfirmSignUpBuilder meta(String key, String value) {
     if (key.trim().isEmpty) {
-      throw AortemCognitoValidationException(
-        'ClientMetadata key must be non-empty.',
-      );
+      throw CognitoValidationException('ClientMetadata key must be non-empty.');
     }
     _clientMetadata[key] = value;
     return this;
@@ -63,11 +61,11 @@ class AortemCognitoAdminConfirmSignUpBuilder {
   ///
   /// @param data Map of metadata entries to add
   /// @return The builder instance for method chaining
-  /// @throws AortemCognitoValidationException if any key is empty
-  AortemCognitoAdminConfirmSignUpBuilder metadata(Map<String, String> data) {
+  /// @throws  CognitoValidationException if any key is empty
+  CognitoAdminConfirmSignUpBuilder metadata(Map<String, String> data) {
     data.forEach((k, v) {
       if (k.trim().isEmpty) {
-        throw AortemCognitoValidationException(
+        throw CognitoValidationException(
           'ClientMetadata key must be non-empty.',
         );
       }
@@ -83,10 +81,10 @@ class AortemCognitoAdminConfirmSignUpBuilder {
   /// @param maxRetries Maximum retry attempts (default: 2)
   /// @param requestTimeout Request timeout duration (default: 20s)
   /// @return Configured AdminConfirmSignUp request
-  /// @throws AortemCognitoValidationException if required fields are missing
-  AortemCognitoAdminConfirmSignUpRequest build({
+  /// @throws  CognitoValidationException if required fields are missing
+  CognitoAdminConfirmSignUpRequest build({
     required String region,
-    required AortemCognitoHttpClient httpClient,
+    required CognitoHttpClient httpClient,
     int maxRetries = 2,
     Duration requestTimeout = const Duration(seconds: 20),
   }) {
@@ -94,13 +92,13 @@ class AortemCognitoAdminConfirmSignUpBuilder {
     final user = _username?.trim() ?? '';
 
     if (pool.isEmpty) {
-      throw AortemCognitoValidationException('userPoolId is required.');
+      throw CognitoValidationException('userPoolId is required.');
     }
     if (user.isEmpty) {
-      throw AortemCognitoValidationException('username is required.');
+      throw CognitoValidationException('username is required.');
     }
 
-    return AortemCognitoAdminConfirmSignUpRequest(
+    return CognitoAdminConfirmSignUpRequest(
       userPoolId: pool,
       username: user,
       clientMetadata: _clientMetadata.isEmpty ? null : Map.of(_clientMetadata),
@@ -116,12 +114,12 @@ class AortemCognitoAdminConfirmSignUpBuilder {
 ///
 /// Provides a simplified interface for executing confirmation requests
 /// using the builder pattern.
-class AortemCognitoAdminConfirmSignUpConsumer {
+class CognitoAdminConfirmSignUpConsumer {
   /// AWS region for the Cognito endpoint
   final String region;
 
   /// Configured HTTP client for AWS requests
-  final AortemCognitoHttpClient httpClient;
+  final CognitoHttpClient httpClient;
 
   /// Maximum retry attempts for failed requests (default: 2)
   final int maxRetries;
@@ -135,7 +133,7 @@ class AortemCognitoAdminConfirmSignUpConsumer {
   /// @param httpClient Configured HTTP client
   /// @param maxRetries Maximum retry attempts (default: 2)
   /// @param requestTimeout Request timeout duration (default: 20s)
-  AortemCognitoAdminConfirmSignUpConsumer({
+  CognitoAdminConfirmSignUpConsumer({
     required this.region,
     required this.httpClient,
     this.maxRetries = 2,
@@ -146,12 +144,12 @@ class AortemCognitoAdminConfirmSignUpConsumer {
   ///
   /// @param consumer Builder configuration callback
   /// @return Future resolving to confirmation result
-  /// @throws AortemCognitoValidationException for invalid inputs
-  /// @throws AortemCognitoServiceException for API failures
-  Future<AortemCognitoAdminConfirmSignUpResult> run(
-    AortemCognitoConfirmSignUpConsumerFn consumer,
+  /// @throws  CognitoValidationException for invalid inputs
+  /// @throws  CognitoServiceException for API failures
+  Future<CognitoAdminConfirmSignUpResult> run(
+    CognitoConfirmSignUpConsumerFn consumer,
   ) async {
-    final b = AortemCognitoAdminConfirmSignUpBuilder();
+    final b = CognitoAdminConfirmSignUpBuilder();
     consumer(b);
 
     final req = b.build(

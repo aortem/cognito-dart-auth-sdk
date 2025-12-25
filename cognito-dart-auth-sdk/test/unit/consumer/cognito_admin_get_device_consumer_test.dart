@@ -1,11 +1,11 @@
 import 'package:cognito_dart_auth_sdk/consumers/cognito_admin_get_device_consumer.dart';
-import 'package:test/test.dart';
+import 'package:ds_tools_testing/ds_tools_testing.dart';
 
 import 'package:cognito_dart_auth_sdk/requests/cognito_admin_get_device_request.dart';
 import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
 import 'package:cognito_dart_auth_sdk/exceptions/cognito_validate_exception.dart';
 
-class _FakeHttp implements AortemCognitoHttpClient {
+class _FakeHttp implements CognitoHttpClient {
   Map<String, dynamic>? lastPayload;
   String? lastTarget;
   String? lastRegion;
@@ -27,7 +27,7 @@ class _FakeHttp implements AortemCognitoHttpClient {
 ''';
 
   @override
-  Future<AortemCognitoHttpResponse> send({
+  Future<CognitoHttpResponse> send({
     required String service,
     required String target,
     required String region,
@@ -40,7 +40,7 @@ class _FakeHttp implements AortemCognitoHttpClient {
     lastHeaders = headers;
     lastPayload = payload;
 
-    return AortemCognitoHttpResponse(
+    return CognitoHttpResponse(
       statusCode: statusCode,
       headers: const {},
       bodyString: bodyString,
@@ -48,7 +48,7 @@ class _FakeHttp implements AortemCognitoHttpClient {
   }
 
   @override
-  Future<AortemCognitoHttpResponse> post({
+  Future<CognitoHttpResponse> post({
     required String region,
     required String xAmzTarget,
     required Map<String, dynamic> payload,
@@ -71,7 +71,7 @@ void main() {
     test('happy path: builds, sends, and parses device', () async {
       final http = _FakeHttp();
 
-      final consumer = AortemCognitoAdminGetDeviceConsumer(
+      final consumer = CognitoAdminGetDeviceConsumer(
         region: 'us-west-2',
         httpClient: http,
       );
@@ -83,7 +83,7 @@ void main() {
           ..deviceKey('us-west-2_a1b2c3d4-5678-90ab-cdef-EXAMPLE22222'),
       );
 
-      expect(res, isA<AortemCognitoAdminGetDeviceResult>());
+      expect(res, isA<CognitoAdminGetDeviceResult>());
       expect(res.device.deviceKey, contains('us-west-2_'));
       expect(res.device.attributes['device_status'], 'valid');
 
@@ -102,7 +102,7 @@ void main() {
 
     test('missing requireds throw before HTTP', () {
       final http = _FakeHttp();
-      final consumer = AortemCognitoAdminGetDeviceConsumer(
+      final consumer = CognitoAdminGetDeviceConsumer(
         region: 'us-west-2',
         httpClient: http,
       );
@@ -114,7 +114,7 @@ void main() {
             ..userPoolId('us-west-2_EXAMPLE')
             ..username('user'),
         ),
-        throwsA(isA<AortemCognitoValidationException>()),
+        throwsA(isA<CognitoValidationException>()),
       );
 
       // Missing username
@@ -124,7 +124,7 @@ void main() {
             ..userPoolId('us-west-2_EXAMPLE')
             ..deviceKey('us-west-2_deadbeef-123'),
         ),
-        throwsA(isA<AortemCognitoValidationException>()),
+        throwsA(isA<CognitoValidationException>()),
       );
 
       // Missing pool id
@@ -134,7 +134,7 @@ void main() {
             ..username('user')
             ..deviceKey('us-west-2_deadbeef-123'),
         ),
-        throwsA(isA<AortemCognitoValidationException>()),
+        throwsA(isA<CognitoValidationException>()),
       );
     });
   });

@@ -10,10 +10,10 @@ import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
 
 /// Functional interface for defining attribute deletion requests via builder.
 ///
-/// Used with [AortemCognitoAdminDeleteUserAttributesConsumer.run] to dynamically
+/// Used with [ CognitoAdminDeleteUserAttributesConsumer.run] to dynamically
 /// build attribute deletion requests before sending them to Cognito.
-typedef AortemCognitoDeleteUserAttrsConsumerFn =
-    void Function(AortemCognitoAdminDeleteUserAttributesBuilder b);
+typedef CognitoDeleteUserAttrsConsumerFn =
+    void Function(CognitoAdminDeleteUserAttributesBuilder b);
 
 /// Fluent builder for constructing AdminDeleteUserAttributes requests.
 ///
@@ -21,7 +21,7 @@ typedef AortemCognitoDeleteUserAttrsConsumerFn =
 /// - Setting the target user pool and username
 /// - Adding attribute names to delete
 /// - Building the final validated request
-class AortemCognitoAdminDeleteUserAttributesBuilder {
+class CognitoAdminDeleteUserAttributesBuilder {
   String? _userPoolId;
   String? _username;
   final List<String> _attributeNames = <String>[];
@@ -32,7 +32,7 @@ class AortemCognitoAdminDeleteUserAttributesBuilder {
   /// - [value]: The Cognito User Pool ID (must match `[\\w-]+_[0-9a-zA-Z]+`)
   ///
   /// Returns the builder for method chaining.
-  AortemCognitoAdminDeleteUserAttributesBuilder userPoolId(String value) {
+  CognitoAdminDeleteUserAttributesBuilder userPoolId(String value) {
     _userPoolId = value.trim();
     return this;
   }
@@ -43,7 +43,7 @@ class AortemCognitoAdminDeleteUserAttributesBuilder {
   /// - [value]: The username or alias to delete attributes from (length 1-128)
   ///
   /// Returns the builder for method chaining.
-  AortemCognitoAdminDeleteUserAttributesBuilder username(String value) {
+  CognitoAdminDeleteUserAttributesBuilder username(String value) {
     _username = value.trim();
     return this;
   }
@@ -56,13 +56,11 @@ class AortemCognitoAdminDeleteUserAttributesBuilder {
   /// Returns the builder for method chaining.
   ///
   /// Throws:
-  /// - [AortemCognitoValidationException] if name is empty
-  AortemCognitoAdminDeleteUserAttributesBuilder attribute(String name) {
+  /// - [CognitoValidationException] if name is empty
+  CognitoAdminDeleteUserAttributesBuilder attribute(String name) {
     final n = name.trim();
     if (n.isEmpty) {
-      throw AortemCognitoValidationException(
-        'Attribute name must be non-empty.',
-      );
+      throw CognitoValidationException('Attribute name must be non-empty.');
     }
     _attributeNames.add(n);
     return this;
@@ -74,9 +72,7 @@ class AortemCognitoAdminDeleteUserAttributesBuilder {
   /// - [names]: Iterable of attribute names to add
   ///
   /// Returns the builder for method chaining.
-  AortemCognitoAdminDeleteUserAttributesBuilder attributes(
-    Iterable<String> names,
-  ) {
+  CognitoAdminDeleteUserAttributesBuilder attributes(Iterable<String> names) {
     for (final n in names) {
       attribute(n);
     }
@@ -92,13 +88,13 @@ class AortemCognitoAdminDeleteUserAttributesBuilder {
   /// - [requestTimeout]: Timeout per request (default 20 seconds)
   ///
   /// Returns:
-  /// - Configured [AortemCognitoAdminDeleteUserAttributesRequest]
+  /// - Configured [CognitoAdminDeleteUserAttributesRequest]
   ///
   /// Throws:
-  /// - [AortemCognitoValidationException] if required fields are missing or invalid
-  AortemCognitoAdminDeleteUserAttributesRequest build({
+  /// - [CognitoValidationException] if required fields are missing or invalid
+  CognitoAdminDeleteUserAttributesRequest build({
     required String region,
-    required AortemCognitoHttpClient httpClient,
+    required CognitoHttpClient httpClient,
     int maxRetries = 2,
     Duration requestTimeout = const Duration(seconds: 20),
   }) {
@@ -106,18 +102,18 @@ class AortemCognitoAdminDeleteUserAttributesBuilder {
     final un = _username?.trim() ?? '';
 
     if (up.isEmpty) {
-      throw AortemCognitoValidationException('userPoolId is required.');
+      throw CognitoValidationException('userPoolId is required.');
     }
     if (un.isEmpty) {
-      throw AortemCognitoValidationException('username is required.');
+      throw CognitoValidationException('username is required.');
     }
     if (_attributeNames.isEmpty) {
-      throw AortemCognitoValidationException(
+      throw CognitoValidationException(
         'At least one attribute name is required.',
       );
     }
 
-    return AortemCognitoAdminDeleteUserAttributesRequest(
+    return CognitoAdminDeleteUserAttributesRequest(
       userPoolId: up,
       username: un,
       userAttributeNames: List.unmodifiable(_attributeNames),
@@ -133,12 +129,12 @@ class AortemCognitoAdminDeleteUserAttributesBuilder {
 ///
 /// Provides a higher-level interface for building and executing attribute
 /// deletion requests using the builder pattern.
-class AortemCognitoAdminDeleteUserAttributesConsumer {
+class CognitoAdminDeleteUserAttributesConsumer {
   /// The AWS region for Cognito requests
   final String region;
 
   /// The HTTP client for making requests
-  final AortemCognitoHttpClient httpClient;
+  final CognitoHttpClient httpClient;
 
   /// Maximum number of retry attempts (default: 2)
   final int maxRetries;
@@ -153,7 +149,7 @@ class AortemCognitoAdminDeleteUserAttributesConsumer {
   /// - [httpClient]: Required HTTP client implementation
   /// - [maxRetries]: Optional retry count (default 2)
   /// - [requestTimeout]: Optional timeout (default 20 seconds)
-  AortemCognitoAdminDeleteUserAttributesConsumer({
+  CognitoAdminDeleteUserAttributesConsumer({
     required this.region,
     required this.httpClient,
     this.maxRetries = 2,
@@ -171,15 +167,15 @@ class AortemCognitoAdminDeleteUserAttributesConsumer {
   /// - [consumer]: Callback that defines the request using the builder
   ///
   /// Returns:
-  /// - [AortemCognitoAdminDeleteUserAttributesResult] on success
+  /// - [CognitoAdminDeleteUserAttributesResult] on success
   ///
   /// Throws:
-  /// - [AortemCognitoValidationException] for invalid parameters
-  /// - [AortemCognitoServiceException] for API failures
-  Future<AortemCognitoAdminDeleteUserAttributesResult> run(
-    AortemCognitoDeleteUserAttrsConsumerFn consumer,
+  /// - [CognitoValidationException] for invalid parameters
+  /// - [ CognitoServiceException] for API failures
+  Future<CognitoAdminDeleteUserAttributesResult> run(
+    CognitoDeleteUserAttrsConsumerFn consumer,
   ) async {
-    final b = AortemCognitoAdminDeleteUserAttributesBuilder();
+    final b = CognitoAdminDeleteUserAttributesBuilder();
     consumer(b);
 
     final req = b.build(

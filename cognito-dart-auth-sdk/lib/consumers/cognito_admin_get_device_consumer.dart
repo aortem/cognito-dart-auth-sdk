@@ -14,8 +14,8 @@ import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
 /// Function type for builder configuration callbacks.
 ///
 /// Used to configure the builder parameters before request execution.
-typedef AortemCognitoGetDeviceConsumerFn =
-    void Function(AortemCognitoAdminGetDeviceBuilder b);
+typedef CognitoGetDeviceConsumerFn =
+    void Function(CognitoAdminGetDeviceBuilder b);
 
 /// Builder class for constructing AdminGetDevice requests.
 ///
@@ -29,7 +29,7 @@ typedef AortemCognitoGetDeviceConsumerFn =
 ///   ..deviceKey('us-west-2_abc-123'));
 /// print('Device last used: ${result.device.deviceLastAuthenticatedDate}');
 /// ```
-class AortemCognitoAdminGetDeviceBuilder {
+class CognitoAdminGetDeviceBuilder {
   /// Stores the user pool ID
   String? _userPoolId;
 
@@ -43,7 +43,7 @@ class AortemCognitoAdminGetDeviceBuilder {
   ///
   /// @param value The user pool ID (format: [\w-]+_[0-9a-zA-Z]+)
   /// @return The builder instance for method chaining
-  AortemCognitoAdminGetDeviceBuilder userPoolId(String value) {
+  CognitoAdminGetDeviceBuilder userPoolId(String value) {
     _userPoolId = value.trim();
     return this;
   }
@@ -52,7 +52,7 @@ class AortemCognitoAdminGetDeviceBuilder {
   ///
   /// @param value The username (1-128 characters)
   /// @return The builder instance for method chaining
-  AortemCognitoAdminGetDeviceBuilder username(String value) {
+  CognitoAdminGetDeviceBuilder username(String value) {
     _username = value.trim();
     return this;
   }
@@ -61,7 +61,7 @@ class AortemCognitoAdminGetDeviceBuilder {
   ///
   /// @param value The unique device identifier (format: [\w-]+_[0-9a-f-]+)
   /// @return The builder instance for method chaining
-  AortemCognitoAdminGetDeviceBuilder deviceKey(String value) {
+  CognitoAdminGetDeviceBuilder deviceKey(String value) {
     _deviceKey = value.trim();
     return this;
   }
@@ -73,10 +73,10 @@ class AortemCognitoAdminGetDeviceBuilder {
   /// @param maxRetries Maximum retry attempts (default: 2)
   /// @param requestTimeout Request timeout duration (default: 20s)
   /// @return Configured AdminGetDevice request
-  /// @throws AortemCognitoValidationException if required fields are missing
-  AortemCognitoAdminGetDeviceRequest build({
+  /// @throws    CognitoValidationException if required fields are missing
+  CognitoAdminGetDeviceRequest build({
     required String region,
-    required AortemCognitoHttpClient httpClient,
+    required CognitoHttpClient httpClient,
     int maxRetries = 2,
     Duration requestTimeout = const Duration(seconds: 20),
   }) {
@@ -85,16 +85,16 @@ class AortemCognitoAdminGetDeviceBuilder {
     final dk = _deviceKey?.trim() ?? '';
 
     if (up.isEmpty) {
-      throw AortemCognitoValidationException('userPoolId is required.');
+      throw CognitoValidationException('userPoolId is required.');
     }
     if (un.isEmpty) {
-      throw AortemCognitoValidationException('username is required.');
+      throw CognitoValidationException('username is required.');
     }
     if (dk.isEmpty) {
-      throw AortemCognitoValidationException('deviceKey is required.');
+      throw CognitoValidationException('deviceKey is required.');
     }
 
-    return AortemCognitoAdminGetDeviceRequest(
+    return CognitoAdminGetDeviceRequest(
       userPoolId: up,
       username: un,
       deviceKey: dk,
@@ -110,12 +110,12 @@ class AortemCognitoAdminGetDeviceBuilder {
 ///
 /// Provides a simplified interface for executing device information requests
 /// using the builder pattern.
-class AortemCognitoAdminGetDeviceConsumer {
+class CognitoAdminGetDeviceConsumer {
   /// AWS region for the Cognito endpoint (e.g., 'us-west-2')
   final String region;
 
   /// Configured HTTP client for AWS requests
-  final AortemCognitoHttpClient httpClient;
+  final CognitoHttpClient httpClient;
 
   /// Maximum retry attempts for failed requests (default: 2)
   final int maxRetries;
@@ -129,7 +129,7 @@ class AortemCognitoAdminGetDeviceConsumer {
   /// @param httpClient Configured HTTP client
   /// @param maxRetries Maximum retry attempts (default: 2)
   /// @param requestTimeout Request timeout duration (default: 20s)
-  AortemCognitoAdminGetDeviceConsumer({
+  CognitoAdminGetDeviceConsumer({
     required this.region,
     required this.httpClient,
     this.maxRetries = 2,
@@ -140,12 +140,12 @@ class AortemCognitoAdminGetDeviceConsumer {
   ///
   /// @param consumer Builder configuration callback
   /// @return Future resolving to operation result containing device details
-  /// @throws AortemCognitoValidationException for invalid inputs
-  /// @throws AortemCognitoServiceException for API failures
-  Future<AortemCognitoAdminGetDeviceResult> run(
-    AortemCognitoGetDeviceConsumerFn consumer,
+  /// @throws    CognitoValidationException for invalid inputs
+  /// @throws    CognitoServiceException for API failures
+  Future<CognitoAdminGetDeviceResult> run(
+    CognitoGetDeviceConsumerFn consumer,
   ) async {
-    final b = AortemCognitoAdminGetDeviceBuilder();
+    final b = CognitoAdminGetDeviceBuilder();
     consumer(b);
 
     final req = b.build(

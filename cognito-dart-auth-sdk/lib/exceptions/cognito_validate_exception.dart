@@ -2,7 +2,7 @@
 // Exceptions
 // -----------------------------
 
-/// Thrown when one or more parameters provided to an Aortem Cognito
+/// Thrown when one or more parameters provided to an   Cognito
 /// request are invalid or fail pre-validation checks.
 ///
 /// This exception is used to prevent sending malformed requests to
@@ -21,7 +21,7 @@
 /// ## Example:
 /// ```dart
 /// if (userPoolId.isEmpty) {
-///   throw AortemCognitoValidationException(
+///   throw  CognitoValidationException(
 ///     'userPoolId is required.',
 ///   );
 /// }
@@ -30,15 +30,16 @@
 /// This exception should generally be caught at the boundary where
 /// requests are constructed, allowing developers to correct input
 /// before retrying.
-class AortemCognitoValidationException implements Exception {
+class CognitoValidationException implements Exception {
   /// A description of why the validation failed.
   final String message;
 
   /// An optional underlying cause for the failure.
   final Object? cause;
 
-  AortemCognitoValidationException(this.message, {this.cause});
+  ///
+  CognitoValidationException(this.message, {this.cause});
 
   @override
-  String toString() => 'AortemCognitoValidationException: ' + message;
+  String toString() => 'CognitoValidationException: ' + message;
 }

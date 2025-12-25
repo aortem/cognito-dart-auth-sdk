@@ -1,13 +1,13 @@
-import '../exception/cognito_add_custom_attributes_validation_exception.dart';
+import '../exceptions/cognito_add_custom_attributes_validation_exception.dart';
 
 /// Model representing a custom attribute to be added.
-class AortemCognitoCustomAttribute {
+class CognitoCustomAttribute {
   final String name;
   final String attributeDataType;
   final bool? developerOnlyAttribute;
   final bool? mutable;
 
-  AortemCognitoCustomAttribute({
+  CognitoCustomAttribute({
     required this.name,
     required this.attributeDataType,
     this.developerOnlyAttribute,
@@ -17,13 +17,13 @@ class AortemCognitoCustomAttribute {
   /// Validates attribute name and required fields.
   void validate() {
     if (name.isEmpty || attributeDataType.isEmpty) {
-      throw AortemCognitoAttributeValidationException(
+      throw CognitoAttributeValidationException.CognitoAttributeValidationException(
         'Name and AttributeDataType are required fields.',
       );
     }
     final nameRegex = RegExp(r'^[a-zA-Z0-9_]+$');
     if (!nameRegex.hasMatch(name)) {
-      throw AortemCognitoAttributeValidationException(
+      throw CognitoAttributeValidationException.CognitoAttributeValidationException(
         'Invalid attribute name: "$name". Only alphanumeric characters and underscores are allowed.',
       );
     }

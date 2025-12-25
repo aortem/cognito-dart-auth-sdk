@@ -1,4 +1,4 @@
-import 'package:test/test.dart';
+import 'package:ds_tools_testing/ds_tools_testing.dart';
 
 // Adjust imports to your package paths.
 import 'package:cognito_dart_auth_sdk/requests/cognito_admin_disable_provider_for_user_request.dart';
@@ -6,7 +6,7 @@ import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
 import 'package:cognito_dart_auth_sdk/exceptions/cognito_validate_exception.dart';
 import 'package:cognito_dart_auth_sdk/exceptions/cognito_service_exception.dart';
 
-class _FakeHttp implements AortemCognitoHttpClient {
+class _FakeHttp implements CognitoHttpClient {
   Map<String, dynamic>? lastPayload;
   String? lastTarget;
   String? lastRegion;
@@ -16,7 +16,7 @@ class _FakeHttp implements AortemCognitoHttpClient {
   String bodyString = '{}';
 
   @override
-  Future<AortemCognitoHttpResponse> send({
+  Future<CognitoHttpResponse> send({
     required String service,
     required String target,
     required String region,
@@ -29,7 +29,7 @@ class _FakeHttp implements AortemCognitoHttpClient {
     lastHeaders = headers;
     lastPayload = payload;
 
-    return AortemCognitoHttpResponse(
+    return CognitoHttpResponse(
       statusCode: statusCode,
       headers: const {},
       bodyString: bodyString,
@@ -37,7 +37,7 @@ class _FakeHttp implements AortemCognitoHttpClient {
   }
 
   @override
-  Future<AortemCognitoHttpResponse> post({
+  Future<CognitoHttpResponse> post({
     required String region,
     required String xAmzTarget,
     required Map<String, dynamic> payload,
@@ -59,9 +59,9 @@ void main() {
   group('AdminDisableProviderForUserRequest (Ticket #13)', () {
     test('happy path: 200 OK returns empty-success result', () async {
       final http = _FakeHttp();
-      final req = AortemCognitoAdminDisableProviderForUserRequest(
+      final req = CognitoAdminDisableProviderForUserRequest(
         userPoolId: 'us-west-2_EXAMPLE',
-        user: const AortemCognitoProviderUserIdentifier(
+        user: const CognitoProviderUserIdentifier(
           providerName: 'Cognito',
           providerAttributeName: 'Cognito_Subject',
           providerAttributeValue: 'testuser',
@@ -71,7 +71,7 @@ void main() {
       );
 
       final res = await req.execute();
-      expect(res, isA<AortemCognitoAdminDisableProviderForUserResult>());
+      expect(res, isA<CognitoAdminDisableProviderForUserResult>());
 
       final p = http.lastPayload!;
       expect(
@@ -91,9 +91,9 @@ void main() {
     test('validation: bad pool id throws', () {
       final http = _FakeHttp();
       expect(
-        () => AortemCognitoAdminDisableProviderForUserRequest(
+        () => CognitoAdminDisableProviderForUserRequest(
           userPoolId: 'badPoolId',
-          user: const AortemCognitoProviderUserIdentifier(
+          user: const CognitoProviderUserIdentifier(
             providerName: 'Cognito',
             providerAttributeName: 'Cognito_Subject',
             providerAttributeValue: 'user',
@@ -101,7 +101,7 @@ void main() {
           region: 'us-west-2',
           httpClient: http,
         ),
-        throwsA(isA<AortemCognitoValidationException>()),
+        throwsA(isA<CognitoValidationException>()),
       );
     });
 
@@ -110,9 +110,9 @@ void main() {
         ..statusCode = 400
         ..bodyString = '{"message":"ResourceNotFoundException"}';
 
-      final req = AortemCognitoAdminDisableProviderForUserRequest(
+      final req = CognitoAdminDisableProviderForUserRequest(
         userPoolId: 'us-west-2_EXAMPLE',
-        user: const AortemCognitoProviderUserIdentifier(
+        user: const CognitoProviderUserIdentifier(
           providerName: 'Google',
           providerAttributeName: 'Cognito_Subject',
           providerAttributeValue: 'google-subject-123',
@@ -122,10 +122,7 @@ void main() {
         maxRetries: 0,
       );
 
-      expect(
-        () => req.execute(),
-        throwsA(isA<AortemCognitoServiceException>()),
-      );
+      expect(() => req.execute(), throwsA(isA<CognitoServiceException>()));
     });
   });
 }

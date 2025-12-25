@@ -1,23 +1,23 @@
 // admin_list_groups_for_user_request.dart
-// cognito_admin_list_groups_for_user_request.dart
+//    cognito_admin_list_groups_for_user_request.dart
 //
 // AdminListGroupsForUser — Lists the groups that a user belongs to in a Cognito user pool.
 // AWS Target: AWSCognitoIdentityProviderService.AdminListGroupsForUser
 //
 // Depends on shared types:
-// - AortemCognitoHttpClient
-// - AortemCognitoValidationException
-// - AortemCognitoServiceException
+// -    CognitoHttpClient
+// -    CognitoValidationException
+// -    CognitoServiceException
 
-import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
-import 'package:cognito_dart_auth_sdk/exceptions/cognito_validate_exception.dart';
 import 'package:cognito_dart_auth_sdk/exceptions/cognito_service_exception.dart';
+import 'package:cognito_dart_auth_sdk/exceptions/cognito_validate_exception.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
 
 /// Represents the result of a successful AdminListGroupsForUser request.
 ///
 /// Contains the list of groups the user belongs to and an optional pagination token
 /// for retrieving additional results.
-class AortemCognitoAdminListGroupsForUserResult {
+class CognitoAdminListGroupsForUserResult {
   /// The list of groups, each represented as a map of group attributes.
   ///
   /// Each group contains properties like:
@@ -35,21 +35,23 @@ class AortemCognitoAdminListGroupsForUserResult {
   /// Will be null when there are no more pages available.
   final String? nextToken;
 
-  const AortemCognitoAdminListGroupsForUserResult({
+  ///
+
+  const CognitoAdminListGroupsForUserResult({
     required this.groups,
     this.nextToken,
   });
 
   /// Creates a result instance from the raw API response JSON.
-  factory AortemCognitoAdminListGroupsForUserResult.fromJson(
+  factory CognitoAdminListGroupsForUserResult.fromJson(
     Map<String, dynamic> json,
   ) {
     final items = (json['Groups'] as List<dynamic>? ?? [])
         .whereType<Map>()
-        .map((m) => Map<String, dynamic>.from(m as Map))
+        .map((m) => Map<String, dynamic>.from(m))
         .toList();
 
-    return AortemCognitoAdminListGroupsForUserResult(
+    return CognitoAdminListGroupsForUserResult(
       groups: items,
       nextToken: json['NextToken'] as String?,
     );
@@ -63,7 +65,7 @@ class AortemCognitoAdminListGroupsForUserResult {
 ///
 /// Example Usage:
 /// ```dart
-/// final req = AortemCognitoAdminListGroupsForUserRequest(
+/// final req =    CognitoAdminListGroupsForUserRequest(
 ///   userPoolId: 'us-west-2_EXAMPLE',
 ///   username: 'testuser',
 ///   region: 'us-west-2',
@@ -77,13 +79,13 @@ class AortemCognitoAdminListGroupsForUserResult {
 ///   if (res.nextToken != null) {
 ///     print('More groups available with pagination token');
 ///   }
-/// } on AortemCognitoValidationException catch (e) {
+/// } on    CognitoValidationException catch (e) {
 ///   print('Validation error: ${e.message}');
-/// } on AortemCognitoServiceException catch (e) {
+/// } on    CognitoServiceException catch (e) {
 ///   print('Service error (${e.statusCode}): ${e.message}');
 /// }
 /// ```
-class AortemCognitoAdminListGroupsForUserRequest {
+class CognitoAdminListGroupsForUserRequest {
   /// The ID of the user pool containing the user
   final String userPoolId;
 
@@ -100,7 +102,7 @@ class AortemCognitoAdminListGroupsForUserRequest {
   final String region;
 
   /// The HTTP client for making authenticated requests
-  final AortemCognitoHttpClient httpClient;
+  final CognitoHttpClient httpClient;
 
   /// Maximum number of retry attempts for transient failures (default: 2)
   final int maxRetries;
@@ -119,7 +121,7 @@ class AortemCognitoAdminListGroupsForUserRequest {
   /// - [nextToken]: Optional token for paginated results
   /// - [maxRetries]: Optional retry count (default 2)
   /// - [requestTimeout]: Optional timeout per request (default 20 seconds)
-  AortemCognitoAdminListGroupsForUserRequest({
+  CognitoAdminListGroupsForUserRequest({
     required this.userPoolId,
     required this.username,
     required this.region,
@@ -135,24 +137,24 @@ class AortemCognitoAdminListGroupsForUserRequest {
   /// Validates all request parameters against AWS constraints.
   ///
   /// Throws:
-  /// - [AortemCognitoValidationException] if any parameters are invalid
+  /// - [CognitoValidationException] if any parameters are invalid
   void _validate() {
     // Pool ID pattern: [\w-]+_[0-9a-zA-Z]+
     final poolRe = RegExp(r'^[\w-]+_[0-9A-Za-z]+$');
     if (userPoolId.trim().isEmpty || !poolRe.hasMatch(userPoolId)) {
-      throw AortemCognitoValidationException(
+      throw CognitoValidationException(
         'userPoolId is required and must match [\\w-]+_[0-9a-zA-Z]+.',
       );
     }
     if (username.trim().isEmpty) {
-      throw AortemCognitoValidationException('username is required.');
+      throw CognitoValidationException('username is required.');
     }
     if (limit != null && (limit! < 0 || limit! > 60)) {
-      throw AortemCognitoValidationException('limit must be between 0 and 60.');
+      throw CognitoValidationException('limit must be between 0 and 60.');
     }
     if (nextToken != null) {
       if (nextToken!.isEmpty || RegExp(r'^\s+$').hasMatch(nextToken!)) {
-        throw AortemCognitoValidationException(
+        throw CognitoValidationException(
           'nextToken must be a non-empty, non-whitespace string.',
         );
       }
@@ -175,12 +177,12 @@ class AortemCognitoAdminListGroupsForUserRequest {
   /// - Response parsing
   ///
   /// Returns:
-  /// - [AortemCognitoAdminListGroupsForUserResult] containing groups and pagination token
+  /// - [   CognitoAdminListGroupsForUserResult] containing groups and pagination token
   ///
   /// Throws:
-  /// - [AortemCognitoValidationException] for invalid parameters
-  /// - [AortemCognitoServiceException] for API failures
-  Future<AortemCognitoAdminListGroupsForUserResult> execute() async {
+  /// - [CognitoValidationException] for invalid parameters
+  /// - [CognitoServiceException] for API failures
+  Future<CognitoAdminListGroupsForUserResult> execute() async {
     final payload = _payload();
 
     int attempt = 0;
@@ -199,24 +201,24 @@ class AortemCognitoAdminListGroupsForUserRequest {
 
         if (res.statusCode == 200) {
           final body = res.jsonBody ?? const <String, dynamic>{};
-          return AortemCognitoAdminListGroupsForUserResult.fromJson(body);
+          return CognitoAdminListGroupsForUserResult.fromJson(body);
         }
 
         if (res.statusCode >= 400 && res.statusCode < 500) {
-          throw AortemCognitoServiceException(
+          throw CognitoServiceException(
             'AdminListGroupsForUser failed. Body: ${res.bodyString}',
             statusCode: res.statusCode,
           );
         }
 
         if (res.statusCode >= 500) {
-          throw AortemCognitoServiceException(
+          throw CognitoServiceException(
             'AdminListGroupsForUser temporary failure.',
             statusCode: res.statusCode,
           );
         }
 
-        throw AortemCognitoServiceException(
+        throw CognitoServiceException(
           'AdminListGroupsForUser unexpected status.',
           statusCode: res.statusCode,
         );
@@ -230,7 +232,7 @@ class AortemCognitoAdminListGroupsForUserRequest {
       }
     }
 
-    throw AortemCognitoServiceException(
+    throw CognitoServiceException(
       'AdminListGroupsForUser failed after retries. Last error: $lastError',
     );
   }

@@ -9,13 +9,13 @@ import 'package:cognito_dart_auth_sdk/requests/cognito_admin_disable_user_reques
 import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
 
 /// Function type for builder configuration callbacks
-typedef AortemCognitoDisableUserConsumerFn =
-    void Function(AortemCognitoAdminDisableUserBuilder b);
+typedef CognitoDisableUserConsumerFn =
+    void Function(CognitoAdminDisableUserBuilder b);
 
 /// Builder class for constructing AdminDisableUser requests.
 ///
 /// Provides a fluent interface for setting parameters with validation.
-class AortemCognitoAdminDisableUserBuilder {
+class CognitoAdminDisableUserBuilder {
   /// Stores the user pool ID
   String? _userPoolId;
 
@@ -26,7 +26,7 @@ class AortemCognitoAdminDisableUserBuilder {
   ///
   /// @param value The user pool ID (format: [\w-]+_[0-9a-zA-Z]+)
   /// @return The builder instance for method chaining
-  AortemCognitoAdminDisableUserBuilder userPoolId(String value) {
+  CognitoAdminDisableUserBuilder userPoolId(String value) {
     _userPoolId = value.trim();
     return this;
   }
@@ -35,7 +35,7 @@ class AortemCognitoAdminDisableUserBuilder {
   ///
   /// @param value The username to disable (1-128 characters)
   /// @return The builder instance for method chaining
-  AortemCognitoAdminDisableUserBuilder username(String value) {
+  CognitoAdminDisableUserBuilder username(String value) {
     _username = value.trim();
     return this;
   }
@@ -47,10 +47,10 @@ class AortemCognitoAdminDisableUserBuilder {
   /// @param maxRetries Maximum retry attempts (default: 2)
   /// @param requestTimeout Request timeout duration (default: 20s)
   /// @return Configured AdminDisableUser request
-  /// @throws AortemCognitoValidationException if required fields are missing
-  AortemCognitoAdminDisableUserRequest build({
+  /// @throws  CognitoValidationException if required fields are missing
+  CognitoAdminDisableUserRequest build({
     required String region,
-    required AortemCognitoHttpClient httpClient,
+    required CognitoHttpClient httpClient,
     int maxRetries = 2,
     Duration requestTimeout = const Duration(seconds: 20),
   }) {
@@ -58,13 +58,13 @@ class AortemCognitoAdminDisableUserBuilder {
     final un = _username?.trim() ?? '';
 
     if (up.isEmpty) {
-      throw AortemCognitoValidationException('userPoolId is required.');
+      throw CognitoValidationException('userPoolId is required.');
     }
     if (un.isEmpty) {
-      throw AortemCognitoValidationException('username is required.');
+      throw CognitoValidationException('username is required.');
     }
 
-    return AortemCognitoAdminDisableUserRequest(
+    return CognitoAdminDisableUserRequest(
       userPoolId: up,
       username: un,
       region: region,
@@ -79,12 +79,12 @@ class AortemCognitoAdminDisableUserBuilder {
 ///
 /// Provides a simplified interface for executing user disable requests
 /// using the builder pattern.
-class AortemCognitoAdminDisableUserConsumer {
+class CognitoAdminDisableUserConsumer {
   /// AWS region for the Cognito endpoint
   final String region;
 
   /// Configured HTTP client for AWS requests
-  final AortemCognitoHttpClient httpClient;
+  final CognitoHttpClient httpClient;
 
   /// Maximum retry attempts for failed requests (default: 2)
   final int maxRetries;
@@ -98,7 +98,7 @@ class AortemCognitoAdminDisableUserConsumer {
   /// @param httpClient Configured HTTP client
   /// @param maxRetries Maximum retry attempts (default: 2)
   /// @param requestTimeout Request timeout duration (default: 20s)
-  AortemCognitoAdminDisableUserConsumer({
+  CognitoAdminDisableUserConsumer({
     required this.region,
     required this.httpClient,
     this.maxRetries = 2,
@@ -109,12 +109,12 @@ class AortemCognitoAdminDisableUserConsumer {
   ///
   /// @param consumer Builder configuration callback
   /// @return Future resolving to operation result
-  /// @throws AortemCognitoValidationException for invalid inputs
-  /// @throws AortemCognitoServiceException for API failures
-  Future<AortemCognitoAdminDisableUserResult> run(
-    AortemCognitoDisableUserConsumerFn consumer,
+  /// @throws CognitoValidationException for invalid inputs
+  /// @throws CognitoServiceException for API failures
+  Future<CognitoAdminDisableUserResult> run(
+    CognitoDisableUserConsumerFn consumer,
   ) async {
-    final b = AortemCognitoAdminDisableUserBuilder();
+    final b = CognitoAdminDisableUserBuilder();
     consumer(b);
 
     final req = b.build(

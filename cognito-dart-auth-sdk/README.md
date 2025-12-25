@@ -31,7 +31,7 @@ Whether you’re building a backend service in pure Dart or a mobile/web client 
 ## Getting Started
 
 1. **Prerequisites**  
-   - Dart SDK ≥ 3.4.x, or Flutter SDK ≥ 3.0  
+   - Dart SDK ≥ 3.10.3  
    - An AWS account with a Cognito User Pool (and optionally an Identity Pool)
 
 2. **Configure AWS Credentials**  
@@ -54,7 +54,7 @@ Or add manually to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  cognito_dart_auth_sdk: ^0.1.0
+  cognito_dart_auth_sdk: ^0.0.1
 ```
 
 Then run:

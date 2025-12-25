@@ -1,23 +1,24 @@
 // admin_initiate_auth_request.dart
-// File: cognito_admin_initiate_auth_request.dart
+// File:    cognito_admin_initiate_auth_request.dart
 //
 // Implements the AdminInitiateAuth operation for AWS Cognito
 // This starts server-side authentication flows for admin users
 // Target service: AWSCognitoIdentityProviderService.AdminInitiateAuth
 //
 // Dependencies:
-// - AortemCognitoHttpClient for making authenticated requests
-// - AortemCognitoValidationException for input validation errors
-// - AortemCognitoServiceException for API/service errors
+// -    CognitoHttpClient for making authenticated requests
+// -    CognitoValidationException for input validation errors
+// -    CognitoServiceException for API/service errors
 
 // Import required dependencies
-import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
-import 'package:cognito_dart_auth_sdk/exceptions/cognito_validate_exception.dart';
+
 import 'package:cognito_dart_auth_sdk/exceptions/cognito_service_exception.dart';
+import 'package:cognito_dart_auth_sdk/exceptions/cognito_validate_exception.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
 
 /// Represents the successful authentication result from Cognito
 /// Contains all tokens and device metadata returned upon successful authentication
-class AortemCognitoAuthenticationResult {
+class CognitoAuthenticationResult {
   /// JWT access token for making authenticated API calls
   final String? accessToken;
 
@@ -40,7 +41,7 @@ class AortemCognitoAuthenticationResult {
   final String? newDeviceGroupKey;
 
   /// Constructs an authentication result with all possible tokens/metadata
-  const AortemCognitoAuthenticationResult({
+  const CognitoAuthenticationResult({
     this.accessToken,
     this.idToken,
     this.refreshToken,
@@ -51,11 +52,11 @@ class AortemCognitoAuthenticationResult {
   });
 
   /// Parses authentication result from Cognito API JSON response
-  factory AortemCognitoAuthenticationResult.fromJson(Map<String, dynamic> m) {
+  factory CognitoAuthenticationResult.fromJson(Map<String, dynamic> m) {
     // Extract new device metadata if present
     final nd = m['NewDeviceMetadata'] as Map<String, dynamic>?;
 
-    return AortemCognitoAuthenticationResult(
+    return CognitoAuthenticationResult(
       accessToken: m['AccessToken']?.toString(),
       idToken: m['IdToken']?.toString(),
       refreshToken: m['RefreshToken']?.toString(),
@@ -71,9 +72,9 @@ class AortemCognitoAuthenticationResult {
 
 /// Container for AdminInitiateAuth API response
 /// Either contains successful auth result or challenge data if additional steps are needed
-class AortemCognitoAdminInitiateAuthResult {
+class CognitoAdminInitiateAuthResult {
   /// Authentication tokens if authentication completed successfully
-  final AortemCognitoAuthenticationResult? authenticationResult;
+  final CognitoAuthenticationResult? authenticationResult;
 
   /// Name of challenge if additional auth steps are required
   final String? challengeName;
@@ -88,7 +89,7 @@ class AortemCognitoAdminInitiateAuthResult {
   final String? session;
 
   /// Constructs an auth result with either tokens or challenge data
-  const AortemCognitoAdminInitiateAuthResult({
+  const CognitoAdminInitiateAuthResult({
     required this.authenticationResult,
     required this.challengeName,
     required this.challengeParameters,
@@ -97,17 +98,15 @@ class AortemCognitoAdminInitiateAuthResult {
   });
 
   /// Parses AdminInitiateAuth response from HTTP response
-  factory AortemCognitoAdminInitiateAuthResult.fromHttp(
-    AortemCognitoHttpResponse res,
-  ) {
+  factory CognitoAdminInitiateAuthResult.fromHttp(CognitoHttpResponse res) {
     // Get JSON body or empty map if null
     final json = res.jsonBody ?? const <String, dynamic>{};
 
     // Parse authentication result if present
-    AortemCognitoAuthenticationResult? auth;
+    CognitoAuthenticationResult? auth;
     final ar = json['AuthenticationResult'];
     if (ar is Map<String, dynamic>) {
-      auth = AortemCognitoAuthenticationResult.fromJson(ar);
+      auth = CognitoAuthenticationResult.fromJson(ar);
     }
 
     // Parse challenge parameters
@@ -124,7 +123,7 @@ class AortemCognitoAdminInitiateAuthResult {
     final acList =
         acListRaw?.map((e) => e.toString()).toList() ?? const <String>[];
 
-    return AortemCognitoAdminInitiateAuthResult(
+    return CognitoAdminInitiateAuthResult(
       authenticationResult: auth,
       challengeName: json['ChallengeName']?.toString(),
       challengeParameters: cpMap,
@@ -136,7 +135,7 @@ class AortemCognitoAdminInitiateAuthResult {
 
 /// Client for making AdminInitiateAuth requests to AWS Cognito
 /// Handles authentication flows for admin users including password, SRP, and custom auth
-class AortemCognitoAdminInitiateAuthRequest {
+class CognitoAdminInitiateAuthRequest {
   /// Cognito User Pool ID (format: region_identifier)
   final String userPoolId;
 
@@ -165,7 +164,7 @@ class AortemCognitoAdminInitiateAuthRequest {
   final String region;
 
   /// HTTP client for making requests
-  final AortemCognitoHttpClient httpClient;
+  final CognitoHttpClient httpClient;
 
   /// Maximum number of retry attempts for failed requests
   final int maxRetries;
@@ -186,7 +185,7 @@ class AortemCognitoAdminInitiateAuthRequest {
   };
 
   /// Constructs a new AdminInitiateAuth request
-  AortemCognitoAdminInitiateAuthRequest({
+  CognitoAdminInitiateAuthRequest({
     required this.userPoolId,
     required this.clientId,
     required this.authFlow,
@@ -208,7 +207,7 @@ class AortemCognitoAdminInitiateAuthRequest {
     // Validate User Pool ID format
     final poolRe = RegExp(r'^[\w-]+_[0-9A-Za-z]+$');
     if (userPoolId.trim().isEmpty || !poolRe.hasMatch(userPoolId)) {
-      throw AortemCognitoValidationException(
+      throw CognitoValidationException(
         'userPoolId is required and must match [\\w-]+_[0-9a-zA-Z]+.',
       );
     }
@@ -218,14 +217,14 @@ class AortemCognitoAdminInitiateAuthRequest {
     if (clientId.trim().isEmpty ||
         clientId.length > 128 ||
         !clientIdRe.hasMatch(clientId)) {
-      throw AortemCognitoValidationException(
+      throw CognitoValidationException(
         'clientId must be 1..128 chars and match [\\w+]+.',
       );
     }
 
     // Validate auth flow is supported
     if (!_allowedFlows.contains(authFlow)) {
-      throw AortemCognitoValidationException(
+      throw CognitoValidationException(
         'Unsupported authFlow "$authFlow". Allowed: ${_allowedFlows.join(", ")}.',
       );
     }
@@ -233,9 +232,7 @@ class AortemCognitoAdminInitiateAuthRequest {
     // Validate auth parameters
     for (final e in authParameters.entries) {
       if (e.key.isEmpty) {
-        throw AortemCognitoValidationException(
-          'AuthParameters contains empty key.',
-        );
+        throw CognitoValidationException('AuthParameters contains empty key.');
       }
     }
   }
@@ -254,7 +251,7 @@ class AortemCognitoAdminInitiateAuthRequest {
 
   /// Executes the AdminInitiateAuth request
   /// Returns authentication result or challenge data if additional steps are needed
-  Future<AortemCognitoAdminInitiateAuthResult> execute() async {
+  Future<CognitoAdminInitiateAuthResult> execute() async {
     final payload = _payload();
 
     int attempt = 0;
@@ -275,12 +272,12 @@ class AortemCognitoAdminInitiateAuthRequest {
 
         // Handle successful response
         if (res.statusCode == 200) {
-          return AortemCognitoAdminInitiateAuthResult.fromHttp(res);
+          return CognitoAdminInitiateAuthResult.fromHttp(res);
         }
 
         // Handle client errors (4xx)
         if (res.statusCode >= 400 && res.statusCode < 500) {
-          throw AortemCognitoServiceException(
+          throw CognitoServiceException(
             'AdminInitiateAuth failed. Body: ${res.bodyString}',
             statusCode: res.statusCode,
           );
@@ -288,14 +285,14 @@ class AortemCognitoAdminInitiateAuthRequest {
 
         // Handle server errors (5xx)
         if (res.statusCode >= 500) {
-          throw AortemCognitoServiceException(
+          throw CognitoServiceException(
             'AdminInitiateAuth temporary failure.',
             statusCode: res.statusCode,
           );
         }
 
         // Handle unexpected status codes
-        throw AortemCognitoServiceException(
+        throw CognitoServiceException(
           'AdminInitiateAuth unexpected status.',
           statusCode: res.statusCode,
         );
@@ -314,7 +311,7 @@ class AortemCognitoAdminInitiateAuthRequest {
     }
 
     // All retries failed
-    throw AortemCognitoServiceException(
+    throw CognitoServiceException(
       'AdminInitiateAuth failed after retries. Last error: $lastError',
     );
   }

@@ -10,13 +10,13 @@ import 'package:cognito_dart_auth_sdk/requests/cognito_admin_forget_device_reque
 import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
 
 /// Function type for builder configuration callbacks
-typedef AortemCognitoForgetDeviceConsumerFn =
-    void Function(AortemCognitoAdminForgetDeviceBuilder b);
+typedef CognitoForgetDeviceConsumerFn =
+    void Function(CognitoAdminForgetDeviceBuilder b);
 
 /// Builder class for constructing AdminForgetDevice requests.
 ///
 /// Provides a fluent interface for setting parameters with validation.
-class AortemCognitoAdminForgetDeviceBuilder {
+class CognitoAdminForgetDeviceBuilder {
   /// Stores the user pool ID
   String? _userPoolId;
 
@@ -30,7 +30,7 @@ class AortemCognitoAdminForgetDeviceBuilder {
   ///
   /// @param value The user pool ID (format: [\w-]+_[0-9a-zA-Z]+)
   /// @return The builder instance for method chaining
-  AortemCognitoAdminForgetDeviceBuilder userPoolId(String value) {
+  CognitoAdminForgetDeviceBuilder userPoolId(String value) {
     _userPoolId = value.trim();
     return this;
   }
@@ -39,7 +39,7 @@ class AortemCognitoAdminForgetDeviceBuilder {
   ///
   /// @param value The username (1-128 characters)
   /// @return The builder instance for method chaining
-  AortemCognitoAdminForgetDeviceBuilder username(String value) {
+  CognitoAdminForgetDeviceBuilder username(String value) {
     _username = value.trim();
     return this;
   }
@@ -48,7 +48,7 @@ class AortemCognitoAdminForgetDeviceBuilder {
   ///
   /// @param value The unique device identifier
   /// @return The builder instance for method chaining
-  AortemCognitoAdminForgetDeviceBuilder deviceKey(String value) {
+  CognitoAdminForgetDeviceBuilder deviceKey(String value) {
     _deviceKey = value.trim();
     return this;
   }
@@ -60,10 +60,10 @@ class AortemCognitoAdminForgetDeviceBuilder {
   /// @param maxRetries Maximum retry attempts (default: 2)
   /// @param requestTimeout Request timeout duration (default: 20s)
   /// @return Configured AdminForgetDevice request
-  /// @throws AortemCognitoValidationException if required fields are missing
-  AortemCognitoAdminForgetDeviceRequest build({
+  /// @throws  CognitoValidationException if required fields are missing
+  CognitoAdminForgetDeviceRequest build({
     required String region,
-    required AortemCognitoHttpClient httpClient,
+    required CognitoHttpClient httpClient,
     int maxRetries = 2,
     Duration requestTimeout = const Duration(seconds: 20),
   }) {
@@ -72,16 +72,16 @@ class AortemCognitoAdminForgetDeviceBuilder {
     final dk = _deviceKey?.trim() ?? '';
 
     if (up.isEmpty) {
-      throw AortemCognitoValidationException('userPoolId is required.');
+      throw CognitoValidationException('userPoolId is required.');
     }
     if (un.isEmpty) {
-      throw AortemCognitoValidationException('username is required.');
+      throw CognitoValidationException('username is required.');
     }
     if (dk.isEmpty) {
-      throw AortemCognitoValidationException('deviceKey is required.');
+      throw CognitoValidationException('deviceKey is required.');
     }
 
-    return AortemCognitoAdminForgetDeviceRequest(
+    return CognitoAdminForgetDeviceRequest(
       userPoolId: up,
       username: un,
       deviceKey: dk,
@@ -97,12 +97,12 @@ class AortemCognitoAdminForgetDeviceBuilder {
 ///
 /// Provides a simplified interface for executing device forget requests
 /// using the builder pattern.
-class AortemCognitoAdminForgetDeviceConsumer {
+class CognitoAdminForgetDeviceConsumer {
   /// AWS region for the Cognito endpoint
   final String region;
 
   /// Configured HTTP client for AWS requests
-  final AortemCognitoHttpClient httpClient;
+  final CognitoHttpClient httpClient;
 
   /// Maximum retry attempts for failed requests (default: 2)
   final int maxRetries;
@@ -116,7 +116,7 @@ class AortemCognitoAdminForgetDeviceConsumer {
   /// @param httpClient Configured HTTP client
   /// @param maxRetries Maximum retry attempts (default: 2)
   /// @param requestTimeout Request timeout duration (default: 20s)
-  AortemCognitoAdminForgetDeviceConsumer({
+  CognitoAdminForgetDeviceConsumer({
     required this.region,
     required this.httpClient,
     this.maxRetries = 2,
@@ -127,12 +127,12 @@ class AortemCognitoAdminForgetDeviceConsumer {
   ///
   /// @param consumer Builder configuration callback
   /// @return Future resolving to operation result
-  /// @throws AortemCognitoValidationException for invalid inputs
-  /// @throws AortemCognitoServiceException for API failures
-  Future<AortemCognitoAdminForgetDeviceResult> run(
-    AortemCognitoForgetDeviceConsumerFn consumer,
+  /// @throws  CognitoValidationException for invalid inputs
+  /// @throws  CognitoServiceException for API failures
+  Future<CognitoAdminForgetDeviceResult> run(
+    CognitoForgetDeviceConsumerFn consumer,
   ) async {
-    final b = AortemCognitoAdminForgetDeviceBuilder();
+    final b = CognitoAdminForgetDeviceBuilder();
     consumer(b);
 
     final req = b.build(

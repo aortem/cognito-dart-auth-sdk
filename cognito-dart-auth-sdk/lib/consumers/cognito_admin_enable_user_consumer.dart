@@ -10,13 +10,13 @@ import 'package:cognito_dart_auth_sdk/requests/cognito_admin_enable_user_request
 import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
 
 /// Function type for builder configuration callbacks
-typedef AortemCognitoEnableUserConsumerFn =
-    void Function(AortemCognitoAdminEnableUserBuilder b);
+typedef CognitoEnableUserConsumerFn =
+    void Function(CognitoAdminEnableUserBuilder b);
 
 /// Builder class for constructing AdminEnableUser requests.
 ///
 /// Provides a fluent interface for setting parameters with validation.
-class AortemCognitoAdminEnableUserBuilder {
+class CognitoAdminEnableUserBuilder {
   /// Stores the user pool ID
   String? _userPoolId;
 
@@ -27,7 +27,7 @@ class AortemCognitoAdminEnableUserBuilder {
   ///
   /// @param value The user pool ID (format: [\w-]+_[0-9a-zA-Z]+)
   /// @return The builder instance for method chaining
-  AortemCognitoAdminEnableUserBuilder userPoolId(String value) {
+  CognitoAdminEnableUserBuilder userPoolId(String value) {
     _userPoolId = value.trim();
     return this;
   }
@@ -36,7 +36,7 @@ class AortemCognitoAdminEnableUserBuilder {
   ///
   /// @param value The username to re-enable (1-128 characters)
   /// @return The builder instance for method chaining
-  AortemCognitoAdminEnableUserBuilder username(String value) {
+  CognitoAdminEnableUserBuilder username(String value) {
     _username = value.trim();
     return this;
   }
@@ -48,10 +48,10 @@ class AortemCognitoAdminEnableUserBuilder {
   /// @param maxRetries Maximum retry attempts (default: 2)
   /// @param requestTimeout Request timeout duration (default: 20s)
   /// @return Configured AdminEnableUser request
-  /// @throws AortemCognitoValidationException if required fields are missing
-  AortemCognitoAdminEnableUserRequest build({
+  /// @throws  CognitoValidationException if required fields are missing
+  CognitoAdminEnableUserRequest build({
     required String region,
-    required AortemCognitoHttpClient httpClient,
+    required CognitoHttpClient httpClient,
     int maxRetries = 2,
     Duration requestTimeout = const Duration(seconds: 20),
   }) {
@@ -59,13 +59,13 @@ class AortemCognitoAdminEnableUserBuilder {
     final un = _username?.trim() ?? '';
 
     if (up.isEmpty) {
-      throw AortemCognitoValidationException('userPoolId is required.');
+      throw CognitoValidationException('userPoolId is required.');
     }
     if (un.isEmpty) {
-      throw AortemCognitoValidationException('username is required.');
+      throw CognitoValidationException('username is required.');
     }
 
-    return AortemCognitoAdminEnableUserRequest(
+    return CognitoAdminEnableUserRequest(
       userPoolId: up,
       username: un,
       region: region,
@@ -80,12 +80,12 @@ class AortemCognitoAdminEnableUserBuilder {
 ///
 /// Provides a simplified interface for executing user enable requests
 /// using the builder pattern.
-class AortemCognitoAdminEnableUserConsumer {
+class CognitoAdminEnableUserConsumer {
   /// AWS region for the Cognito endpoint
   final String region;
 
   /// Configured HTTP client for AWS requests
-  final AortemCognitoHttpClient httpClient;
+  final CognitoHttpClient httpClient;
 
   /// Maximum retry attempts for failed requests (default: 2)
   final int maxRetries;
@@ -99,7 +99,7 @@ class AortemCognitoAdminEnableUserConsumer {
   /// @param httpClient Configured HTTP client
   /// @param maxRetries Maximum retry attempts (default: 2)
   /// @param requestTimeout Request timeout duration (default: 20s)
-  AortemCognitoAdminEnableUserConsumer({
+  CognitoAdminEnableUserConsumer({
     required this.region,
     required this.httpClient,
     this.maxRetries = 2,
@@ -110,12 +110,12 @@ class AortemCognitoAdminEnableUserConsumer {
   ///
   /// @param consumer Builder configuration callback
   /// @return Future resolving to operation result
-  /// @throws AortemCognitoValidationException for invalid inputs
-  /// @throws AortemCognitoServiceException for API failures
-  Future<AortemCognitoAdminEnableUserResult> run(
-    AortemCognitoEnableUserConsumerFn consumer,
+  /// @throws  CognitoValidationException for invalid inputs
+  /// @throws  CognitoServiceException for API failures
+  Future<CognitoAdminEnableUserResult> run(
+    CognitoEnableUserConsumerFn consumer,
   ) async {
-    final b = AortemCognitoAdminEnableUserBuilder();
+    final b = CognitoAdminEnableUserBuilder();
     consumer(b);
 
     final req = b.build(

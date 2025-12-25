@@ -1,3 +1,7 @@
+import 'package:cognito_dart_auth_sdk/exceptions/cognito_service_exception.dart';
+import 'package:cognito_dart_auth_sdk/exceptions/cognito_validate_exception.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
+
 /// AdminGetDevice — Retrieves details for a user's remembered device.
 ///
 /// This request allows administrators to fetch detailed information
@@ -5,10 +9,6 @@
 ///
 /// AWS API Reference:
 /// https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminGetDevice.html
-
-import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
-import 'package:cognito_dart_auth_sdk/exceptions/cognito_validate_exception.dart';
-import 'package:cognito_dart_auth_sdk/exceptions/cognito_service_exception.dart';
 
 /// Immutable model representing a Cognito device.
 ///
@@ -20,7 +20,7 @@ import 'package:cognito_dart_auth_sdk/exceptions/cognito_service_exception.dart'
 /// - `device_status`: Current status of the device
 /// - `device_os`: Operating system of the device
 /// - `device_model`: Model information of the device
-class AortemCognitoDevice {
+class CognitoDevice {
   /// Unique identifier for the device (e.g., "us-west-2_abc-123...")
   final String deviceKey;
 
@@ -37,7 +37,7 @@ class AortemCognitoDevice {
   final Map<String, String> attributes;
 
   /// Creates a new device instance
-  const AortemCognitoDevice({
+  const CognitoDevice({
     required this.deviceKey,
     this.deviceCreateDate,
     this.deviceLastModifiedDate,
@@ -50,7 +50,7 @@ class AortemCognitoDevice {
   /// @param m Raw response map from Cognito API
   /// @return Parsed device instance
   /// @throws FormatException if required fields are missing
-  factory AortemCognitoDevice.fromJson(Map<String, dynamic> m) {
+  factory CognitoDevice.fromJson(Map<String, dynamic> m) {
     final attrsList =
         (m['DeviceAttributes'] as List<dynamic>?)
             ?.whereType<Map<String, dynamic>>()
@@ -64,7 +64,7 @@ class AortemCognitoDevice {
       if (name.isNotEmpty) attrs[name] = value;
     }
 
-    return AortemCognitoDevice(
+    return CognitoDevice(
       deviceKey: (m['DeviceKey'] ?? '').toString(),
       deviceCreateDate: m['DeviceCreateDate'] is num
           ? (m['DeviceCreateDate'] as num).toDouble()
@@ -83,42 +83,40 @@ class AortemCognitoDevice {
 /// Result container for AdminGetDevice operations.
 ///
 /// Wraps the device information returned by the API.
-class AortemCognitoAdminGetDeviceResult {
+class CognitoAdminGetDeviceResult {
   /// The device details returned by Cognito
-  final AortemCognitoDevice device;
+  final CognitoDevice device;
 
   /// Creates a new result instance
-  const AortemCognitoAdminGetDeviceResult(this.device);
+  const CognitoAdminGetDeviceResult(this.device);
 
   /// Parses the result from an HTTP response
   ///
   /// @param res HTTP response from Cognito
   /// @return Parsed result instance
-  /// @throws AortemCognitoServiceException if response is malformed
-  factory AortemCognitoAdminGetDeviceResult.fromHttp(
-    AortemCognitoHttpResponse res,
-  ) {
+  /// @throws    CognitoServiceException if response is malformed
+  factory CognitoAdminGetDeviceResult.fromHttp(CognitoHttpResponse res) {
     final json = res.jsonBody ?? const <String, dynamic>{};
     final dev = (json['Device'] as Map<String, dynamic>?);
     if (dev == null) {
-      throw AortemCognitoServiceException(
+      throw CognitoServiceException(
         'AdminGetDevice response missing Device object.',
         statusCode: res.statusCode,
         responseBody: json,
       );
     }
-    return AortemCognitoAdminGetDeviceResult(AortemCognitoDevice.fromJson(dev));
+    return CognitoAdminGetDeviceResult(CognitoDevice.fromJson(dev));
   }
 }
 
-/// {@template aortem_admin_get_device_request}
+/// {@template    admin_get_device_request}
 /// Request wrapper for the Cognito AdminGetDevice API.
 ///
 /// Retrieves detailed information about a specific device associated with a user.
 ///
 /// ### Usage
 /// ```dart
-/// final request = AortemCognitoAdminGetDeviceRequest(
+/// final request =    CognitoAdminGetDeviceRequest(
 ///   userPoolId: 'us-east-1_abc123',
 ///   username: 'testuser',
 ///   deviceKey: 'device_123',
@@ -136,10 +134,10 @@ class AortemCognitoAdminGetDeviceResult {
 /// - `deviceKey`: Must match `[\w-]+_[0-9a-f-]+` (max 55 chars)
 ///
 /// ### Error Handling
-/// - [AortemCognitoValidationException]: Invalid input parameters
-/// - [AortemCognitoServiceException]: API failures or malformed responses
+/// - [CognitoValidationException]: Invalid input parameters
+/// - [CognitoServiceException]: API failures or malformed responses
 /// {@endtemplate}
-class AortemCognitoAdminGetDeviceRequest {
+class CognitoAdminGetDeviceRequest {
   /// The user pool ID where the user is registered
   final String userPoolId;
 
@@ -153,7 +151,7 @@ class AortemCognitoAdminGetDeviceRequest {
   final String region;
 
   /// Configured HTTP client for AWS requests
-  final AortemCognitoHttpClient httpClient;
+  final CognitoHttpClient httpClient;
 
   /// Maximum retry attempts for failed requests (default: 2)
   final int maxRetries;
@@ -161,8 +159,8 @@ class AortemCognitoAdminGetDeviceRequest {
   /// Timeout duration for the request (default: 20 seconds)
   final Duration requestTimeout;
 
-  /// {@macro aortem_admin_get_device_request}
-  AortemCognitoAdminGetDeviceRequest({
+  /// {@macro    admin_get_device_request}
+  CognitoAdminGetDeviceRequest({
     required this.userPoolId,
     required this.username,
     required this.deviceKey,
@@ -176,34 +174,30 @@ class AortemCognitoAdminGetDeviceRequest {
 
   /// Validates all request parameters
   ///
-  /// @throws AortemCognitoValidationException if any parameters are invalid
+  /// @throws    CognitoValidationException if any parameters are invalid
   void _validate() {
     final poolRe = RegExp(r'^[\w-]+_[0-9A-Za-z]+$');
     if (userPoolId.trim().isEmpty || !poolRe.hasMatch(userPoolId)) {
-      throw AortemCognitoValidationException(
+      throw CognitoValidationException(
         'userPoolId is required and must match [\\w-]+_[0-9a-zA-Z]+.',
       );
     }
 
     if (username.trim().isEmpty) {
-      throw AortemCognitoValidationException('username is required.');
+      throw CognitoValidationException('username is required.');
     }
     if (username.length > 128) {
-      throw AortemCognitoValidationException(
-        'username must be <= 128 characters.',
-      );
+      throw CognitoValidationException('username must be <= 128 characters.');
     }
 
     final deviceRe = RegExp(r'^[\w-]+_[0-9a-f-]+$');
     if (deviceKey.trim().isEmpty || !deviceRe.hasMatch(deviceKey)) {
-      throw AortemCognitoValidationException(
+      throw CognitoValidationException(
         'deviceKey is required and must match [\\w-]+_[0-9a-f-]+.',
       );
     }
     if (deviceKey.length > 55) {
-      throw AortemCognitoValidationException(
-        'deviceKey must be <= 55 characters.',
-      );
+      throw CognitoValidationException('deviceKey must be <= 55 characters.');
     }
   }
 
@@ -217,9 +211,9 @@ class AortemCognitoAdminGetDeviceRequest {
   /// Executes the AdminGetDevice request
   ///
   /// @return Future resolving to AdminGetDeviceResult with device details
-  /// @throws AortemCognitoValidationException for invalid parameters
-  /// @throws AortemCognitoServiceException for API failures
-  Future<AortemCognitoAdminGetDeviceResult> execute() async {
+  /// @throws    CognitoValidationException for invalid parameters
+  /// @throws    CognitoServiceException for API failures
+  Future<CognitoAdminGetDeviceResult> execute() async {
     final payload = _payload();
 
     int attempt = 0;
@@ -237,24 +231,24 @@ class AortemCognitoAdminGetDeviceRequest {
         );
 
         if (res.statusCode == 200) {
-          return AortemCognitoAdminGetDeviceResult.fromHttp(res);
+          return CognitoAdminGetDeviceResult.fromHttp(res);
         }
 
         if (res.statusCode >= 400 && res.statusCode < 500) {
-          throw AortemCognitoServiceException(
+          throw CognitoServiceException(
             'AdminGetDevice failed. Body: ${res.bodyString}',
             statusCode: res.statusCode,
           );
         }
 
         if (res.statusCode >= 500) {
-          throw AortemCognitoServiceException(
+          throw CognitoServiceException(
             'AdminGetDevice temporary failure.',
             statusCode: res.statusCode,
           );
         }
 
-        throw AortemCognitoServiceException(
+        throw CognitoServiceException(
           'AdminGetDevice unexpected status.',
           statusCode: res.statusCode,
         );
@@ -268,7 +262,7 @@ class AortemCognitoAdminGetDeviceRequest {
       }
     }
 
-    throw AortemCognitoServiceException(
+    throw CognitoServiceException(
       'AdminGetDevice failed after retries. Last error: $lastError',
     );
   }

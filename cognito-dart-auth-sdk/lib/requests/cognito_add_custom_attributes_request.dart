@@ -1,7 +1,7 @@
-// cognito_add_custom_attributes_request.dart
-// SDK: Aortem Cognito (Dart)
-// Ticket: AortemCognitoAddCustomAttributesRequest — Add Custom Attributes to Cognito User Pool
-// Naming: cognito_<filename>.dart (per convention)
+//    cognito_add_custom_attributes_request.dart
+// SDK:     Cognito (Dart)
+// Ticket:    CognitoAddCustomAttributesRequest — Add Custom Attributes to Cognito User Pool
+// Naming:    cognito_<filename>.dart (per convention)
 //
 // This file implements the AddCustomAttributes API operation for Amazon Cognito,
 // allowing administrators to add custom attributes to a user pool schema.
@@ -23,7 +23,7 @@ import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
 /// These constraints define minimum and maximum length requirements for
 /// string attributes. Note that Cognito expects these values as strings
 /// in the API payload (e.g., "1" instead of 1).
-class AortemCognitoStringAttributeConstraints {
+class CognitoStringAttributeConstraints {
   /// Minimum allowed length as a string (e.g., "1")
   final String? minLength;
 
@@ -31,14 +31,11 @@ class AortemCognitoStringAttributeConstraints {
   final String? maxLength;
 
   /// Creates a new StringAttributeConstraints instance
-  const AortemCognitoStringAttributeConstraints({
-    this.minLength,
-    this.maxLength,
-  });
+  const CognitoStringAttributeConstraints({this.minLength, this.maxLength});
 
   /// Validates the constraints
   ///
-  /// Throws [AortemCognitoValidationException] if:
+  /// Throws [CognitoValidationException] if:
   /// - minLength or maxLength are not valid integer strings
   /// - minLength is negative
   /// - minLength > maxLength
@@ -46,22 +43,22 @@ class AortemCognitoStringAttributeConstraints {
     int? min = minLength == null ? null : int.tryParse(minLength!);
     int? max = maxLength == null ? null : int.tryParse(maxLength!);
     if (minLength != null && min == null) {
-      throw AortemCognitoValidationException(
+      throw CognitoValidationException(
         'StringAttributeConstraints.minLength must be an integer string.',
       );
     }
     if (maxLength != null && max == null) {
-      throw AortemCognitoValidationException(
+      throw CognitoValidationException(
         'StringAttributeConstraints.maxLength must be an integer string.',
       );
     }
     if (min != null && min < 0) {
-      throw AortemCognitoValidationException(
+      throw CognitoValidationException(
         'StringAttributeConstraints.minLength must be >= 0.',
       );
     }
     if (min != null && max != null && min > max) {
-      throw AortemCognitoValidationException(
+      throw CognitoValidationException(
         'StringAttributeConstraints.minLength cannot be greater than maxLength.',
       );
     }
@@ -81,7 +78,7 @@ class AortemCognitoStringAttributeConstraints {
 /// These constraints define minimum and maximum value requirements for
 /// numeric attributes. Note that Cognito expects these values as strings
 /// in the API payload (e.g., "0" instead of 0).
-class AortemCognitoNumberAttributeConstraints {
+class CognitoNumberAttributeConstraints {
   /// Minimum allowed value as a string (e.g., "0")
   final String? minValue;
 
@@ -89,28 +86,28 @@ class AortemCognitoNumberAttributeConstraints {
   final String? maxValue;
 
   /// Creates a new NumberAttributeConstraints instance
-  const AortemCognitoNumberAttributeConstraints({this.minValue, this.maxValue});
+  const CognitoNumberAttributeConstraints({this.minValue, this.maxValue});
 
   /// Validates the constraints
   ///
-  /// Throws [AortemCognitoValidationException] if:
+  /// Throws [CognitoValidationException] if:
   /// - minValue or maxValue are not valid numeric strings
   /// - minValue > maxValue
   void validate() {
     double? min = minValue == null ? null : double.tryParse(minValue!);
     double? max = maxValue == null ? null : double.tryParse(maxValue!);
     if (minValue != null && min == null) {
-      throw AortemCognitoValidationException(
+      throw CognitoValidationException(
         'NumberAttributeConstraints.minValue must be a numeric string.',
       );
     }
     if (maxValue != null && max == null) {
-      throw AortemCognitoValidationException(
+      throw CognitoValidationException(
         'NumberAttributeConstraints.maxValue must be a numeric string.',
       );
     }
     if (min != null && max != null && min > max) {
-      throw AortemCognitoValidationException(
+      throw CognitoValidationException(
         'NumberAttributeConstraints.minValue cannot be greater than maxValue.',
       );
     }
@@ -133,12 +130,12 @@ class AortemCognitoNumberAttributeConstraints {
 ///
 /// This model represents the subset of schema attributes needed for the
 /// AddCustomAttributes API operation.
-class AortemCognitoSchemaAttributeType {
+class CognitoSchemaAttributeType {
   /// The name of the custom attribute (must start with 'custom:')
   final String name;
 
   /// The data type of the attribute
-  final AortemCognitoAttributeDataType attributeDataType;
+  final CognitoAttributeDataType attributeDataType;
 
   /// Whether this attribute is only accessible by developers
   final bool? developerOnlyAttribute;
@@ -147,13 +144,13 @@ class AortemCognitoSchemaAttributeType {
   final bool? mutable;
 
   /// String-specific constraints (only for String attributes)
-  final AortemCognitoStringAttributeConstraints? stringAttributeConstraints;
+  final CognitoStringAttributeConstraints? stringAttributeConstraints;
 
   /// Number-specific constraints (only for Number attributes)
-  final AortemCognitoNumberAttributeConstraints? numberAttributeConstraints;
+  final CognitoNumberAttributeConstraints? numberAttributeConstraints;
 
   /// Creates a new SchemaAttributeType instance
-  AortemCognitoSchemaAttributeType({
+  CognitoSchemaAttributeType({
     required this.name,
     required this.attributeDataType,
     this.developerOnlyAttribute,
@@ -164,45 +161,45 @@ class AortemCognitoSchemaAttributeType {
 
   /// Validates the attribute definition
   ///
-  /// Throws [AortemCognitoValidationException] if:
+  /// Throws [CognitoValidationException] if:
   /// - name is empty or doesn't match required pattern
   /// - constraints are provided for unsupported data types
   /// - constraints are invalid
   void validate() {
     // Required
     if (name.trim().isEmpty) {
-      throw AortemCognitoValidationException('Attribute Name is required.');
+      throw CognitoValidationException('Attribute Name is required.');
     }
 
     // Name must be 'custom:<alnum_or_underscore>'
     final namePattern = RegExp(r'^custom:[A-Za-z0-9_]+$');
     if (!namePattern.hasMatch(name)) {
-      throw AortemCognitoValidationException(
+      throw CognitoValidationException(
         "Invalid attribute Name '$name'. It must match ^custom:[A-Za-z0-9_]+",
       );
     }
 
     // Constraints allowed only for String/Number
-    if (attributeDataType == AortemCognitoAttributeDataType.string) {
+    if (attributeDataType == CognitoAttributeDataType.string) {
       numberAttributeConstraints?.validate();
       stringAttributeConstraints?.validate();
       if (numberAttributeConstraints != null) {
-        throw AortemCognitoValidationException(
+        throw CognitoValidationException(
           'NumberAttributeConstraints provided for a String attribute.',
         );
       }
-    } else if (attributeDataType == AortemCognitoAttributeDataType.number) {
+    } else if (attributeDataType == CognitoAttributeDataType.number) {
       stringAttributeConstraints?.validate();
       numberAttributeConstraints?.validate();
       if (stringAttributeConstraints != null) {
-        throw AortemCognitoValidationException(
+        throw CognitoValidationException(
           'StringAttributeConstraints provided for a Number attribute.',
         );
       }
     } else {
       if (stringAttributeConstraints != null ||
           numberAttributeConstraints != null) {
-        throw AortemCognitoValidationException(
+        throw CognitoValidationException(
           'Constraints are only supported for String or Number attribute types.',
         );
       }
@@ -225,15 +222,15 @@ class AortemCognitoSchemaAttributeType {
   }
 
   /// Maps the Dart enum to AWS API string values
-  static String _mapAttributeDataType(AortemCognitoAttributeDataType t) {
+  static String _mapAttributeDataType(CognitoAttributeDataType t) {
     switch (t) {
-      case AortemCognitoAttributeDataType.string:
+      case CognitoAttributeDataType.string:
         return 'String';
-      case AortemCognitoAttributeDataType.number:
+      case CognitoAttributeDataType.number:
         return 'Number';
-      case AortemCognitoAttributeDataType.boolean:
+      case CognitoAttributeDataType.boolean:
         return 'Boolean';
-      case AortemCognitoAttributeDataType.datetime:
+      case CognitoAttributeDataType.datetime:
         return 'DateTime';
     }
   }
@@ -247,16 +244,14 @@ class AortemCognitoSchemaAttributeType {
 ///
 /// This is essentially a marker class since the operation returns no data
 /// on success (200 OK with empty body).
-class AortemCognitoAddCustomAttributesResult {
+class CognitoAddCustomAttributesResult {
   /// Creates a new result instance
-  AortemCognitoAddCustomAttributesResult();
+  CognitoAddCustomAttributesResult();
 
   /// Creates a result from an HTTP response
-  factory AortemCognitoAddCustomAttributesResult.fromHttp(
-    AortemCognitoHttpResponse resp,
-  ) {
+  factory CognitoAddCustomAttributesResult.fromHttp(CognitoHttpResponse resp) {
     // Cognito returns {} on success
-    return AortemCognitoAddCustomAttributesResult();
+    return CognitoAddCustomAttributesResult();
   }
 }
 
@@ -267,18 +262,18 @@ class AortemCognitoAddCustomAttributesResult {
 /// - Parameter validation
 /// - Execution with retries
 /// - Error handling
-class AortemCognitoAddCustomAttributesRequest {
+class CognitoAddCustomAttributesRequest {
   /// The ID of the user pool to add attributes to
   final String userPoolId;
 
   /// The list of custom attributes to add
-  final List<AortemCognitoSchemaAttributeType> customAttributes;
+  final List<CognitoSchemaAttributeType> customAttributes;
 
   /// The AWS region where the user pool is located
   final String region;
 
   /// The HTTP client for making requests
-  final AortemCognitoHttpClient httpClient;
+  final CognitoHttpClient httpClient;
 
   /// Maximum number of retry attempts (default: 2)
   final int maxRetries;
@@ -287,7 +282,7 @@ class AortemCognitoAddCustomAttributesRequest {
   final Duration requestTimeout;
 
   /// Creates a new request instance
-  AortemCognitoAddCustomAttributesRequest({
+  CognitoAddCustomAttributesRequest({
     required this.userPoolId,
     required this.customAttributes,
     required this.region,
@@ -300,16 +295,16 @@ class AortemCognitoAddCustomAttributesRequest {
 
   /// Validates the request parameters
   ///
-  /// Throws [AortemCognitoValidationException] if:
+  /// Throws [CognitoValidationException] if:
   /// - userPoolId is empty
   /// - customAttributes list is empty
   /// - any attribute fails validation
   void validate() {
     if (userPoolId.trim().isEmpty) {
-      throw AortemCognitoValidationException('UserPoolId is required.');
+      throw CognitoValidationException('UserPoolId is required.');
     }
     if (customAttributes.isEmpty) {
-      throw AortemCognitoValidationException(
+      throw CognitoValidationException(
         'At least one custom attribute is required.',
       );
     }
@@ -333,12 +328,12 @@ class AortemCognitoAddCustomAttributesRequest {
   /// Executes the AddCustomAttributes API request
   ///
   /// Returns:
-  /// - [AortemCognitoAddCustomAttributesResult] on success
+  /// - [CognitoAddCustomAttributesResult] on success
   ///
   /// Throws:
-  /// - [AortemCognitoValidationException] if parameters are invalid
-  /// - [AortemCognitoServiceException] if the API call fails
-  Future<AortemCognitoAddCustomAttributesResult> execute() async {
+  /// - [CognitoValidationException] if parameters are invalid
+  /// - [CognitoServiceException] if the API call fails
+  Future<CognitoAddCustomAttributesResult> execute() async {
     validate();
 
     const target = 'AWSCognitoIdentityProviderService.AddCustomAttributes';
@@ -359,7 +354,7 @@ class AortemCognitoAddCustomAttributesRequest {
 
         // Success: 200
         if (resp.statusCode == 200) {
-          return AortemCognitoAddCustomAttributesResult.fromHttp(resp);
+          return CognitoAddCustomAttributesResult.fromHttp(resp);
         }
 
         // Handle retryable errors (5xx, throttling)
@@ -374,20 +369,20 @@ class AortemCognitoAddCustomAttributesRequest {
         }
 
         // Not retryable or out of attempts — throw (message first)
-        throw AortemCognitoServiceException(
+        throw CognitoServiceException(
           code ?? 'ServiceError',
           statusCode: resp.statusCode,
           responseBody: body,
         );
       } catch (e) {
         // Network/timeout or other errors: retry if allowed
-        if (e is AortemCognitoServiceException) rethrow;
+        if (e is CognitoServiceException) rethrow;
         if (attempt < maxRetries) {
           await _sleepBackoff(attempt);
           attempt++;
           continue;
         }
-        throw AortemCognitoServiceException(
+        throw CognitoServiceException(
           'NetworkError: ${e.toString()}',
           statusCode: 599,
         );
@@ -445,8 +440,8 @@ class AortemCognitoAddCustomAttributesRequest {
 
 /// A minimal sketch showing how an HTTP client could be implemented.
 /// Replace with your SDK's shared HTTP + SigV4 machinery.
-class AortemCognitoSigV4HttpClient implements AortemCognitoHttpClient {
-  final Future<AortemCognitoHttpResponse> Function({
+class CognitoSigV4HttpClient implements CognitoHttpClient {
+  final Future<CognitoHttpResponse> Function({
     required Uri uri,
     required Map<String, String> headers,
     required String body,
@@ -465,10 +460,10 @@ class AortemCognitoSigV4HttpClient implements AortemCognitoHttpClient {
   _signer;
 
   /// Creates a new SigV4 HTTP client with the given sender and signer functions
-  AortemCognitoSigV4HttpClient(this._sender, this._signer);
+  CognitoSigV4HttpClient(this._sender, this._signer);
 
   @override
-  Future<AortemCognitoHttpResponse> post({
+  Future<CognitoHttpResponse> post({
     required String region,
     required String xAmzTarget,
     required Map<String, dynamic> payload,
@@ -509,7 +504,7 @@ class AortemCognitoSigV4HttpClient implements AortemCognitoHttpClient {
 
   /// Bridge for request classes that call `send(...)`
   @override
-  Future<AortemCognitoHttpResponse> send({
+  Future<CognitoHttpResponse> send({
     required String service,
     required String target,
     required String region,

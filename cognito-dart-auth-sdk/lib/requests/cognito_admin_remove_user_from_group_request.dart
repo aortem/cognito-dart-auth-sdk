@@ -1,66 +1,72 @@
-// admin_remove_user_from_group_request.dart
-// cognito_admin_remove_user_from_group_request.dart
+//    cognito_admin_remove_user_from_group_request.dart
+
 //
 // AdminRemoveUserFromGroup — Removes a user from a specific group in a Cognito user pool.
 // AWS Target: AWSCognitoIdentityProviderService.AdminRemoveUserFromGroup
 //
-// This request wrapper handles the removal of users from Cognito groups with:
-// - Parameter validation
-// - Automatic retries for transient failures
-// - Proper error handling
-// - Configurable timeout and retry behavior
+// Success: HTTP 200 with empty body.
+// Retries: transient (network/timeout/5xx) with small incremental backoff.
+// Errors: 4xx =>    CognitoServiceException (non-retryable).
+//
+// Depends on shared types:
+// -    CognitoHttpClient (send(...))
+// -    CognitoValidationException
+// -    CognitoServiceException
 
-import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
-import 'package:cognito_dart_auth_sdk/exceptions/cognito_validate_exception.dart';
 import 'package:cognito_dart_auth_sdk/exceptions/cognito_service_exception.dart';
+import 'package:cognito_dart_auth_sdk/exceptions/cognito_validate_exception.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
 
-/// Represents the successful result of removing a user from a group.
+/// Represents the successful result of an AdminRemoveUserFromGroup operation.
 ///
-/// This is essentially a marker class since the operation returns no data
-/// on success (200 OK with empty body).
-class AortemCognitoAdminRemoveUserFromGroupResult {
-  /// Creates a new result instance.
-  const AortemCognitoAdminRemoveUserFromGroupResult();
+/// This operation returns an empty response on success (HTTP 200), so this
+/// class serves as a marker for successful completion without any additional data.
+class CognitoAdminRemoveUserFromGroupResult {
+  /// Creates a constant success result instance.
+  const CognitoAdminRemoveUserFromGroupResult();
 }
 
-/// Request wrapper for AdminRemoveUserFromGroup API operation.
+/// Request wrapper for AWS Cognito's AdminRemoveUserFromGroup operation.
 ///
-/// Handles the removal of a user from a Cognito user pool group with:
-/// - Parameter validation
-/// - Automatic retries with incremental backoff
-/// - Proper error classification (retryable vs non-retryable)
+/// This class handles the construction, validation, and execution of requests
+/// to remove a user from a specific group in a Cognito user pool.
 ///
-/// Behavior:
-/// - Success: HTTP 200 with empty body
-/// - Retries: Automatic for transient failures (network/timeout/5xx)
-/// - Errors: 4xx results in AortemCognitoServiceException (non-retryable)
-class AortemCognitoAdminRemoveUserFromGroupRequest {
-  /// The ID of the user pool that contains the group and user
+/// The operation requires administrator credentials and is typically used
+/// in backend services rather than client applications.
+class CognitoAdminRemoveUserFromGroupRequest {
+  /// The ID of the user pool that contains the group and user.
   final String userPoolId;
 
-  /// The username (or alias, or sub/federated username) to remove
+  /// The username (or alias, or sub / federated username) to remove.
   final String username;
 
-  /// The target group to remove the user from
+  /// The target group to remove the user from.
   final String groupName;
 
-  /// AWS region where the user pool is located (e.g. "us-west-2")
+  /// AWS region, e.g. "us-west-2".
   final String region;
 
-  /// HTTP client configured for SigV4 signing
-  final AortemCognitoHttpClient httpClient;
+  /// SigV4-capable HTTP client abstraction.
+  final CognitoHttpClient httpClient;
 
-  /// Maximum number of retry attempts for transient failures (default: 2)
+  /// Retries for transient failures (default: 2).
   final int maxRetries;
 
-  /// Timeout duration for each request attempt (default: 20 seconds)
+  /// Per-request timeout (default: 20s).
   final Duration requestTimeout;
 
-  /// Creates a new request instance with the given parameters
+  /// Creates a new AdminRemoveUserFromGroup request instance.
   ///
-  /// Immediately validates parameters and throws [AortemCognitoValidationException]
-  /// if they are invalid.
-  AortemCognitoAdminRemoveUserFromGroupRequest({
+  /// [userPoolId] - The Cognito user pool identifier (format: region_ID)
+  /// [username] - The username to remove from the group
+  /// [groupName] - The name of the group to remove the user from
+  /// [region] - AWS region where the user pool is located
+  /// [httpClient] - HTTP client configured for AWS SigV4 authentication
+  /// [maxRetries] - Maximum number of retry attempts for transient failures
+  /// [requestTimeout] - Timeout duration for the HTTP request
+  ///
+  /// Automatically validates parameters upon construction.
+  CognitoAdminRemoveUserFromGroupRequest({
     required this.userPoolId,
     required this.username,
     required this.groupName,
@@ -72,50 +78,56 @@ class AortemCognitoAdminRemoveUserFromGroupRequest {
     _validate();
   }
 
-  /// Validates request parameters according to AWS requirements
+  /// Validates request parameters according to AWS Cognito requirements.
   ///
-  /// Throws [AortemCognitoValidationException] if:
-  /// - userPoolId is empty or doesn't match expected pattern
-  /// - username is empty or exceeds 128 characters
-  /// - groupName is empty or exceeds 128 characters
+  /// Ensures that all required parameters are present and conform to
+  /// AWS Cognito's format and length constraints.
+  ///
+  /// Throws [CognitoValidationException] if any validation fails.
   void _validate() {
     final poolRe = RegExp(r'^[\w-]+_[0-9A-Za-z]+$');
     if (userPoolId.trim().isEmpty || !poolRe.hasMatch(userPoolId)) {
-      throw AortemCognitoValidationException(
+      throw CognitoValidationException(
         'userPoolId is required and must match [\\w-]+_[0-9a-zA-Z]+.',
       );
     }
     if (username.trim().isEmpty) {
-      throw AortemCognitoValidationException('username is required.');
+      throw CognitoValidationException('username is required.');
     }
     if (username.length > 128) {
-      throw AortemCognitoValidationException('username must be <= 128 chars.');
+      throw CognitoValidationException('username must be <= 128 chars.');
     }
     if (groupName.trim().isEmpty) {
-      throw AortemCognitoValidationException('groupName is required.');
+      throw CognitoValidationException('groupName is required.');
     }
     if (groupName.length > 128) {
-      throw AortemCognitoValidationException('groupName must be <= 128 chars.');
+      throw CognitoValidationException('groupName must be <= 128 chars.');
     }
   }
 
-  /// Creates the API request payload
+  /// Constructs the JSON payload for the AdminRemoveUserFromGroup request.
+  ///
+  /// Returns a [Map] containing the required parameters formatted for
+  /// AWS Cognito's JSON API (application/x-amz-json-1.1).
   Map<String, dynamic> _payload() => <String, dynamic>{
     'UserPoolId': userPoolId,
     'Username': username,
     'GroupName': groupName,
   };
 
-  /// Executes the AdminRemoveUserFromGroup API call
+  /// Executes the AdminRemoveUserFromGroup operation.
   ///
-  /// Returns:
-  /// - [AortemCognitoAdminRemoveUserFromGroupResult] on success
+  /// Performs the HTTP request to AWS Cognito with retry logic for
+  /// transient failures and proper error handling for service errors.
   ///
-  /// Throws:
-  /// - [AortemCognitoValidationException] if parameters are invalid
-  /// - [AortemCognitoServiceException] if the API call fails
-  ///   (after retries for transient failures)
-  Future<AortemCognitoAdminRemoveUserFromGroupResult> execute() async {
+  /// Returns a [Future] that completes with a success result on HTTP 200,
+  /// or throws an [CognitoServiceException] on failure.
+  ///
+  /// Retry logic:
+  /// - Retries on network timeouts, socket exceptions, and 5xx errors
+  /// - Uses incremental backoff (200ms * attempt number)
+  /// - Does not retry on 4xx errors (client errors)
+  Future<CognitoAdminRemoveUserFromGroupResult> execute() async {
     final payload = _payload();
 
     int attempt = 0;
@@ -131,26 +143,25 @@ class AortemCognitoAdminRemoveUserFromGroupRequest {
           timeout: requestTimeout,
           headers: const {'Content-Type': 'application/x-amz-json-1.1'},
         );
-
         if (res.statusCode == 200) {
-          return const AortemCognitoAdminRemoveUserFromGroupResult();
+          return const CognitoAdminRemoveUserFromGroupResult();
         }
 
         if (res.statusCode >= 400 && res.statusCode < 500) {
-          throw AortemCognitoServiceException(
+          throw CognitoServiceException(
             'AdminRemoveUserFromGroup failed. Body: ${res.bodyString}',
             statusCode: res.statusCode,
           );
         }
 
         if (res.statusCode >= 500) {
-          throw AortemCognitoServiceException(
+          throw CognitoServiceException(
             'AdminRemoveUserFromGroup temporary failure.',
             statusCode: res.statusCode,
           );
         }
 
-        throw AortemCognitoServiceException(
+        throw CognitoServiceException(
           'AdminRemoveUserFromGroup unexpected status.',
           statusCode: res.statusCode,
         );
@@ -163,12 +174,16 @@ class AortemCognitoAdminRemoveUserFromGroupRequest {
       }
     }
 
-    throw AortemCognitoServiceException(
+    throw CognitoServiceException(
       'AdminRemoveUserFromGroup failed after retries. Last error: $lastError',
     );
   }
 
-  /// Determines if an error is likely transient and worth retrying
+  /// Determines if an error is transient and worth retrying.
+  ///
+  /// [e] - The error object to evaluate
+  /// Returns [true] if the error appears to be transient (network issues,
+  /// timeouts, or server-side 5xx errors), [false] otherwise.
   bool _isTransient(Object e) {
     final s = e.toString();
     return s.contains('temporary') ||

@@ -1,15 +1,15 @@
 import 'package:cognito_dart_auth_sdk/consumers/cognito_admin_confirm_sign_up_consumer.dart';
-import 'package:test/test.dart';
+import 'package:ds_tools_testing/ds_tools_testing.dart';
 
 import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
 
-class _FakeHttp implements AortemCognitoHttpClient {
+class _FakeHttp implements CognitoHttpClient {
   Map<String, dynamic>? lastPayload;
   int status = 200;
   String body = '{}';
 
   @override
-  Future<AortemCognitoHttpResponse> send({
+  Future<CognitoHttpResponse> send({
     required String service,
     required String target,
     required String region,
@@ -18,7 +18,7 @@ class _FakeHttp implements AortemCognitoHttpClient {
     Map<String, String>? headers,
   }) async {
     lastPayload = payload;
-    return AortemCognitoHttpResponse(
+    return CognitoHttpResponse(
       statusCode: status,
       headers: const {},
       bodyString: body,
@@ -26,7 +26,7 @@ class _FakeHttp implements AortemCognitoHttpClient {
   }
 
   @override
-  Future<AortemCognitoHttpResponse> post({
+  Future<CognitoHttpResponse> post({
     required String region,
     required String xAmzTarget,
     required Map<String, dynamic> payload,
@@ -46,7 +46,7 @@ void main() {
   group('AdminConfirmSignUpConsumer (Ticket #5)', () {
     test('happy path sends minimal payload', () async {
       final http = _FakeHttp();
-      final consumer = AortemCognitoAdminConfirmSignUpConsumer(
+      final consumer = CognitoAdminConfirmSignUpConsumer(
         region: 'us-west-2',
         httpClient: http,
       );
@@ -66,7 +66,7 @@ void main() {
 
     test('adds clientMetadata when provided', () async {
       final http = _FakeHttp();
-      final consumer = AortemCognitoAdminConfirmSignUpConsumer(
+      final consumer = CognitoAdminConfirmSignUpConsumer(
         region: 'us-west-2',
         httpClient: http,
       );
