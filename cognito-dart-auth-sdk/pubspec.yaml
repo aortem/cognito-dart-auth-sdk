@@ -4,7 +4,11 @@ version: 0.0.1
 repository: https://github.com/aortem/cognito_dart_auth_sdk
 
 environment:
+<<<<<<< HEAD
   sdk: ^3.10.7
+=======
+  sdk: ^3.10.3
+>>>>>>> main
 
 # Add regular dependencies here.
 
@@ -12,6 +16,7 @@ dependencies:
 #------------------ STANDARD FEATURES---------------------------------
 ## There are three standard libraries.  Each one can be used with a different xxx 
 
+<<<<<<< HEAD
 <<<<<<< HEAD
   ds_standard_features: ^0.1.2
   jwt_generator: ^0.0.6
@@ -21,6 +26,11 @@ dependencies:
   jwt_generator: ^0.0.8
   ds_tools_testing: ^0.1.4
 >>>>>>> 3a27762f6e05cb01d7737be4124a94b2b90989fa
+=======
+  ds_standard_features: ^0.1.5 #Standard Dart Team Utilities For HTTP //Default
+  jwt_generator: ^0.0.8
+  ds_tools_testing: ^0.1.4
+>>>>>>> main
 
 
 #------------------ TESTING FEATURES---------------------------------

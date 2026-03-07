@@ -1,0 +1,8 @@
+= Releases
+:page-layout: default
+
+Current documented package version: v0.0.1
+
+Use the package changelog for release history:
+
+apps/sdks/cognito-dart-auth-sdk/cognito-dart-auth-sdk/CHANGELOG.md
