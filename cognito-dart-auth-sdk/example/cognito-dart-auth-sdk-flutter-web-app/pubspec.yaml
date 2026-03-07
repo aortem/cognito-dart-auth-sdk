@@ -1,5 +1,5 @@
 name: cognito
-description: "This sample app highlights the classes, methods,and functions used in the cognito Dart Amin Auth SDK."
+description: "This sample app highlights the classes, methods, and functions used in the Cognito Dart Auth SDK."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -16,21 +16,10 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-<<<<<<< HEAD
-version: 0.0.1
-
-environment:
-<<<<<<< HEAD
-  sdk: ^3.10.7
-=======
-  sdk: ^3.10.3"
->>>>>>> 3a27762f6e05cb01d7737be4124a94b2b90989fa
-=======
 version: 1.0.0+1
 
 environment:
-  sdk: ^3.10.3"
->>>>>>> main
+  sdk: ^3.10.7
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
