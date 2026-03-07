@@ -1,0 +1,19 @@
+= API Reference
+:page-layout: default
+
+This page is the Antora placeholder for the SDK API surface.
+
+== Primary Library
+
+* Package: cognito_dart_auth_sdk
+* Package root: apps/sdks/cognito-dart-auth-sdk/cognito-dart-auth-sdk
+
+== Recommended Expansion
+
+As the SDK docs mature, add:
+
+* top-level exports
+* key authentication flows
+* configuration objects
+* error handling guidance
+* platform-specific notes

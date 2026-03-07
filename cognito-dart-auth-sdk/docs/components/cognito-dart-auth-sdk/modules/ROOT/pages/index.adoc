@@ -1,0 +1,30 @@
+= Cognito Dart Auth SDK Documentation
+:page-layout: default
+:sectanchors:
+:toc: macro
+:toc-title: On This Page
+
+Amazon Cognito authentication support for Dart and Flutter applications.
+
+This Antora site is the standard documentation shell for the cognito_dart_auth_sdk SDK.
+
+toc::[]
+
+== What You Will Find Here
+
+* xref:getting-started.adoc[Getting Started] for installation and first-use setup
+* xref:package-overview.adoc[Package Overview] for package structure and supported workflows
+* xref:examples.adoc[Examples] for app and sample references in the repository
+* xref:api-reference.adoc[API Reference] for the main exported library and source locations
+* xref:releases.adoc[Releases] for version tracking and rollout notes
+
+== Repository Layout
+
+* Repository root: apps/sdks/cognito-dart-auth-sdk
+* Package root: apps/sdks/cognito-dart-auth-sdk/cognito-dart-auth-sdk
+* Firebase hosting target: cognito-dart-auth-sdk-docs
+* Firebase project: aortem-prod
+
+== Next Step
+
+Start with xref:getting-started.adoc[Getting Started].

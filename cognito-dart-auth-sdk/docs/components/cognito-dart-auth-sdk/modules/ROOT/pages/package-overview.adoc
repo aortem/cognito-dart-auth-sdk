@@ -1,0 +1,17 @@
+= Package Overview
+:page-layout: default
+
+Cognito Dart Auth SDK is published as cognito_dart_auth_sdk and is currently documented at version v0.0.1.
+
+== Package Root
+
+apps/sdks/cognito-dart-auth-sdk/cognito-dart-auth-sdk
+
+== Source of Truth
+
+Use the package README, pubspec.yaml, examples, and test suite in the package root as the implementation source of truth.
+
+== Notes
+
+* This Antora site gives each SDK the same documentation structure used across DartApps.
+* Product-specific narrative content can be expanded here over time without changing the standard hosting setup.
