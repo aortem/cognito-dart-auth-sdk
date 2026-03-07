@@ -1,19 +1,26 @@
-= API Reference
+﻿= API Reference
 :page-layout: default
 
-This page is the Antora placeholder for the SDK API surface.
+This page maps the public package entrypoint to the current source tree.
 
-== Primary Library
+== Package API
 
 * Package: cognito_dart_auth_sdk
+* Version: v0.0.1
 * Package root: apps/sdks/cognito-dart-auth-sdk/cognito-dart-auth-sdk
+* Import path: package:cognito_dart_auth_sdk/cognito_dart_auth_sdk.dart
+* Entrypoint file: apps/sdks/cognito-dart-auth-sdk/cognito-dart-auth-sdk/lib/cognito_dart_auth_sdk.dart
 
-== Recommended Expansion
+== Source Areas
 
-As the SDK docs mature, add:
+* apps/sdks/cognito-dart-auth-sdk/cognito-dart-auth-sdk/lib/consumers
+* apps/sdks/cognito-dart-auth-sdk/cognito-dart-auth-sdk/lib/enums
+* apps/sdks/cognito-dart-auth-sdk/cognito-dart-auth-sdk/lib/exceptions
+* apps/sdks/cognito-dart-auth-sdk/cognito-dart-auth-sdk/lib/models
+* apps/sdks/cognito-dart-auth-sdk/cognito-dart-auth-sdk/lib/requests
 
-* top-level exports
-* key authentication flows
-* configuration objects
-* error handling guidance
-* platform-specific notes
+== Supporting Sources
+
+* Tests: apps/sdks/cognito-dart-auth-sdk/cognito-dart-auth-sdk/test
+* README: apps/sdks/cognito-dart-auth-sdk/cognito-dart-auth-sdk/README.md
+* Changelog: apps/sdks/cognito-dart-auth-sdk/cognito-dart-auth-sdk/CHANGELOG.md

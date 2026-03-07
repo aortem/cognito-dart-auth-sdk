@@ -1,17 +1,29 @@
-= Package Overview
+﻿= Package Overview
 :page-layout: default
 
-Cognito Dart Auth SDK is published as cognito_dart_auth_sdk and is currently documented at version v0.0.1.
-
-== Package Root
-
-apps/sdks/cognito-dart-auth-sdk/cognito-dart-auth-sdk
+Cognito Dart Auth SDK is published as cognito_dart_auth_sdk at version v0.0.1.
 
 == Source of Truth
 
-Use the package README, pubspec.yaml, examples, and test suite in the package root as the implementation source of truth.
+* Pubspec: apps/sdks/cognito-dart-auth-sdk/cognito-dart-auth-sdk/pubspec.yaml
+* README: apps/sdks/cognito-dart-auth-sdk/cognito-dart-auth-sdk/README.md
+* Changelog: apps/sdks/cognito-dart-auth-sdk/cognito-dart-auth-sdk/CHANGELOG.md
 
-== Notes
+== Directory Layout
 
-* This Antora site gives each SDK the same documentation structure used across DartApps.
-* Product-specific narrative content can be expanded here over time without changing the standard hosting setup.
+* Repository root: apps/sdks/cognito-dart-auth-sdk
+* Package root: apps/sdks/cognito-dart-auth-sdk/cognito-dart-auth-sdk
+* Documentation: apps/sdks/cognito-dart-auth-sdk/cognito-dart-auth-sdk/docs
+* Library sources: apps/sdks/cognito-dart-auth-sdk/cognito-dart-auth-sdk/lib
+* Examples: apps/sdks/cognito-dart-auth-sdk/cognito-dart-auth-sdk/example
+* Tests: apps/sdks/cognito-dart-auth-sdk/cognito-dart-auth-sdk/test
+* Local dev tools: apps/sdks/cognito-dart-auth-sdk/cognito-dart-auth-sdk/local_dev_tools
+
+== Primary Source Areas
+
+* Public entrypoint: apps/sdks/cognito-dart-auth-sdk/cognito-dart-auth-sdk/lib/cognito_dart_auth_sdk.dart
+* apps/sdks/cognito-dart-auth-sdk/cognito-dart-auth-sdk/lib/consumers
+* apps/sdks/cognito-dart-auth-sdk/cognito-dart-auth-sdk/lib/enums
+* apps/sdks/cognito-dart-auth-sdk/cognito-dart-auth-sdk/lib/exceptions
+* apps/sdks/cognito-dart-auth-sdk/cognito-dart-auth-sdk/lib/models
+* apps/sdks/cognito-dart-auth-sdk/cognito-dart-auth-sdk/lib/requests
