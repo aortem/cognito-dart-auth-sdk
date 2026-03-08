@@ -5,7 +5,7 @@ site:
 
 content:
   sources:
-    - url: ..
+    - url: ../..
       branches: HEAD
       start_path: cognito-dart-auth-sdk/docs/components/cognito-dart-auth-sdk
 
