@@ -1,7 +1,7 @@
-## **0.0.1
+# Changelog
 
-### **Added**
-
+## [0.0.1]
+### Added
 * **UI & Code Readability Improvements (Example Apps)**
 
   * Streamlined layout and widget construction across multiple example Flutter screens.
@@ -17,8 +17,7 @@
 
   * Many widgets converted from multi-line constructors to single-line readable expressions without changing functionality.
 
-### **Changed**
-
+### Changed
 * **General UI Refactors Across Example Apps**
 
   * Consolidated repeated code patterns in authentication flows (Apple, Google, email/password, MFA).
@@ -41,18 +40,15 @@
   * More compact formatting for builder functions and row/column structures.
   * Updated Google Sign-In scopes to use inline array syntax.
 
-### **Removed**
-
+### Removed
 * **Legacy Example App Placeholder File**
 
   * Deleted: `example/cognito-dart-auth-sdk-flutter-web-app/placeholder.txt`.
 
-### **Renamed**
-
+### Renamed
 * *(None in this patch.)*
 
-## 0.0.1-pre+1
-
+## [0.0.1-pre+1]
 ### Added
 - **Local Dev Tools**  
   - New scripts in `cognito-dart-auth-sdk/local_dev_tools/` (`validate_branch.dart`, `validate_commit_msg.dart`) to enforce branch and commit-message conventions.  
@@ -91,6 +87,6 @@
     `example/cognito-dart-auth-sdk-flutter-mobile-app/…`.  
 
 
-## 0.0.1-pre
-
+## [0.0.1-pre]
 - Initial pre-release version of the cognito Dart Auth SDK.
+
