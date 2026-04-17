@@ -1,6 +1,10 @@
 import 'package:cognito_dart_auth_sdk/requests/cognito_admin_update_auth_event_feedback_request.dart';
 import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
 
+/// Callback signature used to configure a feedback request builder.
+typedef CognitoAdminUpdateAuthEventFeedbackConsumerFn =
+    void Function(CognitoAdminUpdateAuthEventFeedbackBuilder b);
+
 /// Builder class for constructing AdminUpdateAuthEventFeedback requests with
 /// a fluent interface pattern.
 ///

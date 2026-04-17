@@ -1,5 +1,14 @@
 {
   "projects": {
-    "default": "fire-base-dart-auth-sdk"
+    "default": "aortem-prod"
+  },
+  "targets": {
+    "aortem-prod": {
+      "hosting": {
+        "cognito-dart-auth-sdk-docs": [
+          "cognito-dart-auth-sdk-docs"
+        ]
+      }
+    }
   }
 }

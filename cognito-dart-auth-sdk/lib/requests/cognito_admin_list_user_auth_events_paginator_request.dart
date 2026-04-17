@@ -155,8 +155,9 @@ class CognitoAdminListUserAuthEventsPaginatorRequest {
       <String, dynamic>{
         'UserPoolId': userPoolId,
         'Username': username,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null && nextToken.isNotEmpty) 'NextToken': nextToken,
+        if (maxResults case final value?) 'MaxResults': value,
+        if (nextToken case final value? when value.isNotEmpty)
+          'NextToken': value,
       };
 
   /// Fetch **one page** of authentication events.

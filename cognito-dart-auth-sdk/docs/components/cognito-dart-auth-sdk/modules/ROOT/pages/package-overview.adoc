@@ -1,7 +1,7 @@
 ﻿= Package Overview
 :page-layout: default
 
-Cognito Dart Auth SDK is published as cognito_dart_auth_sdk at version v0.0.1.
+Cognito Dart Auth SDK is published as cognito_dart_auth_sdk at version v0.0.2.
 
 == Source of Truth
 

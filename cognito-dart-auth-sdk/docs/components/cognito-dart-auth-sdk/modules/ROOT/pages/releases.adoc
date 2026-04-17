@@ -1,21 +1,60 @@
-﻿= Releases
+= Releases
 :navtitle: Releases
-:description: Release tracking for Cognito Dart Auth SDK.
+:description: Release highlights and package history for Cognito Dart Auth SDK.
 :sectnums:
 
-This page tracks the current public package version documented for Cognito Dart Auth SDK.
+This page summarizes the stable package release history for Cognito Dart Auth SDK and keeps the public docs aligned with the published SDK versions.
 '''
-
-== v0.0.1
-
-=== Overview
-The current public package version for cognito_dart_auth_sdk is v0.0.1.
 
 === Release Sources
 
 * Pubspec: apps/sdks/cognito-dart-auth-sdk/cognito-dart-auth-sdk/pubspec.yaml
 * Changelog: apps/sdks/cognito-dart-auth-sdk/cognito-dart-auth-sdk/CHANGELOG.md
 
+== v0.0.2
+
+=== Overview
+This release prepares the stable Cognito package for the Dart `3.11.4` line while aligning the docs and CI surface with the current backend-first package direction.
+
+=== Highlights
+* Added a clearer `CognitoAuth` public alias
+* Refreshed the direct dependency constraints to current supported releases
+* Updated docs and CI to match the maintained sample set
+
+=== Improvements
+* Added `CognitoAuth` as a public-facing alias for the primary SDK client.
+* Updated the README, examples index, and install guidance to match the current package surface.
+* Aligned development and setup-validation CI with the Dart `3.11.4` baseline.
+
+== v0.0.1
+
+=== Overview
+This release establishes the first stable package version and focuses heavily on example app polish, readability, and consistency across authentication screens.
+
+=== Highlights
+* First stable package release
+* Cleaner example app UI and navigation patterns
+* Better consistency across auth and MFA example flows
+
+=== Improvements
+* Streamlined layout and widget construction across the example Flutter screens.
+* Standardized `SnackBar`, `MaterialPageRoute`, loading, and async result patterns.
+* Simplified auth-related UI flows for Apple, Google, email and password, MFA, popup, redirect, and OAuth examples.
+* Improved home and auth-state screen readability and provider-linking layout consistency.
+
+=== Removed
+* Removed the legacy placeholder file from the example app.
+
+== Pre-release History
+
+=== Overview
+Earlier pre-stable package builds are part of the SDK history and remain documented in the changelog.
+
+=== Included Pre-release Tags
+* `0.0.1-pre+1`
+* `0.0.1-pre`
+
 === Notes
-* Keep this page aligned with the version declared in pubspec.yaml.
-* Detailed release history and change notes remain in CHANGELOG.md until fuller curated release notes are added here.
+* `0.0.1-pre+1` added the initial local dev tools, CLI bootstrap, test layout, auth modules, and the major example app restructure.
+* Keep this page aligned with the version declared in `pubspec.yaml`.
+* Use `CHANGELOG.md` as the source of truth for exhaustive historical change notes.
