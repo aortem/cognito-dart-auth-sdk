@@ -6,7 +6,7 @@ This page maps the public package entrypoint to the current source tree.
 == Package API
 
 * Package: cognito_dart_auth_sdk
-* Version: v0.0.1
+* Version: v0.0.2
 * Package root: apps/sdks/cognito-dart-auth-sdk/cognito-dart-auth-sdk
 * Import path: package:cognito_dart_auth_sdk/cognito_dart_auth_sdk.dart
 * Entrypoint file: apps/sdks/cognito-dart-auth-sdk/cognito-dart-auth-sdk/lib/cognito_dart_auth_sdk.dart

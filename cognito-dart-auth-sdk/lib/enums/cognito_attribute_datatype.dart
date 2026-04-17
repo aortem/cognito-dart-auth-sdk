@@ -33,7 +33,7 @@ enum CognitoAttributeDataType {
 ///
 /// Converts the enum values to their string representations as expected by
 /// the Cognito API. This is used internally when sending requests to AWS.
-extension _AttributeDataTypeWire on CognitoAttributeDataType {
+extension CognitoAttributeDataTypeWire on CognitoAttributeDataType {
   /// Returns the string representation of the attribute data type
   /// as expected by the Cognito API.
   ///
