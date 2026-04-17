@@ -41,5 +41,5 @@ class CognitoValidationException implements Exception {
   CognitoValidationException(this.message, {this.cause});
 
   @override
-  String toString() => 'CognitoValidationException: ' + message;
+  String toString() => 'CognitoValidationException: $message';
 }

@@ -11,6 +11,21 @@ This page summarizes the stable package release history for Cognito Dart Auth SD
 * Pubspec: apps/sdks/cognito-dart-auth-sdk/cognito-dart-auth-sdk/pubspec.yaml
 * Changelog: apps/sdks/cognito-dart-auth-sdk/cognito-dart-auth-sdk/CHANGELOG.md
 
+== v0.0.2
+
+=== Overview
+This release prepares the stable Cognito package for the Dart `3.11.4` line while aligning the docs and CI surface with the current backend-first package direction.
+
+=== Highlights
+* Added a clearer `CognitoAuth` public alias
+* Refreshed the direct dependency constraints to current supported releases
+* Updated docs and CI to match the maintained sample set
+
+=== Improvements
+* Added `CognitoAuth` as a public-facing alias for the primary SDK client.
+* Updated the README, examples index, and install guidance to match the current package surface.
+* Aligned development and setup-validation CI with the Dart `3.11.4` baseline.
+
 == v0.0.1
 
 === Overview

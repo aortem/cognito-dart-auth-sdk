@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.0.2]
+### Added
+* **Public Alias**
+  * Added `CognitoAuth` as a clearer public alias for the primary SDK client.
+
+### Changed
+* **Dart & Dependency Baseline**
+  * Updated direct package constraints to the latest supported releases on pub.dev, including `ds_standard_features`, `jwt_generator`, `lints`, and `test`.
+* **Documentation**
+  * Reworked the main README and example README to reflect the current backend-first SDK direction and the maintained sample apps.
+* **CI Validation**
+  * Aligned pipeline validation and development CI with the Dart `3.11.4` baseline and current example paths.
+
 ## [0.0.1]
 ### Added
 * **UI & Code Readability Improvements (Example Apps)**

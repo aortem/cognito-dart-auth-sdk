@@ -87,16 +87,14 @@ class CognitoUserSummary {
       enabled: m['Enabled'] is bool ? m['Enabled'] as bool : null,
       attributes: attrs,
       userMfaSettingList: mfaList,
-      preferredMfaSetting: m['PreferredMfaSetting'] == null
-          ? null
-          : m['PreferredMfaSetting'].toString(),
+      preferredMfaSetting: m['PreferredMfaSetting']?.toString(),
       userCreateDate: m['UserCreateDate'] is num
           ? (m['UserCreateDate'] as num).toDouble()
           : null,
       userLastModifiedDate: m['UserLastModifiedDate'] is num
           ? (m['UserLastModifiedDate'] as num).toDouble()
           : null,
-      userStatus: m['UserStatus'] == null ? null : m['UserStatus'].toString(),
+      userStatus: m['UserStatus']?.toString(),
     );
   }
 }

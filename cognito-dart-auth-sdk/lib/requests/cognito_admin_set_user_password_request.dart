@@ -144,25 +144,6 @@ class CognitoAdminSetUserPasswordRequest {
       rawResponse: resp.jsonBody ?? {},
     );
   }
-
-  /// Determines if an error is transient and worth retrying.
-  ///
-  /// Transient errors include network timeouts, socket exceptions, and
-  /// server-side 5xx errors that might be resolved by retrying.
-  ///
-  /// Parameters:
-  /// - [e]: The exception to check
-  ///
-  /// Returns:
-  /// true if the error is transient and retryable, false otherwise
-  bool _isTransient(Object e) {
-    final s = e.toString();
-    return s.contains('temporary') ||
-        s.contains('SocketException') ||
-        s.contains('TimeoutException') ||
-        s.contains('503') ||
-        s.contains('500');
-  }
 }
 
 /// Represents the successful result of an AdminSetUserPassword operation.

@@ -17,13 +17,13 @@ class CognitoCustomAttribute {
   /// Validates attribute name and required fields.
   void validate() {
     if (name.isEmpty || attributeDataType.isEmpty) {
-      throw CognitoAttributeValidationException.CognitoAttributeValidationException(
+      throw CognitoAttributeValidationException(
         'Name and AttributeDataType are required fields.',
       );
     }
     final nameRegex = RegExp(r'^[a-zA-Z0-9_]+$');
     if (!nameRegex.hasMatch(name)) {
-      throw CognitoAttributeValidationException.CognitoAttributeValidationException(
+      throw CognitoAttributeValidationException(
         'Invalid attribute name: "$name". Only alphanumeric characters and underscores are allowed.',
       );
     }
