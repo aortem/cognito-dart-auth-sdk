@@ -51,7 +51,7 @@ class CognitoAdminForgetDeviceRequest {
   ///
   /// @param userPoolId Required user pool ID (format: [\w-]+_[0-9a-zA-Z]+)
   /// @param username Required username (1-128 characters)
-  /// @param deviceKey Required device key (format: [\w-]+_[0-9a-f-]+)
+  /// @param deviceKey Required device key (format: [\w-]+_[0-9A-Za-z-]+)
   /// @param region AWS region for the user pool
   /// @param httpClient Configured HTTP client
   /// @param maxRetries Maximum retry attempts (default: 2)
@@ -87,11 +87,10 @@ class CognitoAdminForgetDeviceRequest {
       throw CognitoValidationException('username must be <= 128 characters.');
     }
 
-    // DeviceKey pattern: [\w-]+_[0-9a-f-]+ (from AWS documentation)
-    final deviceRe = RegExp(r'^[\w-]+_[0-9a-f-]+$');
+    final deviceRe = RegExp(r'^[\w-]+_[0-9A-Za-z-]+$');
     if (deviceKey.trim().isEmpty || !deviceRe.hasMatch(deviceKey)) {
       throw CognitoValidationException(
-        'deviceKey is required and must match [\\w-]+_[0-9a-f-]+.',
+        'deviceKey is required and must match [\\w-]+_[0-9A-Za-z-]+.',
       );
     }
     if (deviceKey.length > 55) {

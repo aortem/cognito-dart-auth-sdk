@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.0.3]
+### Fixed
+* Corrected admin request validation for device keys, supported admin auth flows, and short session tokens used in challenge-response flows.
+* Replaced empty integration test files with placeholder `main()` entries so `dart test` can discover the suite cleanly.
+
+### Changed
+* Moved `ds_tools_testing` into `dev_dependencies` and added an explicit package license for cleaner published metadata.
+* Added package/archive excludes for docs and generated example artifacts to reduce publish noise.
+
 ## [0.0.2]
 ### Added
 * **Public Alias**
