@@ -14,17 +14,24 @@
 include: package:lints/recommended.yaml
 
 analyzer:
+  exclude:
+    - build/**
+    - doc/**
+    - docs/**
+    - example/**
+    - examples/**
+    - samples/**
+    - test/**/fixtures/**
+    - lib/**.g.dart
+    - lib/**.freezed.dart
   errors:
     dangling_library_doc_comments: ignore
     public_member_api_docs: ignore
     unnecessary_library_name: ignore
     use_null_aware_elements: ignore
-
-# Uncomment the following section to specify additional rules.
-
-# analyzer:
-#   exclude:
-#     - path/to/excluded/files/**
+    todo: ignore
+    dead_code: ignore
+    unused_import: ignore
 
 # For more information about the core and recommended set of lints, see
 # https://dart.dev/go/core-lints

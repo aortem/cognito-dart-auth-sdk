@@ -131,7 +131,7 @@ class CognitoAdminGetDeviceResult {
 /// ### Validation
 /// - `userPoolId`: Must match `[\w-]+_[0-9a-zA-Z]+`
 /// - `username`: 1-128 characters
-/// - `deviceKey`: Must match `[\w-]+_[0-9a-f-]+` (max 55 chars)
+/// - `deviceKey`: Must match `[\w-]+_[0-9A-Za-z-]+` (max 55 chars)
 ///
 /// ### Error Handling
 /// - [CognitoValidationException]: Invalid input parameters
@@ -190,10 +190,10 @@ class CognitoAdminGetDeviceRequest {
       throw CognitoValidationException('username must be <= 128 characters.');
     }
 
-    final deviceRe = RegExp(r'^[\w-]+_[0-9a-f-]+$');
+    final deviceRe = RegExp(r'^[\w-]+_[0-9A-Za-z-]+$');
     if (deviceKey.trim().isEmpty || !deviceRe.hasMatch(deviceKey)) {
       throw CognitoValidationException(
-        'deviceKey is required and must match [\\w-]+_[0-9a-f-]+.',
+        'deviceKey is required and must match [\\w-]+_[0-9A-Za-z-]+.',
       );
     }
     if (deviceKey.length > 55) {
