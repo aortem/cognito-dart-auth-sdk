@@ -11,27 +11,6 @@ This page summarizes the stable package release history for Cognito Dart Auth SD
 * Pubspec: apps/sdks/cognito-dart-auth-sdk/cognito-dart-auth-sdk/pubspec.yaml
 * Changelog: apps/sdks/cognito-dart-auth-sdk/cognito-dart-auth-sdk/CHANGELOG.md
 
-== v0.0.3
-
-=== Overview
-This release tightens Cognito admin-flow validation, restores clean test discovery, and improves the package metadata and archive contents for publishing.
-
-=== Highlights
-* Admin request validation corrected for device keys, admin auth flows, and short challenge-response session tokens.
-* Empty integration test files replaced with placeholder `main()` entries so `dart test` discovers the suite cleanly.
-* Published package metadata and archive contents cleaned up.
-
-=== Fixes
-* Corrected device-key validation for Cognito admin device operations.
-* Updated supported admin authentication-flow validation.
-* Allowed short session tokens used by challenge-response flows.
-* Replaced empty integration test files that could interfere with test discovery.
-
-=== Improvements
-* Moved `ds_tools_testing` to `dev_dependencies`.
-* Added an explicit package license for cleaner pub.dev metadata.
-* Added package/archive excludes for docs and generated example artifacts to reduce publish noise.
-
 == v0.0.2
 
 === Overview
