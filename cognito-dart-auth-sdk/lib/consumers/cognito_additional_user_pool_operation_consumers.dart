@@ -1,6 +1,7 @@
 // ignore_for_file: use_super_parameters
 
 import 'package:cognito_dart_auth_sdk/consumers/cognito_confirm_signup_consumer.dart';
+import 'package:cognito_dart_auth_sdk/consumers/cognito_sign_up_consumer.dart';
 import 'package:cognito_dart_auth_sdk/consumers/cognito_user_pool_operation_consumers.dart';
 import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
 
@@ -767,6 +768,305 @@ class CognitoSetUserPoolMfaConfigConsumer
        );
 }
 
+class CognitoSetUserSettingsConsumer
+    extends CognitoConfiguredUserPoolOperationConsumer {
+  CognitoSetUserSettingsConsumer({
+    required String region,
+    required CognitoHttpClient httpClient,
+    int maxRetries = 2,
+    Duration requestTimeout = const Duration(seconds: 20),
+  }) : super(
+         operation: 'SetUserSettings',
+         region: region,
+         httpClient: httpClient,
+         requiredStrings: const ['AccessToken'],
+         maxRetries: maxRetries,
+         requestTimeout: requestTimeout,
+       );
+}
+
+class CognitoStartUserImportJobConsumer
+    extends CognitoConfiguredUserPoolOperationConsumer {
+  CognitoStartUserImportJobConsumer({
+    required String region,
+    required CognitoHttpClient httpClient,
+    int maxRetries = 2,
+    Duration requestTimeout = const Duration(seconds: 20),
+  }) : super(
+         operation: 'StartUserImportJob',
+         region: region,
+         httpClient: httpClient,
+         requiredStrings: const ['UserPoolId', 'JobId'],
+         maxRetries: maxRetries,
+         requestTimeout: requestTimeout,
+       );
+}
+
+class CognitoStopUserImportJobConsumer
+    extends CognitoConfiguredUserPoolOperationConsumer {
+  CognitoStopUserImportJobConsumer({
+    required String region,
+    required CognitoHttpClient httpClient,
+    int maxRetries = 2,
+    Duration requestTimeout = const Duration(seconds: 20),
+  }) : super(
+         operation: 'StopUserImportJob',
+         region: region,
+         httpClient: httpClient,
+         requiredStrings: const ['UserPoolId', 'JobId'],
+         maxRetries: maxRetries,
+         requestTimeout: requestTimeout,
+       );
+}
+
+class CognitoTagResourceConsumer
+    extends CognitoConfiguredUserPoolOperationConsumer {
+  CognitoTagResourceConsumer({
+    required String region,
+    required CognitoHttpClient httpClient,
+    int maxRetries = 2,
+    Duration requestTimeout = const Duration(seconds: 20),
+  }) : super(
+         operation: 'TagResource',
+         region: region,
+         httpClient: httpClient,
+         requiredStrings: const ['ResourceArn'],
+         requiredMaps: const ['Tags'],
+         maxRetries: maxRetries,
+         requestTimeout: requestTimeout,
+       );
+}
+
+class CognitoUntagResourceConsumer
+    extends CognitoConfiguredUserPoolOperationConsumer {
+  CognitoUntagResourceConsumer({
+    required String region,
+    required CognitoHttpClient httpClient,
+    int maxRetries = 2,
+    Duration requestTimeout = const Duration(seconds: 20),
+  }) : super(
+         operation: 'UntagResource',
+         region: region,
+         httpClient: httpClient,
+         requiredStrings: const ['ResourceArn'],
+         requiredLists: const ['TagKeys'],
+         maxRetries: maxRetries,
+         requestTimeout: requestTimeout,
+       );
+}
+
+class CognitoUpdateAuthEventFeedbackConsumer
+    extends CognitoConfiguredUserPoolOperationConsumer {
+  CognitoUpdateAuthEventFeedbackConsumer({
+    required String region,
+    required CognitoHttpClient httpClient,
+    int maxRetries = 2,
+    Duration requestTimeout = const Duration(seconds: 20),
+  }) : super(
+         operation: 'UpdateAuthEventFeedback',
+         region: region,
+         httpClient: httpClient,
+         requiredStrings: const [
+           'UserPoolId',
+           'Username',
+           'EventId',
+           'FeedbackToken',
+           'FeedbackValue',
+         ],
+         maxRetries: maxRetries,
+         requestTimeout: requestTimeout,
+       );
+}
+
+class CognitoUpdateDeviceStatusConsumer
+    extends CognitoConfiguredUserPoolOperationConsumer {
+  CognitoUpdateDeviceStatusConsumer({
+    required String region,
+    required CognitoHttpClient httpClient,
+    int maxRetries = 2,
+    Duration requestTimeout = const Duration(seconds: 20),
+  }) : super(
+         operation: 'UpdateDeviceStatus',
+         region: region,
+         httpClient: httpClient,
+         requiredStrings: const ['AccessToken', 'DeviceKey'],
+         maxRetries: maxRetries,
+         requestTimeout: requestTimeout,
+       );
+}
+
+class CognitoUpdateGroupConsumer
+    extends CognitoConfiguredUserPoolOperationConsumer {
+  CognitoUpdateGroupConsumer({
+    required String region,
+    required CognitoHttpClient httpClient,
+    int maxRetries = 2,
+    Duration requestTimeout = const Duration(seconds: 20),
+  }) : super(
+         operation: 'UpdateGroup',
+         region: region,
+         httpClient: httpClient,
+         requiredStrings: const ['UserPoolId', 'GroupName'],
+         maxRetries: maxRetries,
+         requestTimeout: requestTimeout,
+       );
+}
+
+class CognitoUpdateIdentityProviderConsumer
+    extends CognitoConfiguredUserPoolOperationConsumer {
+  CognitoUpdateIdentityProviderConsumer({
+    required String region,
+    required CognitoHttpClient httpClient,
+    int maxRetries = 2,
+    Duration requestTimeout = const Duration(seconds: 20),
+  }) : super(
+         operation: 'UpdateIdentityProvider',
+         region: region,
+         httpClient: httpClient,
+         requiredStrings: const ['UserPoolId', 'ProviderName'],
+         requiredMaps: const ['ProviderDetails'],
+         maxRetries: maxRetries,
+         requestTimeout: requestTimeout,
+       );
+}
+
+class CognitoUpdateManagedLoginBrandingConsumer
+    extends CognitoConfiguredUserPoolOperationConsumer {
+  CognitoUpdateManagedLoginBrandingConsumer({
+    required String region,
+    required CognitoHttpClient httpClient,
+    int maxRetries = 2,
+    Duration requestTimeout = const Duration(seconds: 20),
+  }) : super(
+         operation: 'UpdateManagedLoginBranding',
+         region: region,
+         httpClient: httpClient,
+         requiredStrings: const ['ManagedLoginBrandingId'],
+         maxRetries: maxRetries,
+         requestTimeout: requestTimeout,
+       );
+}
+
+class CognitoUpdateResourceServerConsumer
+    extends CognitoConfiguredUserPoolOperationConsumer {
+  CognitoUpdateResourceServerConsumer({
+    required String region,
+    required CognitoHttpClient httpClient,
+    int maxRetries = 2,
+    Duration requestTimeout = const Duration(seconds: 20),
+  }) : super(
+         operation: 'UpdateResourceServer',
+         region: region,
+         httpClient: httpClient,
+         requiredStrings: const ['UserPoolId', 'Identifier', 'Name'],
+         maxRetries: maxRetries,
+         requestTimeout: requestTimeout,
+       );
+}
+
+class CognitoUpdateUserAttributesConsumer
+    extends CognitoConfiguredUserPoolOperationConsumer {
+  CognitoUpdateUserAttributesConsumer({
+    required String region,
+    required CognitoHttpClient httpClient,
+    int maxRetries = 2,
+    Duration requestTimeout = const Duration(seconds: 20),
+  }) : super(
+         operation: 'UpdateUserAttributes',
+         region: region,
+         httpClient: httpClient,
+         requiredStrings: const ['AccessToken'],
+         requiredLists: const ['UserAttributes'],
+         maxRetries: maxRetries,
+         requestTimeout: requestTimeout,
+       );
+}
+
+class CognitoUpdateUserPoolConsumer
+    extends CognitoConfiguredUserPoolOperationConsumer {
+  CognitoUpdateUserPoolConsumer({
+    required String region,
+    required CognitoHttpClient httpClient,
+    int maxRetries = 2,
+    Duration requestTimeout = const Duration(seconds: 20),
+  }) : super(
+         operation: 'UpdateUserPool',
+         region: region,
+         httpClient: httpClient,
+         requiredStrings: const ['UserPoolId'],
+         maxRetries: maxRetries,
+         requestTimeout: requestTimeout,
+       );
+}
+
+class CognitoUpdateUserPoolClientConsumer
+    extends CognitoConfiguredUserPoolOperationConsumer {
+  CognitoUpdateUserPoolClientConsumer({
+    required String region,
+    required CognitoHttpClient httpClient,
+    int maxRetries = 2,
+    Duration requestTimeout = const Duration(seconds: 20),
+  }) : super(
+         operation: 'UpdateUserPoolClient',
+         region: region,
+         httpClient: httpClient,
+         requiredStrings: const ['UserPoolId', 'ClientId'],
+         maxRetries: maxRetries,
+         requestTimeout: requestTimeout,
+       );
+}
+
+class CognitoUpdateUserPoolDomainConsumer
+    extends CognitoConfiguredUserPoolOperationConsumer {
+  CognitoUpdateUserPoolDomainConsumer({
+    required String region,
+    required CognitoHttpClient httpClient,
+    int maxRetries = 2,
+    Duration requestTimeout = const Duration(seconds: 20),
+  }) : super(
+         operation: 'UpdateUserPoolDomain',
+         region: region,
+         httpClient: httpClient,
+         requiredStrings: const ['Domain', 'UserPoolId'],
+         maxRetries: maxRetries,
+         requestTimeout: requestTimeout,
+       );
+}
+
+class CognitoVerifySoftwareTokenConsumer
+    extends CognitoConfiguredUserPoolOperationConsumer {
+  CognitoVerifySoftwareTokenConsumer({
+    required String region,
+    required CognitoHttpClient httpClient,
+    int maxRetries = 2,
+    Duration requestTimeout = const Duration(seconds: 20),
+  }) : super(
+         operation: 'VerifySoftwareToken',
+         region: region,
+         httpClient: httpClient,
+         requiredStrings: const ['UserCode'],
+         maxRetries: maxRetries,
+         requestTimeout: requestTimeout,
+       );
+}
+
+class CognitoVerifyUserAttributeConsumer
+    extends CognitoConfiguredUserPoolOperationConsumer {
+  CognitoVerifyUserAttributeConsumer({
+    required String region,
+    required CognitoHttpClient httpClient,
+    int maxRetries = 2,
+    Duration requestTimeout = const Duration(seconds: 20),
+  }) : super(
+         operation: 'VerifyUserAttribute',
+         region: region,
+         httpClient: httpClient,
+         requiredStrings: const ['AccessToken', 'AttributeName', 'Code'],
+         maxRetries: maxRetries,
+         requestTimeout: requestTimeout,
+       );
+}
+
 typedef AortemCognitoAdminUserGlobalSignOutConsumer =
     CognitoAdminUserGlobalSignOutConsumer;
 typedef AortemCognitoAssociateSoftwareTokenConsumer =
@@ -841,3 +1141,33 @@ typedef AortemCognitoSetUserMFAPreferenceConsumer =
     CognitoSetUserMFAPreferenceConsumer;
 typedef AortemCognitoSetUserPoolMfaConfigConsumer =
     CognitoSetUserPoolMfaConfigConsumer;
+typedef AortemCognitoSetUserSettingsConsumer = CognitoSetUserSettingsConsumer;
+typedef AortemCognitoSignUpConsumer = CognitoSignUpConsumer;
+typedef AortemCognitoStartUserImportJobConsumer =
+    CognitoStartUserImportJobConsumer;
+typedef AortemCognitoStopUserImportJobConsumer =
+    CognitoStopUserImportJobConsumer;
+typedef AortemCognitoTagResourceConsumer = CognitoTagResourceConsumer;
+typedef AortemCognitoUntagResourceConsumer = CognitoUntagResourceConsumer;
+typedef AortemCognitoUpdateAuthEventFeedbackConsumer =
+    CognitoUpdateAuthEventFeedbackConsumer;
+typedef AortemCognitoUpdateDeviceStatusConsumer =
+    CognitoUpdateDeviceStatusConsumer;
+typedef AortemCognitoUpdateGroupConsumer = CognitoUpdateGroupConsumer;
+typedef AortemCognitoUpdateIdentityProviderConsumer =
+    CognitoUpdateIdentityProviderConsumer;
+typedef AortemCognitoUpdateManagedLoginBrandingConsumer =
+    CognitoUpdateManagedLoginBrandingConsumer;
+typedef AortemCognitoUpdateResourceServerConsumer =
+    CognitoUpdateResourceServerConsumer;
+typedef AortemCognitoUpdateUserAttributesConsumer =
+    CognitoUpdateUserAttributesConsumer;
+typedef AortemCognitoUpdateUserPoolConsumer = CognitoUpdateUserPoolConsumer;
+typedef AortemCognitoUpdateUserPoolClientConsumer =
+    CognitoUpdateUserPoolClientConsumer;
+typedef AortemCognitoUpdateUserPoolDomainConsumer =
+    CognitoUpdateUserPoolDomainConsumer;
+typedef AortemCognitoVerifySoftwareTokenConsumer =
+    CognitoVerifySoftwareTokenConsumer;
+typedef AortemCognitoVerifyUserAttributeConsumer =
+    CognitoVerifyUserAttributeConsumer;

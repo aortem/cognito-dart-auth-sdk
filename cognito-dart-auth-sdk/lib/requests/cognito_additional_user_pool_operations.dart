@@ -2,6 +2,7 @@
 
 import 'package:cognito_dart_auth_sdk/requests/cognito_confirm_signup_request.dart';
 import 'package:cognito_dart_auth_sdk/requests/cognito_http_client.dart';
+import 'package:cognito_dart_auth_sdk/requests/cognito_sign_up_request.dart';
 import 'package:cognito_dart_auth_sdk/requests/cognito_user_pool_operations.dart';
 
 abstract class CognitoConfiguredUserPoolOperationRequest
@@ -853,6 +854,339 @@ class CognitoSetUserPoolMfaConfigRequest
        );
 }
 
+class CognitoSetUserSettingsRequest
+    extends CognitoConfiguredUserPoolOperationRequest {
+  CognitoSetUserSettingsRequest({
+    required Map<String, dynamic> payload,
+    required String region,
+    required CognitoHttpClient httpClient,
+    int maxRetries = 2,
+    Duration requestTimeout = const Duration(seconds: 20),
+  }) : super(
+         operation: 'SetUserSettings',
+         payload: payload,
+         region: region,
+         httpClient: httpClient,
+         requiredStrings: const ['AccessToken'],
+         maxRetries: maxRetries,
+         requestTimeout: requestTimeout,
+       );
+}
+
+class CognitoStartUserImportJobRequest
+    extends CognitoConfiguredUserPoolOperationRequest {
+  CognitoStartUserImportJobRequest({
+    required Map<String, dynamic> payload,
+    required String region,
+    required CognitoHttpClient httpClient,
+    int maxRetries = 2,
+    Duration requestTimeout = const Duration(seconds: 20),
+  }) : super(
+         operation: 'StartUserImportJob',
+         payload: payload,
+         region: region,
+         httpClient: httpClient,
+         requiredStrings: const ['UserPoolId', 'JobId'],
+         maxRetries: maxRetries,
+         requestTimeout: requestTimeout,
+       );
+}
+
+class CognitoStopUserImportJobRequest
+    extends CognitoConfiguredUserPoolOperationRequest {
+  CognitoStopUserImportJobRequest({
+    required Map<String, dynamic> payload,
+    required String region,
+    required CognitoHttpClient httpClient,
+    int maxRetries = 2,
+    Duration requestTimeout = const Duration(seconds: 20),
+  }) : super(
+         operation: 'StopUserImportJob',
+         payload: payload,
+         region: region,
+         httpClient: httpClient,
+         requiredStrings: const ['UserPoolId', 'JobId'],
+         maxRetries: maxRetries,
+         requestTimeout: requestTimeout,
+       );
+}
+
+class CognitoTagResourceRequest
+    extends CognitoConfiguredUserPoolOperationRequest {
+  CognitoTagResourceRequest({
+    required Map<String, dynamic> payload,
+    required String region,
+    required CognitoHttpClient httpClient,
+    int maxRetries = 2,
+    Duration requestTimeout = const Duration(seconds: 20),
+  }) : super(
+         operation: 'TagResource',
+         payload: payload,
+         region: region,
+         httpClient: httpClient,
+         requiredStrings: const ['ResourceArn'],
+         requiredMaps: const ['Tags'],
+         maxRetries: maxRetries,
+         requestTimeout: requestTimeout,
+       );
+}
+
+class CognitoUntagResourceRequest
+    extends CognitoConfiguredUserPoolOperationRequest {
+  CognitoUntagResourceRequest({
+    required Map<String, dynamic> payload,
+    required String region,
+    required CognitoHttpClient httpClient,
+    int maxRetries = 2,
+    Duration requestTimeout = const Duration(seconds: 20),
+  }) : super(
+         operation: 'UntagResource',
+         payload: payload,
+         region: region,
+         httpClient: httpClient,
+         requiredStrings: const ['ResourceArn'],
+         requiredLists: const ['TagKeys'],
+         maxRetries: maxRetries,
+         requestTimeout: requestTimeout,
+       );
+}
+
+class CognitoUpdateAuthEventFeedbackRequest
+    extends CognitoConfiguredUserPoolOperationRequest {
+  CognitoUpdateAuthEventFeedbackRequest({
+    required Map<String, dynamic> payload,
+    required String region,
+    required CognitoHttpClient httpClient,
+    int maxRetries = 2,
+    Duration requestTimeout = const Duration(seconds: 20),
+  }) : super(
+         operation: 'UpdateAuthEventFeedback',
+         payload: payload,
+         region: region,
+         httpClient: httpClient,
+         requiredStrings: const [
+           'UserPoolId',
+           'Username',
+           'EventId',
+           'FeedbackToken',
+           'FeedbackValue',
+         ],
+         maxRetries: maxRetries,
+         requestTimeout: requestTimeout,
+       );
+}
+
+class CognitoUpdateDeviceStatusRequest
+    extends CognitoConfiguredUserPoolOperationRequest {
+  CognitoUpdateDeviceStatusRequest({
+    required Map<String, dynamic> payload,
+    required String region,
+    required CognitoHttpClient httpClient,
+    int maxRetries = 2,
+    Duration requestTimeout = const Duration(seconds: 20),
+  }) : super(
+         operation: 'UpdateDeviceStatus',
+         payload: payload,
+         region: region,
+         httpClient: httpClient,
+         requiredStrings: const ['AccessToken', 'DeviceKey'],
+         maxRetries: maxRetries,
+         requestTimeout: requestTimeout,
+       );
+}
+
+class CognitoUpdateGroupRequest
+    extends CognitoConfiguredUserPoolOperationRequest {
+  CognitoUpdateGroupRequest({
+    required Map<String, dynamic> payload,
+    required String region,
+    required CognitoHttpClient httpClient,
+    int maxRetries = 2,
+    Duration requestTimeout = const Duration(seconds: 20),
+  }) : super(
+         operation: 'UpdateGroup',
+         payload: payload,
+         region: region,
+         httpClient: httpClient,
+         requiredStrings: const ['UserPoolId', 'GroupName'],
+         maxRetries: maxRetries,
+         requestTimeout: requestTimeout,
+       );
+}
+
+class CognitoUpdateIdentityProviderRequest
+    extends CognitoConfiguredUserPoolOperationRequest {
+  CognitoUpdateIdentityProviderRequest({
+    required Map<String, dynamic> payload,
+    required String region,
+    required CognitoHttpClient httpClient,
+    int maxRetries = 2,
+    Duration requestTimeout = const Duration(seconds: 20),
+  }) : super(
+         operation: 'UpdateIdentityProvider',
+         payload: payload,
+         region: region,
+         httpClient: httpClient,
+         requiredStrings: const ['UserPoolId', 'ProviderName'],
+         requiredMaps: const ['ProviderDetails'],
+         maxRetries: maxRetries,
+         requestTimeout: requestTimeout,
+       );
+}
+
+class CognitoUpdateManagedLoginBrandingRequest
+    extends CognitoConfiguredUserPoolOperationRequest {
+  CognitoUpdateManagedLoginBrandingRequest({
+    required Map<String, dynamic> payload,
+    required String region,
+    required CognitoHttpClient httpClient,
+    int maxRetries = 2,
+    Duration requestTimeout = const Duration(seconds: 20),
+  }) : super(
+         operation: 'UpdateManagedLoginBranding',
+         payload: payload,
+         region: region,
+         httpClient: httpClient,
+         requiredStrings: const ['ManagedLoginBrandingId'],
+         maxRetries: maxRetries,
+         requestTimeout: requestTimeout,
+       );
+}
+
+class CognitoUpdateResourceServerRequest
+    extends CognitoConfiguredUserPoolOperationRequest {
+  CognitoUpdateResourceServerRequest({
+    required Map<String, dynamic> payload,
+    required String region,
+    required CognitoHttpClient httpClient,
+    int maxRetries = 2,
+    Duration requestTimeout = const Duration(seconds: 20),
+  }) : super(
+         operation: 'UpdateResourceServer',
+         payload: payload,
+         region: region,
+         httpClient: httpClient,
+         requiredStrings: const ['UserPoolId', 'Identifier', 'Name'],
+         maxRetries: maxRetries,
+         requestTimeout: requestTimeout,
+       );
+}
+
+class CognitoUpdateUserAttributesRequest
+    extends CognitoConfiguredUserPoolOperationRequest {
+  CognitoUpdateUserAttributesRequest({
+    required Map<String, dynamic> payload,
+    required String region,
+    required CognitoHttpClient httpClient,
+    int maxRetries = 2,
+    Duration requestTimeout = const Duration(seconds: 20),
+  }) : super(
+         operation: 'UpdateUserAttributes',
+         payload: payload,
+         region: region,
+         httpClient: httpClient,
+         requiredStrings: const ['AccessToken'],
+         requiredLists: const ['UserAttributes'],
+         maxRetries: maxRetries,
+         requestTimeout: requestTimeout,
+       );
+}
+
+class CognitoUpdateUserPoolRequest
+    extends CognitoConfiguredUserPoolOperationRequest {
+  CognitoUpdateUserPoolRequest({
+    required Map<String, dynamic> payload,
+    required String region,
+    required CognitoHttpClient httpClient,
+    int maxRetries = 2,
+    Duration requestTimeout = const Duration(seconds: 20),
+  }) : super(
+         operation: 'UpdateUserPool',
+         payload: payload,
+         region: region,
+         httpClient: httpClient,
+         requiredStrings: const ['UserPoolId'],
+         maxRetries: maxRetries,
+         requestTimeout: requestTimeout,
+       );
+}
+
+class CognitoUpdateUserPoolClientRequest
+    extends CognitoConfiguredUserPoolOperationRequest {
+  CognitoUpdateUserPoolClientRequest({
+    required Map<String, dynamic> payload,
+    required String region,
+    required CognitoHttpClient httpClient,
+    int maxRetries = 2,
+    Duration requestTimeout = const Duration(seconds: 20),
+  }) : super(
+         operation: 'UpdateUserPoolClient',
+         payload: payload,
+         region: region,
+         httpClient: httpClient,
+         requiredStrings: const ['UserPoolId', 'ClientId'],
+         maxRetries: maxRetries,
+         requestTimeout: requestTimeout,
+       );
+}
+
+class CognitoUpdateUserPoolDomainRequest
+    extends CognitoConfiguredUserPoolOperationRequest {
+  CognitoUpdateUserPoolDomainRequest({
+    required Map<String, dynamic> payload,
+    required String region,
+    required CognitoHttpClient httpClient,
+    int maxRetries = 2,
+    Duration requestTimeout = const Duration(seconds: 20),
+  }) : super(
+         operation: 'UpdateUserPoolDomain',
+         payload: payload,
+         region: region,
+         httpClient: httpClient,
+         requiredStrings: const ['Domain', 'UserPoolId'],
+         maxRetries: maxRetries,
+         requestTimeout: requestTimeout,
+       );
+}
+
+class CognitoVerifySoftwareTokenRequest
+    extends CognitoConfiguredUserPoolOperationRequest {
+  CognitoVerifySoftwareTokenRequest({
+    required Map<String, dynamic> payload,
+    required String region,
+    required CognitoHttpClient httpClient,
+    int maxRetries = 2,
+    Duration requestTimeout = const Duration(seconds: 20),
+  }) : super(
+         operation: 'VerifySoftwareToken',
+         payload: payload,
+         region: region,
+         httpClient: httpClient,
+         requiredStrings: const ['UserCode'],
+         maxRetries: maxRetries,
+         requestTimeout: requestTimeout,
+       );
+}
+
+class CognitoVerifyUserAttributeRequest
+    extends CognitoConfiguredUserPoolOperationRequest {
+  CognitoVerifyUserAttributeRequest({
+    required Map<String, dynamic> payload,
+    required String region,
+    required CognitoHttpClient httpClient,
+    int maxRetries = 2,
+    Duration requestTimeout = const Duration(seconds: 20),
+  }) : super(
+         operation: 'VerifyUserAttribute',
+         payload: payload,
+         region: region,
+         httpClient: httpClient,
+         requiredStrings: const ['AccessToken', 'AttributeName', 'Code'],
+         maxRetries: maxRetries,
+         requestTimeout: requestTimeout,
+       );
+}
+
 typedef AortemCognitoAdminUserGlobalSignOutRequest =
     CognitoAdminUserGlobalSignOutRequest;
 typedef AortemCognitoAssociateSoftwareTokenRequest =
@@ -927,3 +1261,32 @@ typedef AortemCognitoSetUserMFAPreferenceRequest =
     CognitoSetUserMFAPreferenceRequest;
 typedef AortemCognitoSetUserPoolMfaConfigRequest =
     CognitoSetUserPoolMfaConfigRequest;
+typedef AortemCognitoSetUserSettingsRequest = CognitoSetUserSettingsRequest;
+typedef AortemCognitoSignUpRequest = CognitoSignUpRequest;
+typedef AortemCognitoStartUserImportJobRequest =
+    CognitoStartUserImportJobRequest;
+typedef AortemCognitoStopUserImportJobRequest = CognitoStopUserImportJobRequest;
+typedef AortemCognitoTagResourceRequest = CognitoTagResourceRequest;
+typedef AortemCognitoUntagResourceRequest = CognitoUntagResourceRequest;
+typedef AortemCognitoUpdateAuthEventFeedbackRequest =
+    CognitoUpdateAuthEventFeedbackRequest;
+typedef AortemCognitoUpdateDeviceStatusRequest =
+    CognitoUpdateDeviceStatusRequest;
+typedef AortemCognitoUpdateGroupRequest = CognitoUpdateGroupRequest;
+typedef AortemCognitoUpdateIdentityProviderRequest =
+    CognitoUpdateIdentityProviderRequest;
+typedef AortemCognitoUpdateManagedLoginBrandingRequest =
+    CognitoUpdateManagedLoginBrandingRequest;
+typedef AortemCognitoUpdateResourceServerRequest =
+    CognitoUpdateResourceServerRequest;
+typedef AortemCognitoUpdateUserAttributesRequest =
+    CognitoUpdateUserAttributesRequest;
+typedef AortemCognitoUpdateUserPoolRequest = CognitoUpdateUserPoolRequest;
+typedef AortemCognitoUpdateUserPoolClientRequest =
+    CognitoUpdateUserPoolClientRequest;
+typedef AortemCognitoUpdateUserPoolDomainRequest =
+    CognitoUpdateUserPoolDomainRequest;
+typedef AortemCognitoVerifySoftwareTokenRequest =
+    CognitoVerifySoftwareTokenRequest;
+typedef AortemCognitoVerifyUserAttributeRequest =
+    CognitoVerifyUserAttributeRequest;

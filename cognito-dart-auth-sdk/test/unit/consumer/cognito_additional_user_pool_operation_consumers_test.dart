@@ -46,6 +46,7 @@ class _FakeHttpClient implements CognitoHttpClient {
 void main() {
   const payload = <String, Object?>{
     'AccessToken': 'access-token',
+    'AttributeName': 'email',
     'ClientId': 'client-1',
     'ClientName': 'client-name',
     'CloudWatchLogsRoleArn': 'arn:aws:iam::123456789012:role/cognito-import',
@@ -54,6 +55,9 @@ void main() {
     'CredentialId': 'credential-id',
     'DeviceKey': 'device-key',
     'Domain': 'auth-example',
+    'EventId': 'event-id',
+    'FeedbackToken': 'feedback-token',
+    'FeedbackValue': 'Valid',
     'GroupName': 'group-name',
     'Identifier': 'resource-server',
     'IdpIdentifier': 'idp-identifier',
@@ -71,9 +75,18 @@ void main() {
     'ProviderDetails': {'client_id': 'provider-client'},
     'ProviderName': 'Google',
     'ProviderType': 'Google',
+    'ResourceArn':
+        'arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_EXAMPLE',
+    'Tags': {'env': 'test'},
+    'TagKeys': ['env'],
     'UserAttributeNames': ['email'],
+    'UserAttributes': [
+      {'Name': 'email', 'Value': 'alice@example.com'},
+    ],
+    'UserCode': '123456',
     'Username': 'alice',
     'UserPoolId': 'us-east-1_EXAMPLE',
+    'Code': '123456',
   };
 
   CognitoConfiguredUserPoolOperationConsumer build(
@@ -287,6 +300,91 @@ void main() {
           region: 'us-east-1',
           httpClient: http,
         );
+      case 'SetUserSettings':
+        return CognitoSetUserSettingsConsumer(
+          region: 'us-east-1',
+          httpClient: http,
+        );
+      case 'StartUserImportJob':
+        return CognitoStartUserImportJobConsumer(
+          region: 'us-east-1',
+          httpClient: http,
+        );
+      case 'StopUserImportJob':
+        return CognitoStopUserImportJobConsumer(
+          region: 'us-east-1',
+          httpClient: http,
+        );
+      case 'TagResource':
+        return CognitoTagResourceConsumer(
+          region: 'us-east-1',
+          httpClient: http,
+        );
+      case 'UntagResource':
+        return CognitoUntagResourceConsumer(
+          region: 'us-east-1',
+          httpClient: http,
+        );
+      case 'UpdateAuthEventFeedback':
+        return CognitoUpdateAuthEventFeedbackConsumer(
+          region: 'us-east-1',
+          httpClient: http,
+        );
+      case 'UpdateDeviceStatus':
+        return CognitoUpdateDeviceStatusConsumer(
+          region: 'us-east-1',
+          httpClient: http,
+        );
+      case 'UpdateGroup':
+        return CognitoUpdateGroupConsumer(
+          region: 'us-east-1',
+          httpClient: http,
+        );
+      case 'UpdateIdentityProvider':
+        return CognitoUpdateIdentityProviderConsumer(
+          region: 'us-east-1',
+          httpClient: http,
+        );
+      case 'UpdateManagedLoginBranding':
+        return CognitoUpdateManagedLoginBrandingConsumer(
+          region: 'us-east-1',
+          httpClient: http,
+        );
+      case 'UpdateResourceServer':
+        return CognitoUpdateResourceServerConsumer(
+          region: 'us-east-1',
+          httpClient: http,
+        );
+      case 'UpdateUserAttributes':
+        return CognitoUpdateUserAttributesConsumer(
+          region: 'us-east-1',
+          httpClient: http,
+        );
+      case 'UpdateUserPool':
+        return CognitoUpdateUserPoolConsumer(
+          region: 'us-east-1',
+          httpClient: http,
+        );
+      case 'UpdateUserPoolClient':
+        return CognitoUpdateUserPoolClientConsumer(
+          region: 'us-east-1',
+          httpClient: http,
+        );
+      case 'UpdateUserPoolDomain':
+        return CognitoUpdateUserPoolDomainConsumer(
+          region: 'us-east-1',
+          httpClient: http,
+        );
+      case 'VerifySoftwareToken':
+        return CognitoVerifySoftwareTokenConsumer(
+          region: 'us-east-1',
+          httpClient: http,
+        );
+      case 'VerifyUserAttribute':
+        return CognitoVerifyUserAttributeConsumer(
+          region: 'us-east-1',
+          httpClient: http,
+        );
       default:
         throw ArgumentError.value(operation, 'operation');
     }
@@ -338,6 +436,23 @@ void main() {
         'SetUICustomization',
         'SetUserMFAPreference',
         'SetUserPoolMfaConfig',
+        'SetUserSettings',
+        'StartUserImportJob',
+        'StopUserImportJob',
+        'TagResource',
+        'UntagResource',
+        'UpdateAuthEventFeedback',
+        'UpdateDeviceStatus',
+        'UpdateGroup',
+        'UpdateIdentityProvider',
+        'UpdateManagedLoginBranding',
+        'UpdateResourceServer',
+        'UpdateUserAttributes',
+        'UpdateUserPool',
+        'UpdateUserPoolClient',
+        'UpdateUserPoolDomain',
+        'VerifySoftwareToken',
+        'VerifyUserAttribute',
       ];
 
       for (final operation in operations) {

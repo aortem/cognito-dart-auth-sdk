@@ -48,6 +48,7 @@ class _FakeHttpClient implements CognitoHttpClient {
 void main() {
   const commonPayload = <String, dynamic>{
     'AccessToken': 'access-token',
+    'AttributeName': 'email',
     'ClientId': 'client-1',
     'ClientName': 'client-name',
     'CloudWatchLogsRoleArn': 'arn:aws:iam::123456789012:role/cognito-import',
@@ -56,6 +57,9 @@ void main() {
     'CredentialId': 'credential-id',
     'DeviceKey': 'device-key',
     'Domain': 'auth-example',
+    'EventId': 'event-id',
+    'FeedbackToken': 'feedback-token',
+    'FeedbackValue': 'Valid',
     'GroupName': 'group-name',
     'Identifier': 'resource-server',
     'IdpIdentifier': 'idp-identifier',
@@ -73,9 +77,18 @@ void main() {
     'ProviderDetails': {'client_id': 'provider-client'},
     'ProviderName': 'Google',
     'ProviderType': 'Google',
+    'ResourceArn':
+        'arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_EXAMPLE',
+    'Tags': {'env': 'test'},
+    'TagKeys': ['env'],
     'UserAttributeNames': ['email'],
+    'UserAttributes': [
+      {'Name': 'email', 'Value': 'alice@example.com'},
+    ],
+    'UserCode': '123456',
     'Username': 'alice',
     'UserPoolId': 'us-east-1_EXAMPLE',
+    'Code': '123456',
   };
 
   CognitoConfiguredUserPoolOperationRequest build(
@@ -342,6 +355,108 @@ void main() {
           region: 'us-east-1',
           httpClient: http,
         );
+      case 'SetUserSettings':
+        return CognitoSetUserSettingsRequest(
+          payload: payload,
+          region: 'us-east-1',
+          httpClient: http,
+        );
+      case 'StartUserImportJob':
+        return CognitoStartUserImportJobRequest(
+          payload: payload,
+          region: 'us-east-1',
+          httpClient: http,
+        );
+      case 'StopUserImportJob':
+        return CognitoStopUserImportJobRequest(
+          payload: payload,
+          region: 'us-east-1',
+          httpClient: http,
+        );
+      case 'TagResource':
+        return CognitoTagResourceRequest(
+          payload: payload,
+          region: 'us-east-1',
+          httpClient: http,
+        );
+      case 'UntagResource':
+        return CognitoUntagResourceRequest(
+          payload: payload,
+          region: 'us-east-1',
+          httpClient: http,
+        );
+      case 'UpdateAuthEventFeedback':
+        return CognitoUpdateAuthEventFeedbackRequest(
+          payload: payload,
+          region: 'us-east-1',
+          httpClient: http,
+        );
+      case 'UpdateDeviceStatus':
+        return CognitoUpdateDeviceStatusRequest(
+          payload: payload,
+          region: 'us-east-1',
+          httpClient: http,
+        );
+      case 'UpdateGroup':
+        return CognitoUpdateGroupRequest(
+          payload: payload,
+          region: 'us-east-1',
+          httpClient: http,
+        );
+      case 'UpdateIdentityProvider':
+        return CognitoUpdateIdentityProviderRequest(
+          payload: payload,
+          region: 'us-east-1',
+          httpClient: http,
+        );
+      case 'UpdateManagedLoginBranding':
+        return CognitoUpdateManagedLoginBrandingRequest(
+          payload: payload,
+          region: 'us-east-1',
+          httpClient: http,
+        );
+      case 'UpdateResourceServer':
+        return CognitoUpdateResourceServerRequest(
+          payload: payload,
+          region: 'us-east-1',
+          httpClient: http,
+        );
+      case 'UpdateUserAttributes':
+        return CognitoUpdateUserAttributesRequest(
+          payload: payload,
+          region: 'us-east-1',
+          httpClient: http,
+        );
+      case 'UpdateUserPool':
+        return CognitoUpdateUserPoolRequest(
+          payload: payload,
+          region: 'us-east-1',
+          httpClient: http,
+        );
+      case 'UpdateUserPoolClient':
+        return CognitoUpdateUserPoolClientRequest(
+          payload: payload,
+          region: 'us-east-1',
+          httpClient: http,
+        );
+      case 'UpdateUserPoolDomain':
+        return CognitoUpdateUserPoolDomainRequest(
+          payload: payload,
+          region: 'us-east-1',
+          httpClient: http,
+        );
+      case 'VerifySoftwareToken':
+        return CognitoVerifySoftwareTokenRequest(
+          payload: payload,
+          region: 'us-east-1',
+          httpClient: http,
+        );
+      case 'VerifyUserAttribute':
+        return CognitoVerifyUserAttributeRequest(
+          payload: payload,
+          region: 'us-east-1',
+          httpClient: http,
+        );
       default:
         throw ArgumentError.value(operation, 'operation');
     }
@@ -395,6 +510,23 @@ void main() {
           'SetUICustomization',
           'SetUserMFAPreference',
           'SetUserPoolMfaConfig',
+          'SetUserSettings',
+          'StartUserImportJob',
+          'StopUserImportJob',
+          'TagResource',
+          'UntagResource',
+          'UpdateAuthEventFeedback',
+          'UpdateDeviceStatus',
+          'UpdateGroup',
+          'UpdateIdentityProvider',
+          'UpdateManagedLoginBranding',
+          'UpdateResourceServer',
+          'UpdateUserAttributes',
+          'UpdateUserPool',
+          'UpdateUserPoolClient',
+          'UpdateUserPoolDomain',
+          'VerifySoftwareToken',
+          'VerifyUserAttribute',
         ];
 
         for (final operation in operations) {

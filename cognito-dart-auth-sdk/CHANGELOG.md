@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.0.6]
+### Added
+* Added SetUserSettings, StartUserImportJob, StopUserImportJob, TagResource, UntagResource, UpdateAuthEventFeedback, UpdateDeviceStatus, UpdateGroup, UpdateIdentityProvider, UpdateManagedLoginBranding, UpdateResourceServer, UpdateUserAttributes, UpdateUserPool, UpdateUserPoolClient, UpdateUserPoolDomain, VerifySoftwareToken, and VerifyUserAttribute request and consumer wrappers.
+* Added public `AortemCognito*` aliases for the additional operation range and SignUp compatibility aliases.
+
+### Tests
+* Extended the enumerated request and consumer operation tests to cover every added operation target.
+
 ## [0.0.5]
 ### Added
 * Added request wrappers and consumer facades for the remaining older open Cognito user-pool operations from the AdminUserGlobalSignOut through GetIdentityProviderByIdentifier ticket range.

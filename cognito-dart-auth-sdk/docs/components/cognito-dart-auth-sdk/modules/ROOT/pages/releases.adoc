@@ -11,6 +11,19 @@ This page summarizes the stable package release history for Cognito Dart Auth SD
 * Pubspec: apps/sdks/cognito-dart-auth-sdk/cognito-dart-auth-sdk/pubspec.yaml
 * Changelog: apps/sdks/cognito-dart-auth-sdk/cognito-dart-auth-sdk/CHANGELOG.md
 
+== v0.0.6
+
+=== Overview
+This release completes the next Cognito operation block by extending the shared request and consumer wrappers through the update, tag, import-job, verification, and user-settings operations.
+
+=== Highlights
+* Added SetUserSettings, StartUserImportJob, StopUserImportJob, TagResource, UntagResource, and verification wrappers
+* Added UpdateAuthEventFeedback, UpdateDeviceStatus, UpdateGroup, UpdateIdentityProvider, UpdateManagedLoginBranding, UpdateResourceServer, UpdateUserAttributes, UpdateUserPool, UpdateUserPoolClient, and UpdateUserPoolDomain wrappers
+* Added public `AortemCognito*` compatibility aliases for the added operation range and SignUp
+
+=== Improvements
+* Extended enumerated request and consumer tests so each added operation verifies its Cognito JSON API target.
+
 == v0.0.5
 
 === Overview
