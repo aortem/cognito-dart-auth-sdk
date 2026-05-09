@@ -86,5 +86,21 @@ void main() {
         );
       },
     );
+
+    test('exposes user pool operation request and consumer aliases', () {
+      final httpClient = _FakeHttpClient();
+      final request = AortemCognitoGetUserRequest(
+        accessToken: 'access-token',
+        region: 'us-east-1',
+        httpClient: httpClient,
+      );
+      final consumer = AortemCognitoGetUserConsumer(
+        region: 'us-east-1',
+        httpClient: httpClient,
+      );
+
+      expect(request, isA<CognitoGetUserRequest>());
+      expect(consumer, isA<CognitoGetUserConsumer>());
+    });
   });
 }

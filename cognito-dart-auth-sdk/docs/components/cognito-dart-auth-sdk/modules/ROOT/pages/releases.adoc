@@ -11,6 +11,35 @@ This page summarizes the stable package release history for Cognito Dart Auth SD
 * Pubspec: apps/sdks/cognito-dart-auth-sdk/cognito-dart-auth-sdk/pubspec.yaml
 * Changelog: apps/sdks/cognito-dart-auth-sdk/cognito-dart-auth-sdk/CHANGELOG.md
 
+== v0.0.4
+
+=== Overview
+This release expands the maintained Cognito SDK surface with non-admin user-pool operation wrappers and fluent consumers.
+
+=== Highlights
+* Added request wrappers for common non-admin Cognito user-pool operations
+* Added matching consumer/builder facades for those operations
+* Added public `AortemCognito*` compatibility aliases
+
+=== Improvements
+* Exported the new request and consumer surfaces from the package entrypoint.
+* Covered AWS JSON API target wiring, required-field validation, service error handling, public exports, and aliases with unit tests.
+
+== v0.0.3
+
+=== Overview
+This release hardens the existing admin request surface and keeps the published package metadata cleaner.
+
+=== Highlights
+* Corrected admin request validation for device keys, auth flows, and challenge sessions
+* Replaced empty integration test files with placeholder `main()` entries
+* Reduced publish noise by moving test utilities and excluding generated artifacts
+
+=== Improvements
+* Improved validation behavior across admin request wrappers.
+* Moved `ds_tools_testing` into `dev_dependencies`.
+* Added package/archive excludes for docs and generated example artifacts.
+
 == v0.0.2
 
 === Overview

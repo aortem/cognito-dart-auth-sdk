@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.0.4]
+### Added
+* Added non-admin Cognito user-pool operation request wrappers for GetLogDeliveryConfiguration, GetSigningCertificate, GetUICustomization, GetUser, GetUserAttributeVerificationCode, GetUserPoolMfaConfig, GlobalSignOut, InitiateAuth, ListDevices, ListGroups, ListIdentityProviders, ListResourceServers, ListTagsForResource, ListUserImportJobs, ListUserPoolClients, ListUserPools, ListUsers, ResendConfirmationCode, RespondToAuthChallenge, and RevokeToken.
+* Added matching consumer/builder facades for the same operation set, including paginator aliases for supported list operations.
+* Added public `AortemCognito*` compatibility aliases for the new request and consumer surfaces.
+
+### Changed
+* Exported the new user-pool request and consumer surfaces from the package entrypoint.
+
+### Tests
+* Added unit coverage for Cognito JSON API target wiring, required-field validation, service error handling, public exports, and `AortemCognito*` aliases.
+
 ## [0.0.3]
 ### Fixed
 * Corrected admin request validation for device keys, supported admin auth flows, and short session tokens used in challenge-response flows.
