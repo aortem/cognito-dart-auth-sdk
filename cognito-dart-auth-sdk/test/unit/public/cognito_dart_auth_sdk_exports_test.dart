@@ -102,5 +102,25 @@ void main() {
       expect(request, isA<CognitoGetUserRequest>());
       expect(consumer, isA<CognitoGetUserConsumer>());
     });
+
+    test('exposes additional user pool operation aliases', () {
+      final httpClient = _FakeHttpClient();
+      final request = AortemCognitoChangePasswordRequest(
+        payload: const {
+          'AccessToken': 'access-token',
+          'PreviousPassword': 'OldPassword1!',
+          'ProposedPassword': 'NewPassword1!',
+        },
+        region: 'us-east-1',
+        httpClient: httpClient,
+      );
+      final consumer = AortemCognitoChangePasswordConsumer(
+        region: 'us-east-1',
+        httpClient: httpClient,
+      );
+
+      expect(request, isA<CognitoChangePasswordRequest>());
+      expect(consumer, isA<CognitoChangePasswordConsumer>());
+    });
   });
 }

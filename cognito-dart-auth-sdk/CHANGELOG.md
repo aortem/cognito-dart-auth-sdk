@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.0.5]
+### Added
+* Added request wrappers and consumer facades for the remaining older open Cognito user-pool operations from the AdminUserGlobalSignOut through GetIdentityProviderByIdentifier ticket range.
+* Added SetLogDeliveryConfiguration, SetRiskConfiguration, SetUICustomization, SetUserMFAPreference, and SetUserPoolMfaConfig request and consumer wrappers.
+* Added public `AortemCognito*` aliases for the additional request and consumer classes.
+
+### Changed
+* Extended the shared user-pool operation builder with generic field support and common Cognito field helpers.
+* Added list-field validation support for operations such as DeleteUserAttributes and SetLogDeliveryConfiguration.
+
+### Tests
+* Added enumerated request and consumer tests covering every added operation target, required-field validation, and public aliases.
+
 ## [0.0.4]
 ### Added
 * Added non-admin Cognito user-pool operation request wrappers for GetLogDeliveryConfiguration, GetSigningCertificate, GetUICustomization, GetUser, GetUserAttributeVerificationCode, GetUserPoolMfaConfig, GlobalSignOut, InitiateAuth, ListDevices, ListGroups, ListIdentityProviders, ListResourceServers, ListTagsForResource, ListUserImportJobs, ListUserPoolClients, ListUserPools, ListUsers, ResendConfirmationCode, RespondToAuthChallenge, and RevokeToken.

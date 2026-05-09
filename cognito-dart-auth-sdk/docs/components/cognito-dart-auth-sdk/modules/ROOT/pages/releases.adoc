@@ -11,6 +11,21 @@ This page summarizes the stable package release history for Cognito Dart Auth SD
 * Pubspec: apps/sdks/cognito-dart-auth-sdk/cognito-dart-auth-sdk/pubspec.yaml
 * Changelog: apps/sdks/cognito-dart-auth-sdk/cognito-dart-auth-sdk/CHANGELOG.md
 
+== v0.0.5
+
+=== Overview
+This release completes the next older Cognito ticket batch by adding additional user-pool operation wrappers and aliases on the shared operation executor.
+
+=== Highlights
+* Added request and consumer wrappers for the older AdminUserGlobalSignOut through GetIdentityProviderByIdentifier operation range
+* Added SetLogDeliveryConfiguration, SetRiskConfiguration, SetUICustomization, SetUserMFAPreference, and SetUserPoolMfaConfig wrappers
+* Added public `AortemCognito*` compatibility aliases for the added classes
+
+=== Improvements
+* Extended the shared operation builder with generic field support and common Cognito field helpers.
+* Added list-field validation for operations requiring non-empty list payloads.
+* Covered every added operation target with enumerated request and consumer tests.
+
 == v0.0.4
 
 === Overview

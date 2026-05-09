@@ -52,6 +52,94 @@ class CognitoUserPoolOperationBuilder {
   CognitoUserPoolOperationBuilder filter(String value) =>
       _string('Filter', value);
 
+  CognitoUserPoolOperationBuilder field(String key, Object? value) {
+    if (value == null) return this;
+    if (value is String) return _string(key, value);
+    if (value is int) return _int(key, value);
+    if (value is Map<String, dynamic>) return _map(key, value);
+    if (value is Map<String, String>) return _map(key, value);
+    if (value is Iterable) {
+      final values = value.toList(growable: false);
+      if (values.isNotEmpty) {
+        _payload[key] = List<Object?>.unmodifiable(values);
+      }
+      return this;
+    }
+    _payload[key] = value;
+    return this;
+  }
+
+  CognitoUserPoolOperationBuilder fields(Map<String, Object?> values) {
+    for (final entry in values.entries) {
+      field(entry.key, entry.value);
+    }
+    return this;
+  }
+
+  CognitoUserPoolOperationBuilder deviceKey(String value) =>
+      _string('DeviceKey', value);
+
+  CognitoUserPoolOperationBuilder confirmationCode(String value) =>
+      _string('ConfirmationCode', value);
+
+  CognitoUserPoolOperationBuilder password(String value) =>
+      _string('Password', value);
+
+  CognitoUserPoolOperationBuilder previousPassword(String value) =>
+      _string('PreviousPassword', value);
+
+  CognitoUserPoolOperationBuilder proposedPassword(String value) =>
+      _string('ProposedPassword', value);
+
+  CognitoUserPoolOperationBuilder groupName(String value) =>
+      _string('GroupName', value);
+
+  CognitoUserPoolOperationBuilder providerName(String value) =>
+      _string('ProviderName', value);
+
+  CognitoUserPoolOperationBuilder providerType(String value) =>
+      _string('ProviderType', value);
+
+  CognitoUserPoolOperationBuilder domain(String value) =>
+      _string('Domain', value);
+
+  CognitoUserPoolOperationBuilder identifier(String value) =>
+      _string('Identifier', value);
+
+  CognitoUserPoolOperationBuilder idpIdentifier(String value) =>
+      _string('IdpIdentifier', value);
+
+  CognitoUserPoolOperationBuilder jobId(String value) =>
+      _string('JobId', value);
+
+  CognitoUserPoolOperationBuilder jobName(String value) =>
+      _string('JobName', value);
+
+  CognitoUserPoolOperationBuilder clientName(String value) =>
+      _string('ClientName', value);
+
+  CognitoUserPoolOperationBuilder poolName(String value) =>
+      _string('PoolName', value);
+
+  CognitoUserPoolOperationBuilder managedLoginBrandingId(String value) =>
+      _string('ManagedLoginBrandingId', value);
+
+  CognitoUserPoolOperationBuilder credentialId(String value) =>
+      _string('CredentialId', value);
+
+  CognitoUserPoolOperationBuilder credential(Map<String, dynamic> value) =>
+      _map('Credential', value);
+
+  CognitoUserPoolOperationBuilder providerDetails(Map<String, dynamic> value) =>
+      _map('ProviderDetails', value);
+
+  CognitoUserPoolOperationBuilder userAttributeNames(List<String> value) =>
+      field('UserAttributeNames', value);
+
+  CognitoUserPoolOperationBuilder logConfigurations(
+    List<Map<String, dynamic>> value,
+  ) => field('LogConfigurations', value);
+
   CognitoUserPoolOperationBuilder limit(int value) => _int('Limit', value);
 
   CognitoUserPoolOperationBuilder maxResults(int value) =>
@@ -122,6 +210,7 @@ abstract class CognitoUserPoolOperationConsumer {
   final List<String> requiredStrings;
   final List<String> requiredInts;
   final List<String> requiredMaps;
+  final List<String> requiredLists;
   final List<String> optionalLimits;
   final int maxRetries;
   final Duration requestTimeout;
@@ -133,6 +222,7 @@ abstract class CognitoUserPoolOperationConsumer {
     this.requiredStrings = const <String>[],
     this.requiredInts = const <String>[],
     this.requiredMaps = const <String>[],
+    this.requiredLists = const <String>[],
     this.optionalLimits = const <String>[],
     this.maxRetries = 2,
     this.requestTimeout = const Duration(seconds: 20),
@@ -151,6 +241,7 @@ abstract class CognitoUserPoolOperationConsumer {
       requiredStrings: requiredStrings,
       requiredInts: requiredInts,
       requiredMaps: requiredMaps,
+      requiredLists: requiredLists,
       optionalLimits: optionalLimits,
       maxRetries: maxRetries,
       requestTimeout: requestTimeout,

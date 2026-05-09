@@ -116,6 +116,13 @@ void _requireMap(Map<String, dynamic> payload, String key) {
   }
 }
 
+void _requireList(Map<String, dynamic> payload, String key) {
+  final value = payload[key];
+  if (value is! Iterable || value.isEmpty) {
+    throw CognitoValidationException('$key is required.');
+  }
+}
+
 void _validateOptionalLimit(Map<String, dynamic> payload, String key) {
   final value = payload[key];
   if (value != null && (value is! int || value <= 0)) {
@@ -140,6 +147,7 @@ abstract class _SimpleCognitoRequest extends CognitoJsonOperationRequest {
   final List<String> requiredStrings;
   final List<String> requiredMaps;
   final List<String> requiredInts;
+  final List<String> requiredLists;
   final List<String> optionalLimits;
 
   _SimpleCognitoRequest({
@@ -150,6 +158,7 @@ abstract class _SimpleCognitoRequest extends CognitoJsonOperationRequest {
     this.requiredStrings = const <String>[],
     this.requiredMaps = const <String>[],
     this.requiredInts = const <String>[],
+    this.requiredLists = const <String>[],
     this.optionalLimits = const <String>[],
     super.maxRetries,
     super.requestTimeout,
@@ -166,6 +175,9 @@ abstract class _SimpleCognitoRequest extends CognitoJsonOperationRequest {
     for (final key in requiredInts) {
       _requireInt(payload, key);
     }
+    for (final key in requiredLists) {
+      _requireList(payload, key);
+    }
     for (final key in optionalLimits) {
       _validateOptionalLimit(payload, key);
     }
@@ -181,6 +193,7 @@ class CognitoGenericUserPoolOperationRequest extends _SimpleCognitoRequest {
     super.requiredStrings,
     super.requiredMaps,
     super.requiredInts,
+    super.requiredLists,
     super.optionalLimits,
     super.maxRetries,
     super.requestTimeout,

@@ -2,6 +2,7 @@ library cognito_dart_auth_sdk;
 
 export 'cognito_auth.dart';
 export 'cognito_main.dart';
+export 'consumers/cognito_additional_user_pool_operation_consumers.dart';
 export 'consumers/cognito_add_custom_attributes_consumer.dart';
 export 'consumers/cognito_admin_add_user_to_group_consumer.dart';
 export 'consumers/cognito_admin_confirm_sign_up_consumer.dart';
@@ -40,6 +41,7 @@ export 'exceptions/cognito_service_exception.dart';
 export 'exceptions/cognito_validate_exception.dart';
 export 'models/add_custom_attributes_request_model.dart';
 export 'models/cognito_user_model.dart';
+export 'requests/cognito_additional_user_pool_operations.dart';
 export 'requests/cognito_add_custom_attributes_request.dart';
 export 'requests/cognito_admin_add_user_to_group_request.dart';
 export 'requests/cognito_admin_confirm_sign_up_request.dart';
