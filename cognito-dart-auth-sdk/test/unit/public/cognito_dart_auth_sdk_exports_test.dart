@@ -39,7 +39,10 @@ class _FakeHttpClient implements CognitoHttpClient {
 void main() {
   group('cognito_dart_auth_sdk public exports', () {
     test('exposes the primary SDK client and backwards-compatible alias', () {
-      final client = Cognito(region: 'us-east-1', httpClient: _FakeHttpClient());
+      final client = Cognito(
+        region: 'us-east-1',
+        httpClient: _FakeHttpClient(),
+      );
       final auth = CognitoAuth(
         region: 'us-east-1',
         httpClient: _FakeHttpClient(),
@@ -49,37 +52,39 @@ void main() {
       expect(auth, isA<Cognito>());
     });
 
-    test('exposes core HTTP and signer types from the package entrypoint', () async {
-      final httpClient = CognitoSigV4HttpClient(
-        ({
-          required uri,
-          required headers,
-          required body,
-          timeout,
-        }) async => CognitoHttpResponse(
-          statusCode: 200,
-          headers: headers,
-          bodyString: body,
-        ),
-        ({
-          required region,
-          required service,
-          required method,
-          required uri,
-          required headers,
-          required body,
-        }) async => headers,
-      );
+    test(
+      'exposes core HTTP and signer types from the package entrypoint',
+      () async {
+        final httpClient = CognitoSigV4HttpClient(
+          ({required uri, required headers, required body, timeout}) async =>
+              CognitoHttpResponse(
+                statusCode: 200,
+                headers: headers,
+                bodyString: body,
+              ),
+          ({
+            required region,
+            required service,
+            required method,
+            required uri,
+            required headers,
+            required body,
+          }) async => headers,
+        );
 
-      final response = await httpClient.post(
-        region: 'us-east-1',
-        xAmzTarget: 'AWSCognitoIdentityProviderService.SignUp',
-        payload: const {'username': 'alice@example.com'},
-      );
+        final response = await httpClient.post(
+          region: 'us-east-1',
+          xAmzTarget: 'AWSCognitoIdentityProviderService.SignUp',
+          payload: const {'username': 'alice@example.com'},
+        );
 
-      expect(httpClient, isA<CognitoHttpClient>());
-      expect(response.statusCode, 200);
-      expect(response.jsonBody, containsPair('username', 'alice@example.com'));
-    });
+        expect(httpClient, isA<CognitoHttpClient>());
+        expect(response.statusCode, 200);
+        expect(
+          response.jsonBody,
+          containsPair('username', 'alice@example.com'),
+        );
+      },
+    );
   });
 }
