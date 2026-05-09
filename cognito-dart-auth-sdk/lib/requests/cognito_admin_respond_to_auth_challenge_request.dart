@@ -196,9 +196,9 @@ class CognitoAdminRespondToAuthChallengeRequest {
     }
     if (session != null) {
       final len = session!.length;
-      if (len < 20 || len > 2048) {
+      if (len < 1 || len > 2048) {
         throw CognitoValidationException(
-          'session length must be between 20 and 2048 characters.',
+          'session length must be between 1 and 2048 characters.',
         );
       }
     }
