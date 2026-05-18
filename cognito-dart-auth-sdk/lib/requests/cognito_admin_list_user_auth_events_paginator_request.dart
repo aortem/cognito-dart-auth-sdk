@@ -151,14 +151,15 @@ class CognitoAdminListUserAuthEventsPaginatorRequest {
   ///
   /// Returns:
   /// A Map containing the request parameters formatted for the AWS Cognito API
-  Map<String, dynamic> _payload({int? maxResults, String? nextToken}) =>
-      <String, dynamic>{
-        'UserPoolId': userPoolId,
-        'Username': username,
-        if (maxResults case final value?) 'MaxResults': value,
-        if (nextToken case final value? when value.isNotEmpty)
-          'NextToken': value,
-      };
+  Map<String, dynamic> _payload({
+    int? maxResults,
+    String? nextToken,
+  }) => <String, dynamic>{
+    'UserPoolId': userPoolId,
+    'Username': username,
+    if (maxResults case final value?) 'MaxResults': value,
+    if (nextToken case final value? when value.isNotEmpty) 'NextToken': value,
+  };
 
   /// Fetch **one page** of authentication events.
   ///
