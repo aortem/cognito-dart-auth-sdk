@@ -8,7 +8,7 @@ This package is intended for server-side use where requests are signed for Amazo
 
 ```yaml
 dependencies:
-  cognito_dart_auth_sdk: ^0.0.3
+  cognito_dart_auth_sdk: ^0.0.4
 ```
 
 ## Recommended Initialization Model
