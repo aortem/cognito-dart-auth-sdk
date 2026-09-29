@@ -47,6 +47,7 @@ debug_merge_request:
 validation_trigger:
   stage: validation
   trigger:
+    strategy: depend
     include: tools/pipelines/backend/child-ci-setup-validation.yml
   rules:
     - when: always
@@ -55,6 +56,7 @@ validation_trigger:
 validation_trigger_docs:
   stage: validation
   trigger:
+    strategy: depend
     include: tools/pipelines/firebase-hosting/child-ci-production-docs.yml
   rules:
     - changes:
@@ -77,6 +79,7 @@ validation_trigger_docs:
 analyze_dart_web:
   stage: analyze_sample_apps
   trigger:
+    strategy: depend
     include: tools/pipelines/frontend/child-ci-analyze-dart-web.yml
 #  needs:
 #    - job: unit_test_trigger
@@ -109,7 +112,21 @@ analyze_dart_web:
 gitlab_github_release:
   stage: release
   trigger:
+    strategy: depend
     include: tools/pipelines/backend/child-ci-release.yml
   rules:
-    - if: '$CI_COMMIT_BRANCH == "development"'
+    - if: '$CI_COMMIT_BRANCH == "main"'
       when: always
+
+validate_package_dart313:
+  stage: validation
+  image: dart:3.13.4
+  rules:
+    - when: always
+  script:
+    - cd cognito-dart-auth-sdk
+    - dart pub get
+    - dart analyze lib
+    - dart analyze test
+    - dart test
+    - dart pub publish --dry-run
