@@ -122,3 +122,7 @@ Use those when you want builder validation or a more fluent payload setup.
 ## Examples
 
 See the `example/` directory for current frontend sample apps and integration references.
+
+### Dart compatibility
+
+Version 0.0.5 is validated with Dart 3.13.4. The existing compatible minimum SDK constraint is retained.
